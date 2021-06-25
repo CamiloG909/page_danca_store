@@ -1,9 +1,17 @@
 /* GLOBAL */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 
 * {
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
   font-family: "Assistant", sans-serif;
 }
 
@@ -17,8 +25,6 @@
 .main-index {
   background: #ffff;
   width: 100%;
-  position: absolute;
-  z-index: 10;
   text-align: center;
   border-bottom: 1px black solid;
   position: fixed;
@@ -181,5 +187,112 @@ footer a {
   font-size: 40px;
   padding: 0 7px;
   text-decoration: none;
+  color: #ffff;
+}
+
+/* FIRST SECTION SINGUP CLIENT */
+
+#signupclient-box {
+  display: block;
+  text-align: center;
+  overflow: hidden;
+  background-color: white;
+  margin-top: 60px;
+  padding: 3% 0;
+}
+
+#signupclient-box section {
+  float: right;
+  width: 47%;
+}
+
+#signupclient-title {
+  font-size: 2.5vw;
+  color: #5e00ff;
+}
+
+#image-signupclient {
+  max-height: 28vw;
+  float: left;
+  margin-left: 10%;
+  margin-top: 5%;
+}
+
+#signupclient-text {
+  font-size: 1.3vw;
+  font-weight: lighter;
+  margin: 10px 0;
+}
+
+#signupclient-text a {
+  text-decoration: none;
+}
+
+#signupclient-text a:hover {
+  color: #5e00ff;
+  transition: 1.5s;
+  text-decoration: underline 1px #5e00ff solid;
+}
+
+/* FORMS */
+
+.form{
+  background: hsl(266, 100%, 97%);
+  padding: 0 1.5vw;
+  border-radius: 1vw;
+  margin-bottom: 0.8vw;
+  border: 0;
+  box-sizing: border-box;
+  font-size: 1.4vw;
+  font-weight: lighter;
+  outline: 0;
+}
+
+#form-signupclient {
+  width: 27vw;
+  height: 2.7vw;
+}
+
+#form-signupclient-n-document {
+  margin-bottom: 0;
+  width: 19.5vw;
+  height: 2.7vw;
+  margin-left: 0.5vw;
+}
+
+#only-numbers-text {
+  color: #5e00ff;
+  font-size: 0.8vw;
+  user-select: none;
+  margin-right: 3vw;
+}
+
+/* SELECT DOCUMENT */
+
+#form-signupclient-t-document {
+  height: 2.7vw;
+  width: 7vw;
+  margin-bottom: 0;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* BUTTON SIGNUP CLIENT */
+
+#signupclient-btn {
+  border: 0;
+  background-color: #5e00ff;
+  border-radius: 1vw;
+  height: 3.3vw;
+  width: 27vw;
+  font-size: 1.4vw;
+  color: #ffff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#signupclient-btn:hover {
+  background-color: #26007e;
+  transition: 0.5s;
   color: #ffff;
 }
