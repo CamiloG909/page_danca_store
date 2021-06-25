@@ -13,6 +13,7 @@ input[type="number"] {
   padding: 0;
   margin: 0;
   font-family: "Assistant", sans-serif;
+  box-sizing: border-box;
 }
 
 /* HEADER MAIN INDEX */
@@ -28,7 +29,6 @@ input[type="number"] {
   text-align: center;
   border-bottom: 1px black solid;
   position: fixed;
-  box-sizing: border-box;
   width: 100%;
   top: 0;
 }
@@ -54,6 +54,127 @@ input[type="number"] {
 .main-index ul li a:hover {
   color: #5e00ff;
   text-decoration: underline;
+}
+
+/* HEADER MAIN GLOBAL CLIENT */
+
+.header {
+  background: #ffff;
+  text-align: center;
+  border-bottom: 1px black solid;
+  position: fixed;
+  width: 100%;
+  user-select: none;
+  overflow: hidden;
+  top: 0;
+}
+
+.container-header-client {
+  width: 95%;
+  margin: auto;
+}
+
+.btn-main {
+  float: left;
+  width: 20%;
+  text-align: left;
+  padding-top: 9px;
+}
+
+.btn-main label {
+  color: rgb(0, 0, 0);
+  font-size: 34px;
+  cursor: pointer;
+}
+
+.logo-header-client {
+  padding-top: 7px;
+}
+
+.main-c {
+  float: right;
+  width: 20%;
+  text-align: right;
+}
+
+.main-c a {
+  display: inline-block;
+  padding: 0 15px;
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  font-size: 30px;
+  padding-top: 13px;
+}
+
+.main-c a:hover {
+  border-bottom: 3px solid #5e00ff;
+}
+
+/* LATERAL MAIN CLIENT */
+
+.container-main {
+  position: absolute;
+  user-select: none;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  transition: all 500ms ease;
+  visibility: hidden;
+}
+
+#btn-main:checked ~ .container-main {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cont-main {
+  max-width: 250px;
+  background: #aaaaaaea;
+  height: 100vh;
+  position: relative;
+  transition: all 500ms ease;
+  transform: translateX(-100%);
+}
+
+#btn-main:checked ~ .container-main .cont-main {
+  transform: translateX(0%);
+}
+
+.cont-main nav {
+  transform: translateY(15%);
+}
+
+.cont-main nav a {
+  display: block;
+  text-decoration: none;
+  padding: 20px;
+  color: #000000;
+  border-left: 5px solid transparent;
+  transition: all 400ms ease;
+  padding: 20px;
+}
+
+.cont-main nav a:hover {
+  border-left: 5px solid #5e00ff;
+  background: #00000028;
+}
+
+.cont-main label {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
+  font-size: 35px;
+}
+
+.logo-main-client {
+  position: absolute;
+  top: 15px;
+  left: 35%;
+  width: 70px;
 }
 
 /* BOX LOGIN INDEX */
@@ -236,13 +357,12 @@ footer a {
 
 /* FORMS */
 
-.form{
+.form {
   background: hsl(266, 100%, 97%);
   padding: 0 1.5vw;
   border-radius: 1vw;
   margin-bottom: 0.8vw;
   border: 0;
-  box-sizing: border-box;
   font-size: 1.4vw;
   font-weight: lighter;
   outline: 0;
