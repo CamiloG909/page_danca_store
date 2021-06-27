@@ -253,11 +253,11 @@ input[type="number"] {
 /* BUTTON SIGNUP */
 
 #btn-signup {
-  border: 0;
+  text-decoration: none;
+  user-select: none;
   background-color: #26007e;
-  border-radius: 2vw;
-  height: 4.5vw;
-  width: 15vw;
+  border-radius: 1.7vw;
+  padding: 0.7vw 2.5vw;
   margin-right: 0.5vw;
   font-size: 2vw;
   color: #ffff;
@@ -273,11 +273,11 @@ input[type="number"] {
 /* BUTTON LOGIN */
 
 #btn-login {
+  text-decoration: none;
+  user-select: none;
   border: 0.3vw #5e00ff solid;
-  background-color: #ffff;
-  border-radius: 2vw;
-  height: 4.5vw;
-  width: 15vw;
+  border-radius: 1.7vw;
+  padding: 0.4vw 1.4vw;
   margin-left: 0.5vw;
   font-size: 2vw;
   color: #5e00ff;
@@ -323,15 +323,14 @@ input[type="number"] {
 /* BUTTON SIGNUP */
 
 #btn-signup-second {
-  border: 0;
+  text-decoration: none;
   background-color: #ffff;
+  padding: 0.6vw 1.2vw;
   border-radius: 1vw;
-  height: 3vw;
   font-size: 1.5vw;
   color: #5e00ff;
   font-weight: bold;
   cursor: pointer;
-  padding: 0 1vw;
 }
 
 #btn-signup-second:hover {
@@ -400,7 +399,6 @@ footer a {
 
 #signupclient-text a:hover {
   color: #5e00ff;
-  transition: 1.5s;
   text-decoration: underline 1px #5e00ff solid;
 }
 
@@ -640,6 +638,10 @@ footer a {
 
 /* CATEGORY HOME - PHONES, COMPUTERS */
 
+#margin-category-box {
+  margin-top: 70px;
+}
+
 .title-category {
   display: flex;
   width: 100%;
@@ -649,7 +651,7 @@ footer a {
 }
 
 .grid-category {
-  margin: 0 70px;
+  margin: 0 70px 70px 70px;
   padding: 0 9vw;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
@@ -693,6 +695,7 @@ footer a {
 }
 
 .card p {
+  padding-bottom: 5px;
   font-size: 20px;
   font-weight: lighter;
 }
@@ -703,20 +706,19 @@ footer a {
 
 /* BUTTON VER MÁS CATEGORY */
 
-#showmore-category-btn {
-  border: 0;
+.showmore-category-btn {
+  user-select: none;
+  text-decoration: none;
   background-color: #5e00ff;
-  border-radius: 13px;
-  height: 30px;
-  width: 120px;
-  margin-top: 5px;
+  border-radius: 8px;
+  padding: 2px 20px;
   font-size: 17px;
   color: #ffff;
   font-weight: bold;
   cursor: pointer;
 }
 
-#showmore-category-btn:hover {
+.showmore-category-btn:hover {
   background-color: #26007e;
   transition: 0.5s;
 }
@@ -769,11 +771,11 @@ footer a {
 
 #backprofile-text {
   text-decoration: none;
-  color: #26007e;
+  color: #5e00ff;
   font-size: 1.2vw;
 }
 
 #backprofile-text:hover {
-  color: #5e00ff;
+  color: #26007e;
   text-decoration: underline;
 }
