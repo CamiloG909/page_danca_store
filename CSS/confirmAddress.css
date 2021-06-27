@@ -47,3 +47,17 @@
   #boton:hover{
       cursor: pointer;
   }
+ 
+  #fot{
+  background-color: black;
+  text-align: center;
+  padding: 53px 0;
+}
+
+footer a {
+  font-size: 40px;
+  padding: 0 7px;
+  text-decoration: none;
+  color: #ffff;
+}
+  
