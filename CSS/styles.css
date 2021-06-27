@@ -347,11 +347,12 @@ input[type="number"] {
 footer {
   background-color: black;
   text-align: center;
-  padding: 30px 0;
+  padding: 2vw 0;
+  min-height: 60px;
 }
 
 footer a {
-  font-size: 40px;
+  font-size: 35px;
   padding: 0 7px;
   text-decoration: none;
   color: #ffff;
@@ -413,6 +414,7 @@ footer a {
   border: 0;
   font-size: 1.4vw;
   font-weight: lighter;
+  user-select: none;
   outline: 0;
 }
 
@@ -456,7 +458,7 @@ footer a {
   font-size: 1.4vw;
   color: #ffff;
   font-weight: bold;
-  cursor: pointer;
+  margin-top: 1.6vw;
 }
 
 #signupclient-btn:hover {
@@ -638,8 +640,16 @@ footer a {
 
 /* CATEGORY HOME - PHONES, COMPUTERS */
 
+.title-category {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 42px;
+  margin-bottom: 3px;
+}
+
 .grid-category {
-  margin: 70px;
+  margin: 0 70px;
   padding: 0 9vw;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
@@ -709,4 +719,61 @@ footer a {
 #showmore-category-btn:hover {
   background-color: #26007e;
   transition: 0.5s;
+}
+
+/* SETTINGS PROFILE */
+
+#settings-profile {
+  display: block;
+  text-align: center;
+  width: 37%;
+  margin: auto;
+  margin-top: 5vw;
+  margin-bottom: 6vw;
+}
+
+.settingsprofile-btn {
+  background-color: #5e00ff;
+  border: 0;
+  border-radius: 0 0 1vw 1vw;
+  height: 3.3vw;
+  width: 27vw;
+  font-size: 1.4vw;
+  color: #ffff;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 0.7vw;
+}
+
+.settingsprofile-btn:hover {
+  background-color: #26007e;
+  transition: 0.5s;
+  color: #ffff;
+}
+
+#confirm-password-profile {
+  background: #ffff;
+  border: 0.3vw #5e00ff solid;
+  border-bottom: 0;
+  font-size: 1vw;
+  width: 27vw;
+  text-align: center;
+  padding: 2px 0;
+  color: #5e00ff;
+  font-weight: bold;
+  border-radius: 1vw 1vw 0 0;
+  user-select: none;
+  margin-top: 1.8vw;
+  outline: 0;
+}
+
+#backprofile-text {
+  text-decoration: none;
+  color: #26007e;
+  font-size: 1.2vw;
+}
+
+#backprofile-text:hover {
+  color: #5e00ff;
+  text-decoration: underline;
 }
