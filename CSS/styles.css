@@ -47,6 +47,11 @@ input[type="number"] {
   box-sizing: border-box;
 }
 
+.replacement-header {
+  width: 100%;
+  height: 60px;
+}
+
 /* END GLOBAL */
 
 /* HEADER MAIN INDEX */
@@ -64,6 +69,7 @@ input[type="number"] {
   text-align: center;
   border-bottom: 1px black solid;
   position: fixed;
+  user-select: none;
   width: 100%;
   top: 0;
 }
@@ -375,7 +381,7 @@ footer a {
   width: 47%;
 }
 
-#signupclient-title {
+.signupclient-title {
   font-size: 2.5vw;
   color: #5e00ff;
 }
@@ -385,6 +391,7 @@ footer a {
   float: left;
   margin-left: 10%;
   margin-top: 5%;
+  user-select: none;
 }
 
 #signupclient-text {
@@ -457,7 +464,8 @@ footer a {
   color: #ffff;
   font-weight: bold;
   margin-top: 1.6vw;
-}
+  cursor: pointer;
+}:last-child
 
 #signupclient-btn:hover {
   background-color: #26007e;
@@ -466,6 +474,31 @@ footer a {
 }
 
 /* END BOX SIGNUP CLIENT */
+
+/* BOX LOGIN CLIENT */
+
+#loginclient-box {
+  display: block;
+  text-align: center;
+  overflow: hidden;
+  background-color: white;
+  padding: 10vw 0;
+}
+
+#loginclient-box section {
+  float: left;
+  width: 44%;
+  margin-left: 9%;
+}
+
+#image-loginclient {
+  max-height: 21vw;
+  float: right;
+  user-select: none;
+  margin-right: 9%;
+}
+
+/* END BOX LOGIN CLIENT */
 
 /* BOX DETAIL PRODUCT */
 
@@ -722,6 +755,7 @@ footer a {
   background-color: #26007e;
   transition: 0.5s;
 }
+/* END CATEGORY */
 
 /* SETTINGS PROFILE */
 
@@ -779,3 +813,4 @@ footer a {
   color: #26007e;
   text-decoration: underline;
 }
+/* END SETTINGS PROFILE */
