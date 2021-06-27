@@ -1,0 +1,63 @@
+/*css confirm address*/
+  #comp{
+    color: #5e00ff;
+    text-align: center;
+    margin: 0;
+    font-size: 40px;
+    margin-bottom: 20px;
+    font-family: 'Times New Roman', Times, serif;
+   }
+
+   #address{
+    border-radius: 10px;
+    background-color: lavender;
+    border: 2px lavender solid;
+    width: 550px;
+   margin: auto;
+   padding: 20px 25px;
+   box-sizing: border-box;
+   margin-top: 20px;
+   border-radius: 7px;
+   }
+  
+   #texto{
+       text-align: center;
+   }
+
+   #valor{
+    text-align: center;
+    margin: 0;
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-family: 'Times New Roman', Times, serif;
+   }
+
+   #boton{
+    background: #5e00ff;
+    color: #fff;
+    width: 350px;
+    margin: auto;
+    padding: 20px 25px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    border-radius: 7px;
+    border: 2px #5e00ff solid;
+  }
+
+  #boton:hover{
+      cursor: pointer;
+  }
+ 
+  #fot{
+  background-color: black;
+  text-align: center;
+  padding: 53px 0;
+}
+
+footer a {
+  font-size: 40px;
+  padding: 0 7px;
+  text-decoration: none;
+  color: #ffff;
+}
+  

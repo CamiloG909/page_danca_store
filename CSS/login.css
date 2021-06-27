@@ -1,0 +1,55 @@
+
+/*css login*/
+ /*css login*/
+ 
+ form{
+   width: 450px;
+   margin: auto;
+   padding: 10px 20px;
+   box-sizing: border-box;
+   margin-top: 20px;
+   border-radius: 7px;
+   float: left;
+ }
+
+ h1{
+  color: #5e00ff;
+  text-align: center;
+  margin: 0;
+  font-size: 40px;
+  margin-bottom: 20px;
+  font-family: 'Times New Roman', Times, serif;
+ }
+
+input{
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 7px;
+  box-sizing: border-box;
+  font-size: 17px;
+}
+
+#boton{
+  background: #5e00ff;
+  color: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  border: 2px #5e00ff solid;
+}
+
+#boton:hover{
+  cursor: pointer;
+}
+
+#correo {
+  border-radius: 10px;
+  background-color: lavender;
+  border: 2px lavender solid;
+}
+
+#contraseña{
+  border-radius: 10px;
+  background-color: lavender;
+  border: 2px lavender solid;
+}
+
