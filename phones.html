@@ -1,145 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;500;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="shortcut icon" href="ICONS/favicon.png" />
-    <link rel="stylesheet" href="CSS/styles.css"/>
-    <link rel="stylesheet" href="ICONS/footer/icons.css" />
-    <title>Danca Store</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="shortcut icon" href="ICONS/favicon.png" />
+  <link rel="stylesheet" href="CSS/styles.css" />
+  <link rel="stylesheet" href="ICONS/global/icons.css" />
+  <title>Celulares | Danca Store</title>
 </head>
-
-<header>
-    <nav class="main-index">
-      <ul>
-        <li><a href="help.html" target="_blank">Ayuda</a></li>
-        <a href="index.html">
-          <img class="logo-header" src="https://i.imgur.com/7WA835U.png" />
-        </a>
-      </ul>
-    </nav>
-  </header>
-<body>
-
-<div class="grid">
-  <div class="container">
-    <div class="card">
-        <figure>
-            <img src="IMG/phones/co-galaxy-a11-a115-sm-a115mzkgcoo-front-252829979.webp" alt="">
-        </figure>
-        <div class="contenido">
-            <h3>SAMSUNG Galaxy A11</h3>
-            <p>$ 499.900</p>
-            <a href="#">Ver más</a>
-        </div>
+<!-- HEADER CLIENT -->
+<header class="header">
+  <div class="container-header-client">
+    <div class="btn-main">
+      <label for="btn-main"><span class="icon-main"></span></label>
     </div>
-</div>
-
-<div class="container">
-  <div class="card">
-      <figure>
-          <img src="IMG/phones/minote.png" alt="">
-      </figure>
-      <div class="contenido">
-          <h3>Mi Note 8</h3>
-          <p>$ 669.900</p>
-          <a href="#">Ver más</a>
-      </div>
+    <a href="category.html"><img class="logo-header-client" src="https://i.imgur.com/7WA835U.png" />
+    </a>
+    <nav class="main-c">
+      <a href="shoppingCart.html"><span class="icon-shopping-cart"></span></a>
+      <a href="profile.html"><span class="icon-profile"></span></a>
+    </nav>
+  </div>
+</header>
+<!-- LATERAL MAIN -->
+<input type="checkbox" id="btn-main" />
+<div class="container-main">
+  <div class="cont-main">
+    <nav>
+      <a href="category.html"><span class="icon-index"></span> INICIO</a>
+      <a href="computers.html"><span class="icon-computers"></span> COMPUTADORES</a>
+      <a href="phones.html"><span class="icon-phones"></span> CELULARES</a>
+      <a href="shoppingCart.html"><span class="icon-shopping-cart"></span> CARRITO DE COMPRAS</a>
+      <a href="shoppingHistory.html"><span class="icon-history"></span> HISTORIAL DE COMPRAS</a>
+      <a href="profile.html"><span class="icon-profile"></span> MI PERFIL</a>
+      <a href="help.html"><span class="icon-help"></span> AYUDA</a>
+      <a href="index.html"><span class="icon-logout"></span> CERRAR SESI&OacuteN</a>
+    </nav>
+    <img class="logo-main-client" src="https://i.imgur.com/7WA835U.png" />
+    <label for="btn-main"><span class="icon-x"></span></label>
   </div>
 </div>
 
-<div class="container">
-  <div class="card">
-      <figure>
-          <img src="IMG/phones/motog30.png" alt="">
-      </figure>
-      <div class="contenido">
-          <h3>MOTOROLA G30</h3>
-          <p>$ 999.900</p>
-          <a href="#">Ver más</a>
+<body>
+  <div class="grid-category">
+    <div class="card">
+      <div class="box-image-category">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/61ttqfeMsUL._AC_SX522_.jpg" />
       </div>
-  </div>
-</div>
-
-<div class="container">
-  <div class="card">
-      <figure>
-          <img src="IMG/phones/iphone.jpg" alt="">
-      </figure>
-      <div class="contenido">
-          <h3>Phone XR</h3>
-          <p>$ 2.099.000</p>
-          <a href="#">Ver más</a>
+      <div class="show-more-category">
+        <h3>Samsung Galaxy A11</h3>
+        <p>$ 499.900</p>
+        <a href="#"><input type="button" id="showmore-category-btn" value="Ver más..." /></a>
       </div>
-  </div>
-</div>
+    </div>
 
-
-<div class="container">
-  <div class="card">
-      <figure>
-          <img src="IMG/phones/xiomipoco.png" alt="">
-      </figure>
-      <div class="contenido">
-          <h3>XIAOMI POCO X3</h3>
-          <p>$ 1.049.900</p>
-          <a href="#">Ver más</a>
+    <div class="card">
+      <div class="box-image-category">
+        <img src="https://tienda.claro.com.co/wcsstore/Claro/images/catalog/equipos/646x1000/70037731_2.jpg" />
       </div>
-  </div>
-</div>
-
-<div class="container">
-  <div class="card">
-      <figure>
-          <img src="IMG/phones/sa51.webp" alt="">
-      </figure>
-      <div class="contenido">
-          <h3>SAMSUNG Galaxy A51</h3>
-          <p>$ 1.019.900</p>
-          <a href="#">Ver más</a>
+      <div class="show-more-category">
+        <h3>Vivo Y30</h3>
+        <p>$ 515.900</p>
+        <a href="#"><input type="button" id="showmore-category-btn" value="Ver más..." /></a>
       </div>
-  </div>
-</div>
+    </div>
 
-<div class="container">
-  <div class="card">
-      <figure>
-          <img src="IMG/phones/vy30.png" alt="">
-      </figure>
-      <div class="contenido">
-          <h3>Vivo Y30</h3>
-          <p>$ 515.900</p>
-          <a href="#">Ver más</a>
+    <div class="card">
+      <div class="box-image-category">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/41YvfoWY9KL._AC_.jpg" />
       </div>
-  </div>
-</div>
-
-<div class="container">
-  <div class="card">
-      <figure>
-          <img src="IMG/phones/mg9.png" alt="">
-      </figure>
-      <div class="contenido">
-          <h3>MOTOROLA G9</h3>
-          <p>$ 690.900</p>
-          <a href="#">Ver más</a>
+      <div class="show-more-category">
+        <h3>Mi Note 8</h3>
+        <p>$ 669.900</p>
+        <a href="#"><input type="button" id="showmore-category-btn" value="Ver más..." /></a>
       </div>
-  </div>
-</div>
+    </div>
 
-</div> 
+    <div class="card">
+      <div class="box-image-category">
+        <img
+          src="https://www.alkosto.com/medias/840023212574-001-750Wx750H?context=bWFzdGVyfGltYWdlc3wxMTQyMTZ8aW1hZ2UvanBlZ3xpbWFnZXMvaGE5L2hjMS8xMDQyMjc3NjIwMTI0Ni5qcGd8NmM2OGZiOTQyMTM3YjJmNTViMTMyMGNjOGIyYTgzMmQyYWQyZDE1NTVjZDg2OWUxNzJmNTU5ZjUxMDQ1MWJmZQ" />
+      </div>
+      <div class="show-more-category">
+        <h3>Motorola G30</h3>
+        <p>$ 999.900</p>
+        <a href="#"><input type="button" id="showmore-category-btn" value="Ver más..." /></a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="box-image-category">
+        <img
+          src="https://www.mac-center.com/ccstore/v1/images/?source=/file/v518089161275743312/products/iPhone_xr_negro.jpg&height=475&width=475" />
+      </div>
+      <div class="show-more-category">
+        <h3>Phone XR</h3>
+        <p>$ 2.099.000</p>
+        <a href="detailProduct.html"><input type="button" id="showmore-category-btn" value="Ver más..." /></a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="box-image-category">
+        <img
+          src="https://exitocol.vtexassets.com/arquivos/ids/7927336/Celular-Motorola-G9-Plus-128GB-Azul-1780453_c.jpg?v=637588018251430000"/>
+      </div>
+      <div class="show-more-category">
+        <h3>Motorola G9 Plus</h3>
+        <p>$ 999.900</p>
+        <a href="#"><input type="button" id="showmore-category-btn" value="Ver más..." /></a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="box-image-category">
+        <img
+          src="https://cdn-caaon.nitrocdn.com/nSUvCbQMMiqcWFWHyDjvUdFoEoERVdXO/assets/static/optimized/rev-e79844f/wp-content/uploads/2016/03/xiaomi-poco-x3-3.jpg" />
+      </div>
+      <div class="show-more-category">
+        <h3>Xiaomi POCO X3</h3>
+        <p>$ 1.049.900</p>
+        <a href="#"><input type="button" id="showmore-category-btn" value="Ver más..." /></a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="box-image-category">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/61HFJwSDQ4L._AC_SY355_.jpg" alt="" />
+      </div>
+      <div class="show-more-category">
+        <h3>Samsung Galaxy A51</h3>
+        <p>$ 1.019.900</p>
+        <a href="#"><input type="button" id="showmore-category-btn" value="Ver más..." /></a>
+      </div>
+    </div>
+  </div>
+  </div>
 </body>
-
+<!-- FOOTER -->
 <footer>
-  <a href="https://es-la.facebook.com/" target="_blank"><span class="icon-facebook"></span
-  ></a><a href="https://www.instagram.com/?hl=es-la" target="_blank"><span class="icon-instagram"></span
-  ></a><a href="https://twitter.com/?lang=es" target="_blank"><span class="icon-twitter"></span></a>
+  <a href="https://es-la.facebook.com/" target="_blank"><span class="icon-facebook"></span></a><a
+    href="https://www.instagram.com/?hl=es-la" target="_blank"><span class="icon-instagram"></span></a><a
+    href="https://twitter.com/?lang=es" target="_blank"><span class="icon-twitter"></span></a>
 </footer>
 
 </html>
