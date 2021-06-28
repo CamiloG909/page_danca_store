@@ -439,3 +439,105 @@ footer a {
   transition: 0.5s;
   color: #ffff;
 }
+
+/* SHOPPING CART */
+
+#btn-payment-cart {
+  border: 0;
+  background-color: #26007e;
+  border-radius: 2vw;
+  height: 2.5vw;
+  width: 9vw;
+  margin: auto;
+  font-size: 1.5vw;
+  color: #ffff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#btn-payment-cart :hover {
+  background-color: #5e00ff;
+  transition: 0.5s;
+}
+
+#master {
+  width: 60%;
+  max-width: 1025px;
+  margin-top: 100px;
+  margin-left: 150px;
+  margin-bottom: 100px;
+  font-size: 35px;
+  line-height: 100%;
+  text-align: center;
+  box-shadow: 2px 2px 10px rgba(0,0,0,.50);
+}
+
+#master > div {
+  display: block;
+  padding: 10px;
+  color: #000;
+  background: #DCDCDC;
+ 
+}
+
+#img-lenovo {
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  float: left;
+  width: 17%;
+  box-shadow: 2px 2px 10px rgba(0,0,0,.50);
+}
+
+#img-cel8 {
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  float: left;
+  width: 17%;
+  box-shadow: 2px 2px 10px rgba(0,0,0,.50);
+}
+
+.valor {
+  width: 10%;
+  max-width: 1025px;
+  margin-top: 0px;
+  margin-right: 500px;
+  margin-left: 150px;
+  margin-bottom: 100px;
+  font-size: 30px;
+  line-height: 100%;
+  text-align: left;
+  box-shadow: 2px 2px 10px rgba(0,0,0,.50);
+}
+
+.valor {
+  display: block;
+  padding: 100px;
+  color: #000;
+  background: #DCDCDC;
+  float:right;
+}
+
+/* SHOPPING CART CSS GRID*/
+
+
+#master {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(1fr);
+}
+
+#master .item {
+  grid-column-start: 1;
+  grid-column-end: 6;
+}
+
+.valor {
+  display: grid;
+  grid-template-columns: 350px;
+  grid-template-rows: 220px;
+}
+
+
+ 
