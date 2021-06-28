@@ -110,6 +110,7 @@ input[type="number"] {
   width: 100%;
   user-select: none;
   overflow: hidden;
+  max-height: 60px;
   top: 0;
 }
 
@@ -239,6 +240,7 @@ input[type="number"] {
 #login-box-index section {
   float: left;
   margin-left: 10%;
+  margin-top: 1%;
 }
 
 #login-image-index {
@@ -265,7 +267,7 @@ input[type="number"] {
   border-radius: 1.7vw;
   padding: 0.7vw 2.5vw;
   margin-right: 0.5vw;
-  font-size: 2vw;
+  font-size: 1.5vw;
   color: #ffff;
   font-weight: bold;
   cursor: pointer;
@@ -285,7 +287,7 @@ input[type="number"] {
   border-radius: 1.7vw;
   padding: 0.4vw 1.4vw;
   margin-left: 0.5vw;
-  font-size: 2vw;
+  font-size: 1.5vw;
   color: #5e00ff;
   font-weight: bold;
   cursor: pointer;
@@ -361,6 +363,10 @@ footer a {
   padding: 0 7px;
   text-decoration: none;
   color: #ffff;
+}
+
+.down-footer {
+  min-height: 900px;
 }
 
 /* END FOOTER */
@@ -465,9 +471,9 @@ footer a {
   font-weight: bold;
   margin-top: 1.6vw;
   cursor: pointer;
-}:last-child
+}
 
-#signupclient-btn:hover {
+:last-child #signupclient-btn:hover {
   background-color: #26007e;
   transition: 0.5s;
   color: #ffff;
@@ -755,6 +761,7 @@ footer a {
   background-color: #26007e;
   transition: 0.5s;
 }
+
 /* END CATEGORY */
 
 /* SETTINGS PROFILE */
@@ -813,4 +820,85 @@ footer a {
   color: #26007e;
   text-decoration: underline;
 }
+
 /* END SETTINGS PROFILE */
+
+/* SHIPPING HISTORY */
+
+#box-shopping-history {
+  display: grid;
+  grid-auto-rows: minmax(150px, auto);
+  gap: 32px;
+  margin: 0 14%;
+  margin-bottom: 7vw;
+}
+
+.status-center-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  text-align: center;
+  user-select: none;
+}
+
+.information-center-box {
+  display: flex;
+  align-items: center;
+}
+
+.information-box-history {
+  border: 1px rgb(197, 197, 197) solid;
+  background: rgb(239, 239, 239);
+  display: grid;
+  grid-template-columns: 13% 62% 25%;
+  max-height: 150px;
+  overflow: hidden;
+}
+
+.information-history {
+  padding-left: 32px;
+}
+
+.information-history p {
+  font-size: 20px;
+  font-weight: lighter;
+}
+
+.image-history {
+  min-width: 148px;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-history img {
+  max-width: 117px;
+  max-height: 117px;
+  user-select: none;
+  background-color: #ffff;
+  border: 1px rgb(197, 197, 197) solid;
+}
+
+.status-processing {
+  color: #ff6600;
+}
+
+.status-ontheway {
+  color: #18ad04;
+}
+
+.status-delivered {
+  color: #5e00ff;
+}
+
+/* MEDIA QUERIES */
+
+/* SHOPPING HISTORY */
+
+@media only screen and (max-width: 1100px) {
+  #box-shopping-history {
+    margin: 0 2%;
+  }
+}
