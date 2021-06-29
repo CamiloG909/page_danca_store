@@ -230,7 +230,7 @@ input[type="number"] {
 
 #login-box-index {
   user-select: none;
-  padding: 2% 0;
+  padding: 4% 0;
   background-color: #ffff;
   text-align: center;
   overflow: hidden;
@@ -239,14 +239,14 @@ input[type="number"] {
 
 #login-box-index section {
   float: left;
-  margin-left: 10%;
-  margin-top: 1%;
+  margin-left: 15%;
+  margin-top: 3%;
 }
 
 #login-image-index {
   max-height: 25vw;
   float: right;
-  margin-right: 15%;
+  margin-right: 20%;
 }
 
 #first-index-text {
@@ -305,22 +305,22 @@ input[type="number"] {
 
 #signup-box-index {
   text-align: center;
-  padding: 2% 0;
+  padding: 5% 0;
   user-select: none;
   overflow: hidden;
   background: linear-gradient(to bottom left, #26007e, #070016);
 }
 
 #signup-image-index {
-  max-height: 22vw;
+  max-height: 25vw;
   float: left;
-  margin-left: 25%;
+  margin-left: 20%;
 }
 
 #signup-box-index section {
   float: right;
   margin-right: 25%;
-  padding-top: 6%;
+  padding-top: 7%;
 }
 
 #third-index-text {
@@ -892,6 +892,7 @@ footer a {
 .status-delivered {
   color: #5e00ff;
 }
+/* END SHIPPINGS HISTORY */
 
 /* MEDIA QUERIES */
 
@@ -900,5 +901,9 @@ footer a {
 @media only screen and (max-width: 1100px) {
   #box-shopping-history {
     margin: 0 2%;
+  }
+
+  .grid-category {
+    padding: 0;
   }
 }
