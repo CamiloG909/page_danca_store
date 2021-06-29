@@ -892,7 +892,120 @@ footer a {
 .status-delivered {
   color: #5e00ff;
 }
+
 /* END SHIPPINGS HISTORY */
+
+/* SHOPPING CART */
+
+#container-shopping-cart {
+  margin: 0 14%;
+  display: grid;
+  grid-template-columns: 63% 35%;
+  gap: 2%;
+}
+
+.box-information-cart {
+  grid-template-rows: minmax(150px, auto);
+}
+
+.product-cart {
+  border: 1px rgb(197, 197, 197) solid;
+  background: rgb(239, 239, 239);
+  margin-bottom: 3%;
+  display: grid;
+  grid-template-columns: 21% 60% 19%;
+  padding: 15px 0;
+  max-height: 150px;
+  overflow: hidden;
+}
+
+.product-cart p {
+  font-size: 20px;
+  font-weight: lighter;
+}
+
+.image-shopping-cart {
+  min-width: 148px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-shopping-cart img {
+  max-width: 117px;
+  user-select: none;
+  background-color: #ffff;
+  border: 1px rgb(197, 197, 197) solid;
+}
+
+.information-shopping-cart {
+  padding-left: 32px;
+}
+
+.information-shopping-cart h2 {
+  padding-bottom: 20px;
+}
+
+.amount-shopping-cart {
+  border-left: 1px rgb(197, 197, 197) solid;
+  text-align: center;
+  padding-top: 17px;
+}
+
+.amount-shopping-cart p{
+  padding-top: 15px;
+  user-select: none; 
+}
+
+.amount-shopping-cart span {
+  cursor: pointer;
+}
+
+.amount-shopping-cart span:hover {
+  color: #26007e;
+}
+
+.total-value-cart {
+  border: 1px rgb(197, 197, 197) solid;
+  background: rgb(239, 239, 239);
+  min-height: 150px;
+  max-height: 320px;
+  text-align: center;
+  padding: 20px;
+}
+
+.total-value-cart h2 {
+  padding-bottom: 15px;
+}
+
+.total-value-cart p {
+  font-size: 20px;
+  font-weight: lighter;
+  padding-bottom: 15px;
+}
+
+.price-total-value {
+  padding-top: 15px;
+}
+
+.btn-go-to-pay {
+  background: #5e00ff;
+  color: #ffff;
+  border: 0;
+  border-radius: 14px;
+  height: 40px;
+  font-weight: bold;
+  font-size: 17px;
+  width: 110px;
+  cursor: pointer;
+}
+
+.btn-go-to-pay:hover {
+  background: #26007e;
+  transition: 0.5s;
+}
+
+/* END SHOPPING CART */
 
 /* MEDIA QUERIES */
 
@@ -905,5 +1018,9 @@ footer a {
 
   .grid-category {
     padding: 0;
+  }
+
+  #container-shopping-cart {
+    margin: 0 2%;
   }
 }
