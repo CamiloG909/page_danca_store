@@ -2,59 +2,79 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;500;700;800&display=swap" rel="stylesheet" />
-  <link rel="shortcut icon" href="ICONS/favicon.png" />
-  <link rel="stylesheet" href="CSS/styles.css" />
-  <link rel="stylesheet" href="ICONS/global/icons.css" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#782BFF" />
+  <meta name="description" content="La tienda online más segura y confiable para realizar tus compras">
+  <script src="https://kit.fontawesome.com/0680dcad08.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined">
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="assets/css/normalize.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
   <title>Danca Store</title>
 </head>
-<header>
-  <nav class="main-index">
-    <ul>
-      <li><a href="help.html" target="_blank">Ayuda</a></li>
-      <a href="index.html">
-        <img class="logo-header" src="https://i.imgur.com/7WA835U.png" />
-      </a>
-    </ul>
-  </nav>
-</header>
 
 <body>
-  <!-- FIRST SECTION -->
-  <div id="login-box-index">
-    <section>
-      <p id="first-index-text">Compra ahora<br />en <b>Danca Store</b></p>
-      <p id="second-index-text">
-        La tienda online <b>m&aacutes segura y confiable,<br /></b>inicia
-        sesi&oacuten para ingresar a la tienda
+  <header class="header-index">
+    <img src="assets/img/isologo-black.png" alt="Isologo de Danca Store">
+    <div class="header-index__container">
+      <h1 class="header-index__h1">La tienda online m&aacutes segura y confiable para realizar tus compras</h1>
+      <p class="header-index__p">Compra ahora en Danca Store, tenemos los mejores precios en computadores y celulares.
       </p>
-      <br />
-      <a id="btn-signup" href="signup.html">Registrarse</a>
-      <a id="btn-login" href="login.html">Iniciar sesi&oacuten</a>
+    </div>
+    <a href="#section-signup-index" class="header-index-btn" title="Clic para registrarte">Reg&iacutestrate gratis<span
+        class="material-icons-outlined header-index-btn__icon">expand_more</span></a>
+  </header>
+
+  <main>
+    <section id="section-signin-index" class="signin-index">
+      <section class="signin-index__img-container">
+        <img loading="lazy" src="assets/img/signin-index.png" alt="Imagen de la segunda sección">
+      </section>
+      <section class="signin-index__form-container">
+        <div class="signin-form">
+          <p class="signin-form__title">Iniciar sesi&oacuten</p>
+          <form action="">
+            <input type="email" name="email" class="signin-form__input" id="email" placeholder="Email"
+              autocomplete="email" required>
+            <input type="password" name="password" class="signin-form__input" id="password" placeholder="Contraseña"
+              autocomplete="current-password" required>
+            <!-- BUTTON TEMPORARY (CHANGE TO SUBMIT) -->
+            <a href="home.html"><input type="button" value="Ingresar" class="signin-form__btn"></a>
+            <p class="signin-form__redirection">¿A&uacuten no tienes una cuenta? <a href="signup.html">Registrate
+                ahora</a></p>
+          </form>
+        </div>
+      </section>
     </section>
-    <img id="login-image-index" src="https://i.imgur.com/yLeAvxS.png" />
-  </div>
-  <!-- SECOND SECTION -->
-  <div id="signup-box-index">
-    <img id="signup-image-index" src="https://i.imgur.com/hKRGCj8.png" />
-    <section>
-      <p id="third-index-text">
-        Crea tu cuenta ahora<br />para <b>empezar a comprar</b>
-      </p>
-      <br />
-      <a id="btn-signup-second" href="signup.html">Regístrate gratis</a>
+    <section class="signup-index">
+      <section class="signup-index__text-container">
+        <div class="signup-index__box-limiting">
+          <p class="signup-index__title">Tenemos env&iacuteos gratis para ti, crea tu cuenta ahora y empieza a comprar
+          </p>
+          <a href="signup.html" title="Regístrate gratis" class="signup-index__btn">Registrarse<span
+              class="material-icons-outlined signup-index__btn-icon">arrow_forward</span></a>
+        </div>
+      </section>
+      <section id="section-signup-index" class="signup-index__img-container">
+        <img loading="lazy" src="assets/img/signup-index.png" alt="Imagen de la tercera sección">
+      </section>
     </section>
-  </div>
+  </main>
+
+  <footer class="footer">
+    <section class="footer__left">
+      <ul class="footer__list-networks">
+        <li><a href="#" class="footer__a"><i class="fab fa-instagram"></i> Instagram</a></li>
+        <li><a href="#" class="footer__a"><i class="fab fa-twitter"></i> Twitter</a></li>
+        <li><a href="#" class="footer__a"><i class="fab fa-linkedin"></i> Linkedin</a></li>
+      </ul>
+    </section>
+    <section class="footer__right">
+      <a href="index.html"><img src="assets/img/isologo-white.png" alt="Isologo del footer"></a>
+    </section>
+  </footer>
 </body>
-<!-- FOOTER -->
-<footer>
-  <a href="https://es-la.facebook.com/" target="_blank"><span class="icon-facebook"></span></a><a
-    href="https://www.instagram.com/?hl=es-la" target="_blank"><span class="icon-instagram"></span></a><a
-    href="https://twitter.com/?lang=es" target="_blank"><span class="icon-twitter"></span></a>
-</footer>
 
 </html>

@@ -1,0 +1,54 @@
+@mixin input-form
+  margin: 7px 0
+  padding: 10px 4%
+  inline-size: 100%
+  font-size: 1.9rem
+  user-select: none
+  border-radius: 15px
+  border: 2px solid $soft-purple
+  background-color: $soft-purple
+  outline: none
+  &:focus
+    border: 2px solid $purple
+    transition: 0.3s all ease
+
+@mixin btn-input
+  inline-size: 100%
+  block-size: 45px
+  font-size: 2rem
+  font-weight: bold
+  border: 0
+  border-radius: 15px
+  color: $white
+  background-color: $purple
+  cursor: pointer
+  &:hover
+    background-color: $dark-purple
+    transition: 0.5s all ease
+
+@mixin btn-input__a
+  text-decoration: none
+  user-select: none
+
+@mixin input-select
+  border: 2px solid transparent
+  background-color: transparent
+  outline: none
+  option
+    background-color: $gray
+
+@mixin title-product
+  font-size: 2rem
+  font-weight: bold
+  line-height: 4rem
+
+@mixin text-gray
+  font-size: 2rem
+  font-weight: lighter
+  line-height: 2.5rem
+  color: $text-gray
+
+@mixin flex-center
+  display: flex
+  justify-content: center
+  align-items: center

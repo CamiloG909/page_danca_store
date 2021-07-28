@@ -2,153 +2,186 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;500;700;800&display=swap" rel="stylesheet" />
-  <link rel="shortcut icon" href="ICONS/favicon.png" />
-  <link rel="stylesheet" href="CSS/styles.css" />
-  <link rel="stylesheet" href="ICONS/global/icons.css" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#782BFF" />
+  <meta name="description" content="Empieza a comprar, tenemos envíos gratis">
+  <script src="https://kit.fontawesome.com/0680dcad08.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined">
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="assets/css/normalize.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
   <title>Celulares | Danca Store</title>
 </head>
-<!-- HEADER CLIENT -->
-<header class="header">
-  <div class="container-header-client">
-    <div class="btn-main">
-      <label for="btn-main"><span class="icon-main"></span></label>
-    </div>
-    <a href="category.html"><img class="logo-header-client" src="https://i.imgur.com/7WA835U.png" />
-    </a>
-    <nav class="main-c">
-      <a href="shoppingCart.html"><span class="icon-shopping-cart"></span></a>
-      <a href="profile.html"><span class="icon-profile"></span></a>
-    </nav>
-  </div>
-</header>
-<!-- LATERAL MAIN -->
-<input type="checkbox" id="btn-main" />
-<div class="container-main">
-  <div class="cont-main">
-    <nav>
-      <a href="category.html"><span class="icon-index"></span> INICIO</a>
-      <a href="computers.html"><span class="icon-computers"></span> COMPUTADORES</a>
-      <a href="phones.html"><span class="icon-phones"></span> CELULARES</a>
-      <a href="shoppingCart.html"><span class="icon-shopping-cart"></span> CARRITO DE COMPRAS</a>
-      <a href="shoppingHistory.html"><span class="icon-history"></span> HISTORIAL DE COMPRAS</a>
-      <a href="profile.html"><span class="icon-profile"></span> MI PERFIL</a>
-      <a href="help.html"><span class="icon-help"></span> AYUDA</a>
-      <a href="index.html"><span class="icon-logout"></span> CERRAR SESI&OacuteN</a>
-    </nav>
-    <img class="logo-main-client" src="https://i.imgur.com/7WA835U.png" />
-    <label for="btn-main"><span class="icon-x"></span></label>
-  </div>
-</div>
 
 <body>
-  <div>
-    <h3 class="title-category">Celulares</h3>
-  </div>
-  <div class="grid-category">
-    <div class="card">
-      <div class="box-image-category">
-        <img src="https://images-na.ssl-images-amazon.com/images/I/61ttqfeMsUL._AC_SX522_.jpg" />
-      </div>
-      <div class="show-more-category">
-        <h3>Samsung Galaxy A11</h3>
-        <p>$ 499.900</p>
-        <a class="showmore-category-btn" href="#">Ver más...</a>
-      </div>
-    </div>
+  <header class="header">
+    <section class="header__icon-menu">
+      <label for="header__btn-menu"><span class="material-icons-outlined header__icon" title="Menú">menu</span></label>
+    </section>
+    <figure class="header__container-isologo">
+      <a href="home.html"><img src="assets/img/isologo-black.png" alt="Isologo del header"></a>
+    </figure>
+    <section class="header__icons-right">
+      <a href="shopping-cart.html" class="header__a"><span class="material-icons-outlined header__icon"
+          title="Carrito de compras">shopping_cart</span></a>
+      <a href="profile.html" class="header__a"><span class="material-icons-outlined header__icon"
+          title="Perfil">person</span></section></a>
+  </header>
 
-    <div class="card">
-      <div class="box-image-category">
-        <img src="https://tienda.claro.com.co/wcsstore/Claro/images/catalog/equipos/646x1000/70037731_2.jpg" />
-      </div>
-      <div class="show-more-category">
-        <h3>Vivo Y30</h3>
-        <p>$ 515.900</p>
-        <a class="showmore-category-btn" href="#">Ver más...</a>
-      </div>
-    </div>
 
-    <div class="card">
-      <div class="box-image-category">
-        <img src="https://images-na.ssl-images-amazon.com/images/I/41YvfoWY9KL._AC_.jpg" />
-      </div>
-      <div class="show-more-category">
-        <h3>Mi Note 8</h3>
-        <p>$ 669.900</p>
-        <a class="showmore-category-btn" href="#">Ver más...</a>
-      </div>
-    </div>
+  <main>
+    <!-- LATERAL MENU -->
+    <input type="checkbox" id="header__btn-menu" />
+    <section class="lateral-menu">
+      <label for="header__btn-menu"><span class="material-icons-outlined lateral-menu__icon-close">close</span></label>
+      <img src="assets/img/isologo-black.png" alt="Isologo del menú" class="lateral-menu__isologo">
+      <ul class="lateral-menu__ul">
+        <li><a href="home.html" class="lateral-menu__a"><span
+              class="material-icons-outlined lateral-menu__icon">home</span>
+            INICIO</a></li>
+        <li><a href="computers.html" class="lateral-menu__a"><span
+              class="material-icons-outlined lateral-menu__icon">laptop</span>
+            COMPUTADORES</a></li>
+        <li><a href="phones.html" class="lateral-menu__a"><span
+              class="material-icons-outlined lateral-menu__icon">phone_android</span> CELULARES</a></li>
+        <li><a href="shopping-cart.html" class="lateral-menu__a"><span
+              class="material-icons-outlined lateral-menu__icon">shopping_cart</span> CARRITO DE COMPRAS</a></li>
+        <li><a href="shopping-history.html" class="lateral-menu__a"><span
+              class="material-icons-outlined lateral-menu__icon">history</span> HISTORIAL DE COMPRAS</a></li>
+        <li><a href="profile.html" class="lateral-menu__a"><span
+              class="material-icons-outlined lateral-menu__icon">person</span> MI
+            PERFIL</a></li>
+        <li><a href="help.html" class="lateral-menu__a" target="_blank"><span
+              class="material-icons-outlined lateral-menu__icon">help_outline</span>
+            AYUDA</a></li>
+        <li><a href="index.html" class="lateral-menu__a"><span
+              class="material-icons-outlined lateral-menu__icon">logout</span> CERRAR
+            SESIÓN</a></li>
+      </ul>
+    </section>
+    <!-- END LATERAL MENU -->
 
-    <div class="card">
-      <div class="box-image-category">
-        <img
-          src="https://www.alkosto.com/medias/840023212574-001-750Wx750H?context=bWFzdGVyfGltYWdlc3wxMTQyMTZ8aW1hZ2UvanBlZ3xpbWFnZXMvaGE5L2hjMS8xMDQyMjc3NjIwMTI0Ni5qcGd8NmM2OGZiOTQyMTM3YjJmNTViMTMyMGNjOGIyYTgzMmQyYWQyZDE1NTVjZDg2OWUxNzJmNTU5ZjUxMDQ1MWJmZQ" />
-      </div>
-      <div class="show-more-category">
-        <h3>Motorola G30</h3>
-        <p>$ 999.900</p>
-        <a class="showmore-category-btn" href="#">Ver más...</a>
-      </div>
-    </div>
+    <section class="title-page">
+      <p>Celulares</p>
+    </section>
+    <section class="products-cards-container">
+      <article class="card-product">
+        <figure class="card-product__img-container">
+          <img loading="lazy" src="assets/img/phone.jpg" alt="Imagen del producto">
+        </figure>
+        <div class="card-product__text-container">
+          <p class="card-product__name">Celular</p>
+          <p class="card-product__price">$ 9.999.999</p>
+          <a href="product-detail.html" class="card-product__btn-more">Ver más...</a>
+        </div>
+      </article>
+      <article class="card-product">
+        <figure class="card-product__img-container">
+          <img loading="lazy" src="assets/img/phone.jpg" alt="Imagen del producto">
+        </figure>
+        <div class="card-product__text-container">
+          <p class="card-product__name">Celular</p>
+          <p class="card-product__price">$ 9.999.999</p>
+          <a href="#" class="card-product__btn-more">Ver más...</a>
+        </div>
+      </article>
+      <article class="card-product">
+        <figure class="card-product__img-container">
+          <img loading="lazy" src="assets/img/phone.jpg" alt="Imagen del producto">
+        </figure>
+        <div class="card-product__text-container">
+          <p class="card-product__name">Celular</p>
+          <p class="card-product__price">$ 9.999.999</p>
+          <a href="#" class="card-product__btn-more">Ver más...</a>
+        </div>
+      </article>
+      <article class="card-product">
+        <figure class="card-product__img-container">
+          <img loading="lazy" src="assets/img/phone.jpg" alt="Imagen del producto">
+        </figure>
+        <div class="card-product__text-container">
+          <p class="card-product__name">Celular</p>
+          <p class="card-product__price">$ 9.999.999</p>
+          <a href="#" class="card-product__btn-more">Ver más...</a>
+        </div>
+      </article>
+      <article class="card-product">
+        <figure class="card-product__img-container">
+          <img loading="lazy" src="assets/img/phone.jpg" alt="Imagen del producto">
+        </figure>
+        <div class="card-product__text-container">
+          <p class="card-product__name">Celular</p>
+          <p class="card-product__price">$ 9.999.999</p>
+          <a href="#" class="card-product__btn-more">Ver más...</a>
+        </div>
+      </article>
+      <article class="card-product">
+        <figure class="card-product__img-container">
+          <img loading="lazy" src="assets/img/phone.jpg" alt="Imagen del producto">
+        </figure>
+        <div class="card-product__text-container">
+          <p class="card-product__name">Celular</p>
+          <p class="card-product__price">$ 9.999.999</p>
+          <a href="#" class="card-product__btn-more">Ver más...</a>
+        </div>
+      </article>
+      <article class="card-product">
+        <figure class="card-product__img-container">
+          <img loading="lazy" src="assets/img/phone.jpg" alt="Imagen del producto">
+        </figure>
+        <div class="card-product__text-container">
+          <p class="card-product__name">Celular</p>
+          <p class="card-product__price">$ 9.999.999</p>
+          <a href="#" class="card-product__btn-more">Ver más...</a>
+        </div>
+      </article>
+      <article class="card-product">
+        <figure class="card-product__img-container">
+          <img loading="lazy" src="assets/img/phone.jpg" alt="Imagen del producto">
+        </figure>
+        <div class="card-product__text-container">
+          <p class="card-product__name">Celular</p>
+          <p class="card-product__price">$ 9.999.999</p>
+          <a href="#" class="card-product__btn-more">Ver más...</a>
+        </div>
+      </article>
+      <article class="card-product">
+        <figure class="card-product__img-container">
+          <img loading="lazy" src="assets/img/phone.jpg" alt="Imagen del producto">
+        </figure>
+        <div class="card-product__text-container">
+          <p class="card-product__name">Celular</p>
+          <p class="card-product__price">$ 9.999.999</p>
+          <a href="#" class="card-product__btn-more">Ver más...</a>
+        </div>
+      </article>
+      <article class="card-product">
+        <figure class="card-product__img-container">
+          <img loading="lazy" src="assets/img/phone.jpg" alt="Imagen del producto">
+        </figure>
+        <div class="card-product__text-container">
+          <p class="card-product__name">Celular</p>
+          <p class="card-product__price">$ 9.999.999</p>
+          <a href="#" class="card-product__btn-more">Ver más...</a>
+        </div>
+      </article>
+    </section>
+  </main>
 
-    <div class="card">
-      <div class="box-image-category">
-        <img
-          src="https://www.mac-center.com/ccstore/v1/images/?source=/file/v518089161275743312/products/iPhone_xr_negro.jpg&height=475&width=475" />
-      </div>
-      <div class="show-more-category">
-        <h3>iPhone XR</h3>
-        <p>$ 2.099.000</p>
-        <a class="showmore-category-btn" href="detailProduct.html">Ver más...</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="box-image-category">
-        <img
-          src="https://exitocol.vtexassets.com/arquivos/ids/7927336/Celular-Motorola-G9-Plus-128GB-Azul-1780453_c.jpg?v=637588018251430000" />
-      </div>
-      <div class="show-more-category">
-        <h3>Motorola G9 Plus</h3>
-        <p>$ 999.900</p>
-        <a class="showmore-category-btn" href="#">Ver más...</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="box-image-category">
-        <img
-          src="https://cdn-caaon.nitrocdn.com/nSUvCbQMMiqcWFWHyDjvUdFoEoERVdXO/assets/static/optimized/rev-e79844f/wp-content/uploads/2016/03/xiaomi-poco-x3-3.jpg" />
-      </div>
-      <div class="show-more-category">
-        <h3>Xiaomi POCO X3</h3>
-        <p>$ 1.049.900</p>
-        <a class="showmore-category-btn" href="#">Ver más...</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="box-image-category">
-        <img src="https://images-na.ssl-images-amazon.com/images/I/61HFJwSDQ4L._AC_SY355_.jpg" alt="" />
-      </div>
-      <div class="show-more-category">
-        <h3>Samsung Galaxy A51</h3>
-        <p>$ 1.019.900</p>
-        <a class="showmore-category-btn" href="#">Ver más...</a>
-      </div>
-    </div>
-  </div>
-  </div>
+  <footer class="footer">
+    <section class="footer__left">
+      <ul class="footer__list-networks">
+        <li><a href="#" class="footer__a"><i class="fab fa-instagram"></i> Instagram</a></li>
+        <li><a href="#" class="footer__a"><i class="fab fa-twitter"></i> Twitter</a></li>
+        <li><a href="#" class="footer__a"><i class="fab fa-linkedin"></i> Linkedin</a></li>
+      </ul>
+    </section>
+    <section class="footer__right">
+      <a href="home.html"><img src="assets/img/isologo-white.png" alt="Isologo del footer"></a>
+    </section>
+  </footer>
 </body>
-<!-- FOOTER -->
-<footer>
-  <a href="https://es-la.facebook.com/" target="_blank"><span class="icon-facebook"></span></a><a
-    href="https://www.instagram.com/?hl=es-la" target="_blank"><span class="icon-instagram"></span></a><a
-    href="https://twitter.com/?lang=es" target="_blank"><span class="icon-twitter"></span></a>
-</footer>
 
 </html>

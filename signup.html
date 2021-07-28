@@ -2,57 +2,61 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;500;700;800&display=swap" rel="stylesheet" />
-  <link rel="shortcut icon" href="ICONS/favicon.png" />
-  <link rel="stylesheet" href="CSS/styles.css" />
-  <link rel="stylesheet" href="ICONS/global/icons.css" />
-  <title>Registrarse</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#782BFF" />
+  <meta name="description" content="Crea tu cuenta ahora para empezar a comprar">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined">
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="assets/css/normalize.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <title>Registrarse | Danca Store</title>
 </head>
-<header>
-  <nav class="main-index">
-    <ul>
-      <li><a href="help.html" target="_blank">Ayuda</a></li>
-      <a href="index.html">
-        <img class="logo-header" src="https://i.imgur.com/7WA835U.png" />
-      </a>
-    </ul>
-  </nav>
-</header>
 
 <body>
-    <div id="signupclient-box">
-      <section>
-        <p class="signupclient-title"><b>Crear cuenta</b></p>
-        <br />
-        <!-- FORMS -->
-        <form>
-          <input class="form" id="form-signupclient" type="text" name="name" placeholder="Nombre" />
-          <input class="form" id="form-signupclient" type="text" name="last-name" placeholder="Apellido" /><br />
-          <select name="type-document" class="form" id="form-signupclient-t-document">
-            <option value="CC">C.C</option>
-            <option value="CE">C.E</option>
-          </select>
-          <input class="form" id="form-signupclient-n-document" type="number" name="document-number"
-            placeholder="Número de documento" maxlength="12" />
-          <p id="only-numbers-text">*Solo n&uacutemeros</p>
-          <input class="form" id="form-signupclient" type="email" name="email" placeholder="Email" />
-          <input class="form" id="form-signupclient" type="number" name="phone" placeholder="Teléfono" maxlength="14" />
-          <input class="form" id="form-signupclient" type="text" name="town" placeholder="Ciudad" />
-          <input class="form" id="form-signupclient" type="text" name="address" placeholder="Dirección - Casa, apartamento, etc..." />
-          <input class="form" id="form-signupclient" type="password" name="password" placeholder="Contraseña" />
-          <br />
-          <input type="submit" id="signupclient-btn" value="Registrarse" />
-        </form>
-        <p id="signupclient-text">
-          ¿Ya tienes una cuenta? <a href="login.html">Inicia sesi&oacuten</a>
-        </p>
-      </section>
-      <img id="image-signupclient" src="https://i.imgur.com/gz6JoRK.jpg" />
+  <header class="header-help">
+    <figure class="header-help__container-isologo">
+      <a href="index.html"><img src="assets/img/isologo-black.png" alt="Isologo del header"></a>
+    </figure>
+    <div class="header-help__a">
+      <a href="help.html" target="_blank">Ayuda</a>
     </div>
-  </div>
+  </header>
+  <main>
+    <section class="signup">
+      <figure class="signup__img-container">
+        <img src="assets/img/signup.jpg" alt="Imagen de la página de registro">
+      </figure>
+      <section class="signup__form-container">
+        <div class="signup-form">
+          <form action="">
+            <h1 class="signup-form__title">Crear cuenta</h1>
+            <input class="signup-form__input" type="text" name="name" placeholder="Nombre" autocomplete="name"/>
+            <input class="signup-form__input" type="text" name="last-name" placeholder="Apellido" autocomplete="additional-name"/><br />
+            <select class="signup-form__input signup-form__input--select" name="type-document">
+              <option value="CC">C.C</option>
+              <option value="CE">C.E</option>
+            </select>
+            <label>
+              <input class="signup-form__input signup-form__input--short" type="number" name="document-number" placeholder="Número de documento"
+                maxlength="12" autocomplete="cc-number"/>
+              <p class="signup-form__only-numbers">*Solo n&uacutemeros</p>
+            </label>
+            <input class="signup-form__input" type="email" name="email" placeholder="Email" autocomplete="email"/>
+            <input class="signup-form__input" type="number" name="phone" placeholder="Teléfono" maxlength="14" autocomplete="mobile"/>
+            <input class="signup-form__input" type="text" name="town" placeholder="Ciudad" autocomplete="country-name"/>
+            <input class="signup-form__input" type="text" name="address"
+              placeholder="Dirección (Casa, apartamento, etc...)" autocomplete="street-address"/>
+            <input class="signup-form__input" type="password" name="password" placeholder="Contraseña" autocomplete="current-password"/>
+            <input class="signup-form__btn" type="submit" value="Registrarse">
+            <p class="signup-form__redirection">¿Ya tienes una cuenta? <a href="index.html#section-signin-index">Inicia
+                sesi&oacuten</a></p>
+          </form>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
 
 </html>

@@ -1,0 +1,96 @@
+.shopping-cart-container
+  display: grid
+  grid-template: auto / 65% 35%
+  grid-gap: 0 15px
+  margin: 58px auto 80px
+  padding-block-start: 30px
+  inline-size: 98%
+  max-inline-size: 1008px
+  min-block-size: 76vh
+  justify-content: center
+
+.products-shopping-cart
+  display: grid
+  grid-template-columns: 1fr
+  grid-row: 1 / 3
+  grid-auto-rows: 152px
+  grid-gap: 15px 0
+
+.product-cart
+  display: grid
+  grid-template-columns: 150px 372px 130px
+  padding: 20px 0 20px 0
+  max-inline-size: 655px
+  border: 1px solid $dark-gray
+  background-color: $gray
+  &__img-container
+    @include flex-center
+    margin: 0 20px
+    inline-size: 110px
+    block-size: 110px
+    border: 1px solid $dark-gray
+    background: $white
+    user-select: none
+    img
+      inline-size: 108px
+      block-size: auto
+  &__text
+    display: flex
+    align-items: center
+    padding-inline-end: 20px
+    border-inline-end: 1px solid $dark-gray
+  &__name
+    font-size: 2rem
+  &__price
+    @extend .product-cart__name
+    font-family: 'Assistant', sans-serif
+    color: $text-gray
+  &__amount
+    @include flex-center
+    &-title
+      font-size: 2rem
+      font-weight: bold
+      line-height: 5rem
+    &-number
+      @extend .product-cart__amount-title
+      font-family: 'Assistant', sans-serif
+      font-weight: 400
+      text-align: center
+      user-select: none
+  &__icons
+    padding: 0 5px 4px
+    font-size: 2.5rem
+    cursor: pointer
+    &:hover
+      color: $dark-purple
+      transition: 0.3s all ease
+
+.total-value-cart
+  margin-block-end: 49vh
+  padding: 10px 20px 20px 20px
+  max-inline-size: 353px
+  text-align: center
+  border: 1px solid $dark-gray
+  background-color: $gray
+  &__title
+    @include title-product
+    font-size: 2.1rem
+  &__product
+    font-size: 1.9rem
+    line-height: 3.5rem
+    span
+      font-family: 'Assistant', sans-serif
+      font-weight: bold
+  &__line
+    margin: 5px 0
+    border: 1px solid $dark-gray
+  &__total
+    font-family: 'Assistant', sans-serif
+    font-size: 2.1rem
+    span
+      @extend .total-value-cart__total
+      font-weight: bold
+  &__btn-pay
+    @include btn-input
+    margin-block-start: 5px
+    inline-size: 70%
