@@ -1,0 +1,55 @@
+// Lateral menu client
+
+.lateral-menu
+  position: fixed
+  inset-block-start: 0
+  inset-inline-start: 0
+  inline-size: 280px
+  block-size: 100vh
+  background: $transparent-gray
+  user-select: none
+  overflow: auto
+  visibility: hidden
+  transition: all 0.2s ease
+  transform: translateX(-100%)
+  z-index: 20
+  &__ul
+    padding: 70px 0 0
+    list-style: none
+  &__a
+    display: block
+    padding: 18px
+    font-size: 1.7rem
+    text-decoration: none
+    border-left: 5px solid transparent
+    color: $black
+    transition: 0.5s all ease
+    &:hover
+      border-left: 5px solid $purple
+      background-color: #00000028
+  &__icon
+    padding-block-end: 3px
+    font-size: 2.4rem
+    &-close
+      font-size: 3.7rem
+      position: absolute
+      inset-block-start: 11px
+      inset-inline-start: 20px
+      cursor: pointer
+      &:hover
+        border-radius: 10px
+        background-color: $bg-icons
+        transition: 0.3s all ease
+  &__isologo
+    position: absolute
+    inset-block-start: 14px
+    inset-inline-start: 69px
+    block-size: 30px
+    user-select: none
+
+#header__btn-menu
+  display: none
+#header__btn-menu:checked~.lateral-menu
+  visibility: visible
+  transform: translateX(0%)
+// End lateral menu client
