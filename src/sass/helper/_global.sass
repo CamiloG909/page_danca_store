@@ -1,61 +1,71 @@
 // Inputs text
 @mixin input-form
-  margin: 7px 0
-  padding: 10px 4%
-  inline-size: 100%
-  font-size: 1.9rem
-  user-select: none
-  border-radius: 15px
-  border: 2px solid $soft-purple
-  background-color: $soft-purple
-  outline: none
-  &:focus
-    border: 2px solid $purple
-    transition: 0.3s all ease
+	margin: 6px 0
+	padding: 10px 4%
+	inline-size: 100%
+	max-inline-size: 430px
+	font-size: 1.9rem
+	user-select: none
+	border-radius: 15px
+	border: 2px solid $soft-purple
+	background-color: $soft-purple
+	outline: none
+	transition: 0.3s all ease
+	&:focus
+		border: 2px solid $purple
 
 // Button input base
 @mixin btn-input
-  inline-size: 100%
-  block-size: 45px
-  font-size: 2rem
-  font-weight: bold
-  border: 0
-  border-radius: 15px
-  color: $white
-  background-color: $purple
-  cursor: pointer
-  &:hover
-    background-color: $dark-purple
-    transition: 0.5s all ease
+	inline-size: 100%
+	block-size: 45px
+	@include font(bold,2rem,normal,$white)
+	border: 0
+	border-radius: 15px
+	background-color: $purple
+	cursor: pointer
+	transition: 0.5s all ease
+	&:hover
+		background-color: $dark-purple
 
 // Button input base a
 @mixin btn-input__a
-  text-decoration: none
-  user-select: none
+	@include btn-input
+	text-decoration: none
+	user-select: none
 
 // Inputs select
 @mixin input-select
-  border: 2px solid transparent
-  background-color: transparent
-  outline: none
-  option
-    background-color: $gray
+	border: 2px solid transparent
+	background-color: transparent
+	outline: none
+	option
+		background-color: $gray
+
+// Fonts
+@mixin font ($weight: normal, $size: 1.6rem, $line: normal, $color: $black, $font: $main-font)
+	font-weight: $weight
+	font-size: $size
+	line-height: $line
+	color: $color
+	font-family: $font
 
 // Product page titles
 @mixin title-product
-  font-size: 2rem
-  font-weight: bold
-  line-height: 4rem
+	@include font(bold,2rem,4rem)
 
 // Text styles gray
 @mixin text-gray
-  font-size: 2rem
-  font-weight: lighter
-  line-height: 2.5rem
-  color: $text-gray
+	@include font (inherit,2rem,2.5rem,$text-gray)
 
 // Display flex center
-@mixin flex-center
-  display: flex
-  justify-content: center
-  align-items: center
+@mixin flex-center ($justify: center, $align: center)
+	display: flex
+	justify-content: $justify
+	align-items: $align
+
+// Background images
+@mixin bg-image ($url-image: none)
+	background-position: center
+	background-repeat: no-repeat
+	background-size: cover
+	background-image: url($url-image)

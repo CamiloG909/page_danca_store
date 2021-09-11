@@ -1,76 +1,74 @@
 // First section
 .signin-index
-  @include flex-center
-  padding: 70px 15px
-  inline-size: 100%
-  block-size: auto
-  background: $gradient-purple
-  &__img-container
-    inline-size: 55%
-    padding-inline-end: 15%
-    text-align: end
-    img
-      max-inline-size: 100%
-      user-select: none
-  &__form-container
-    inline-size: 45%
+	@include flex-center
+	padding: 70px 15px
+	inline-size: 100%
+	block-size: auto
+	background: $gradient-purple
+	&__img-container
+		inline-size: 55%
+		padding-inline-end: 15%
+		text-align: end
+		img
+			max-inline-size: 100%
+			user-select: none
+	&__form-container
+		inline-size: 45%
 
 .signin-form
-  max-inline-size: 430px
-  color: $white
-  &__title
-    font-size: 3.5rem
-    font-weight: bold
-    line-height: 6.5rem
-    text-align: center
-  &__input
-    @include input-form
-  &__btn
-    @include btn-input
-    margin: 15px 0
-  &__redirection
-    font-size: 1.8rem
-    text-align: center
-    a
-      color: $gray
-      &:hover
-        text-decoration: none
-        color: $soft-purple
+	max-inline-size: 430px
+	color: $white
+	&__title
+		@include font(bold,4rem,6.5rem, $white)
+		text-align: center
+	&__input
+		@include input-form
+	&__btn
+		@include btn-input
+		margin: 15px 0
+	&__redirection
+		font-size: 1.8rem
+		text-align: center
+		a
+			color: $gray
+			&:hover
+				text-decoration: none
+				color: $soft-purple
 // End first section
 
 // Second section
 .signup-index
-  @include flex-center
-  padding: 70px 15px
-  inline-size: 100%
-  block-size: auto
-  background-color: $gray
-  &__text-container
-    position: relative
-    inline-size: 60%
-    text-align: center
-    line-height: 4.5rem
-  &__box-limiting
-    margin: 0 auto
-    max-inline-size: 700px
-  &__title
-    padding-block-end: 30px
-    font-size: 3.5rem
-    font-weight: 500
-  &__btn
-    @include btn-input
-    @include btn-input__a
-    padding: 11px 30px
-    background-color: $dark-purple
-    &:hover
-      background-color: $purple
-    &-icon
-      margin-inline-start: 10px
-      font-size: 2.5rem
-      vertical-align: sub
-  &__img-container
-    inline-size: 40%
-    img
-      max-inline-size: 100%
-      user-select: none
+	@include flex-center
+	padding: 70px 15px
+	inline-size: 100%
+	block-size: auto
+	background-color: $gray
+	&__text-container
+		position: relative
+		inline-size: 60%
+		text-align: center
+		line-height: 4.5rem
+	&__box-limiting
+		margin: 0 auto
+		max-inline-size: 700px
+	&__title
+		padding-block-end: 30px
+		font-size: 3.5rem
+		font-weight: 500
+	&__btn
+		@include btn-input__a
+		padding: 11px 20px 11px 30px
+		background-color: $dark-purple
+		&:hover
+			background-color: $purple
+		&-icon
+			margin-block-start: 10px
+			margin-inline-start: 2px
+			font-size: 3.5rem
+			vertical-align: middle
+	&__img-container
+		inline-size: 40%
+		img
+			max-inline-size: 100%
+			user-select: none
 // End second section

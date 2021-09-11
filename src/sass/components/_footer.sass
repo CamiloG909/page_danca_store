@@ -1,21 +1,26 @@
 .footer
-  display: flex
-  align-items: center
-  inline-size: 100%
-  block-size: 129px
-  user-select: none
-  color: $white
-  background-color: $custom-black
-  section
-    display: flex
-    justify-content: center
-    inline-size: 50%
-  &__list-networks
-    padding-inline-start: 0
-    list-style: none
-  &__a
-    text-decoration: none
-    font-size: 1.3rem
-    font-weight: 500
-    line-height: 2.3rem
-    color: $white
+	display: flex
+	align-items: center
+	inline-size: 100%
+	block-size: 129px
+	user-select: none
+	color: $white
+	background-color: $custom-black
+	section
+		display: flex
+		justify-content: center
+		inline-size: 50%
+	&__list-networks
+		padding-inline-start: 0
+		list-style: none
+	&__a
+		padding: 0 10px
+		text-decoration: none
+		font-size: 1.3rem
+		font-weight: 500
+		line-height: 2.3rem
+		color: $white
+		transition: all 0.3s ease
+		&:hover
+			border-radius: 5px
+			background-color: $bg-white-t

@@ -1,22 +1,23 @@
 {
 	"name": "danca_store",
-	"version": "1.0.0",
+	"version": "1.1.1",
 	"description": "Tienda online para la compra de celulares y computadores de forma rápida y segura",
 	"main": "src/index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"prepare": "husky install"
+		"dev": "nodemon src/index.js",
+		"gulp": "gulp",
+		"all": "npm-run-all --parallel dev gulp"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/CamiloG909/page_danca_store.git"
+		"url": "git+https://github.com/CamiloG909/page-store.git"
 	},
-	"author": "Camilo Galindo R <cagalindo35@misena.edu.co>",
+	"author": "Camilo Galindo R <cgalindorivera@gmail.com>",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/CamiloG909/page_danca_store/issues"
+		"url": "https://github.com/CamiloG909/page-store/issues"
 	},
-	"homepage": "https://github.com/CamiloG909/page_danca_store#readme",
+	"homepage": "https://github.com/CamiloG909/page-store#readme",
 	"devDependencies": {
 		"@babel/cli": "^7.14.8",
 		"@babel/core": "^7.15.0",
@@ -28,21 +29,15 @@
 		"eslint-plugin-import": "^2.24.0",
 		"gulp": "^4.0.2",
 		"gulp-babel": "^8.0.0",
-		"gulp-cache-bust": "^1.4.1",
 		"gulp-concat": "^2.6.1",
-		"gulp-purgecss": "^4.0.3",
 		"gulp-sass": "^5.0.0",
 		"gulp-terser": "^2.0.1",
-		"husky": "^7.0.1",
-		"lint-staged": "^11.1.2",
+		"nodemon": "^2.0.12",
+		"npm-run-all": "^4.1.5",
 		"prettier": "^2.3.2",
 		"sass": "^1.37.5"
 	},
-	"lint-staged": {
-		"*.js": "eslint --cache --fix",
-		"*.{js,css,md}": "prettier --write"
-	},
 	"dependencies": {
-		"gulp-htmlmin": "^5.0.1"
+		"express": "^4.17.1"
 	}
 }

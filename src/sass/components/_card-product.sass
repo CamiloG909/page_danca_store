@@ -1,0 +1,30 @@
+.card-product
+	display: grid
+	justify-content: center
+	grid-template: repeat(auto-fit, minmax(77px, 206px)) / 1fr
+	padding: 17px
+	text-align: center
+	border: 1px solid $dark-gray
+	background-color: $gray
+	transition: 0.1s all ease
+	&:hover
+		box-shadow: $shadow
+	&__img-container
+		margin: 0 auto
+		inline-size: 100%
+		block-size: 100%
+		text-align: center
+		border: 1px solid $dark-gray
+		background-color: $white
+		img
+			max-block-size: 100%
+			user-select: none
+	&__name
+		@include font(bold, 1.8rem, 2.2rem)
+	&__price
+		@include font(normal, 1.8rem, 2.5rem, $black, $second-font)
+	&__btn-more
+		@include btn-input__a
+		padding: 4px 18px
+		font-size: 1.4rem
+		line-height: 3rem

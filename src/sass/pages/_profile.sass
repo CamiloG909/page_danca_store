@@ -1,72 +1,68 @@
 .profile-section
-  @include flex-center
-  margin-block-start: 58px
-  min-block-size: 85vh
+	@include flex-center
+	margin-block-start: 58px
+	padding: 50px 0
 
 .profile-card
-  @include flex-center
-  inline-size: 860px
-  &__left
-    @include flex-center
-    inline-size: 232px
-    block-size: 232px
-    padding: 15px
-    border: 1px solid $dark-gray
-    background-color: $white
-    user-select: none
-    z-index: 1
-  &__img-container
-    @include flex-center
-    inline-size: 200px
-    block-size: 200px
-    border: 1px solid $dark-gray
-    img
-      inline-size: 198px
-      block-size: auto
-  &__right
-    max-inline-size: 580px
-    max-block-size: 500px
-    text-align: center
-    padding: 15px 30px 20px
-    border: 1px solid $dark-gray
-  &__name
-    margin: 5px 0
-    font-size: 3rem
-  &__title
-    font-size: 1.9rem
-    font-weight: bold
-    line-height: 4rem
-  &__line
-    margin: 10px 0
-    border: 1px solid $dark-gray
-  &__text
-    text-align: start
-    font-size: 1.9rem
-    line-height: 4rem
-  &__btn-logout
-    @include btn-input
-    @include btn-input__a
-    margin: 0 5px
-    padding: 5px 30px
-    line-height: 5rem
-    border: 3px solid $purple
-    &:hover
-      border: 3px solid $dark-purple
-  &__btn-icon-l
-    margin-inline-start: 5px
-    padding-block-end: 3px
-    font-size: 2.5rem
-  &__btn-update-profile
-    @include btn-input
-    @include btn-input__a
-    margin: 0 5px
-    padding: 5px 1px
-    border: 3px solid $purple
-    color: $purple
-    background-color: transparent
-    &:hover
-      border: 3px solid transparent
-      color: #ffff
-  &__btn-icon-u
-    padding-block-end: 3px
-    font-size: 3.5rem
+	@include flex-center
+	inline-size: 752px
+	min-block-size: 76vh
+	section
+		background-color: $gray
+	&__left
+		@include flex-center
+		inline-size: 232px
+		block-size: 232px
+		padding: 15px
+		border: 1px solid $dark-gray
+		background-color: $white
+		user-select: none
+		z-index: 1
+	&__img-container
+		@include flex-center
+		inline-size: 200px
+		block-size: 200px
+		border: 1px solid $dark-gray
+	&__right
+		inline-size: 520px
+		max-block-size: 500px
+		text-align: center
+		padding: 15px 30px 20px
+		border: 1px solid $dark-gray
+	&__name
+		margin: 5px 0
+		font-size: 3rem
+	&__title
+		@include font (bold,2rem,4rem)
+	&__line
+		margin: 6px 0
+		border: 1px solid $dark-gray
+	&__text
+		text-align: start
+		font-size: 1.9rem
+		line-height: 4rem
+	&__btn-logout
+		@include btn-input__a
+		margin: 0 5px
+		padding: 6.5px 40px
+		line-height: 5rem
+		border: 3px solid $purple
+		&:hover
+			border: 3px solid $dark-purple
+	&__btn-icon-l
+		margin-inline-start: 5px
+		padding-block-end: 3px
+		font-size: 2.5rem
+	&__btn-update-profile
+		@include btn-input__a
+		margin: 0 5px
+		padding: 6px 4.5px 7px
+		border: 3px solid $purple
+		color: $purple
+		background-color: transparent
+		&:hover
+			border: 3px solid transparent
+			color: #ffff
+	&__btn-icon-u
+		font-size: 3rem
+		vertical-align: middle

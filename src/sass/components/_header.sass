@@ -1,112 +1,115 @@
 // Header index
 .header-index
-  position: relative
-  inline-size: 100%
-  padding: 60px 15px 75px
-  text-align: center
-  background-color: $white
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23782bff' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E")
-  &__container
-    margin: 0 auto
-    max-inline-size: 700px
-  &__h1
-    margin: 30px 0
-    font-size: 3.5rem
-    color: $black
-  &__p
-    font-size: 2rem
-    font-weight: 500
-    color: $purple
+	position: relative
+	inline-size: 100%
+	padding: 60px 15px 75px
+	text-align: center
+	background-color: $white
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23782bff' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E")
+	&__container
+		margin: 0 auto
+		max-inline-size: 700px
+	&__h1
+		margin: 30px 0
+		font-size: 4rem
+		color: $black
+	&__p
+		@include font(500,2rem,normal,$purple)
 
 .header-index-btn
-  position: absolute
-  inset-block-end: -25px
-  inset-inline-start: calc( 50% - 88px )
-  @include flex-center
-  padding: 15px 20px
-  text-decoration: none
-  font-size: 1.4rem
-  font-weight: bold
-  user-select: none
-  border-radius: 5px
-  color: $black
-  background-color: $gray
-  box-shadow: $shadow
-  &__icon
-    margin-inline-start: 5px
-    font-size: 2.2rem
-  &:hover
-    background-color: $soft-purple
+	position: absolute
+	inset-block-end: -22px
+	inset-inline-start: calc( 50% - 88px )
+	@include flex-center
+	padding: 15px 20px
+	text-decoration: none
+	font-size: 1.4rem
+	font-weight: bold
+	user-select: none
+	border-radius: 5px
+	color: $black
+	background-color: $gray
+	box-shadow: $shadow
+	&__icon
+		margin-inline-start: 5px
+		font-size: 1.5rem
+	&:hover
+		background-color: $soft-purple
 // End header index
 
 // Header main
 .header
-  position: fixed
-  inset-block-start: 0
-  inset-inline-start: 0
-  display: grid
-  grid-template-columns: repeat(3, 1fr)
-  inline-size: 100%
-  block-size: 58px
-  box-shadow: $shadow-header
-  background-color: $white
-  user-select: none
-  z-index: 10
-  &__icon-menu
-    display: flex
-    align-items: center
-    justify-content: flex-start
-    padding-inline-start: 6%
-  &__container-isologo
-    display: flex
-    align-items: center
-    justify-content: center
-  &__icons-right
-    display: flex
-    align-items: center
-    justify-content: flex-end
-    padding-inline-end: 6%
-  &__a
-    cursor: default
-  &__icon
-    margin: 0 10px
-    font-size: 3.5rem
-    color: $black
-    cursor: pointer
-    &:hover
-      border-radius: 10px
-      background-color: $bg-icons
-      transition: 0.5s all ease
+	@include flex-center
+	position: fixed
+	inset-block-start: 0
+	inset-inline-start: 0
+	inline-size: 100%
+	block-size: 58px
+	box-shadow: $shadow-header
+	background-color: $white
+	user-select: none
+	z-index: 10
+	&__limit
+		display: grid
+		grid-template-columns: repeat(3, 1fr)
+		inline-size: 1700px
+	&__icon-menu
+		@include flex-center (flex-start)
+		padding-inline-start: 6%
+	&__container-isologo
+		@include flex-center
+	&__icons-right
+		@include flex-center (flex-end)
+		padding-inline-end: 6%
+	&__a
+		cursor: default
+	&__icon
+		margin: 0 6px
+		padding: 0 4.5px
+		font-size: 3rem
+		color: $black
+		cursor: pointer
+		border-radius: 10px
+		transition: 0.5s all ease
+		&:hover
+			background-color: $bg-icons
+		&:active
+			background-color: #0000002d
 // End header main
 
 // Header for help
 .header-help
-  position: fixed
-  inset-block-start: 0
-  inset-inline-start: 0
-  display: grid
-  grid-template-columns: repeat(3, 1fr)
-  inline-size: 100%
-  block-size: 58px
-  box-shadow: $shadow-header
-  background-color: $white
-  user-select: none
-  z-index: 10
-  &__container-isologo
-    grid-column: 2
-    display: flex
-    align-items: center
-    justify-content: center
-  &__a
-    display: flex
-    align-items: center
-    justify-content: flex-end
-    padding-inline-end: 8%
-    a
-      font-size: 1.6rem
-      color: $purple
-      &:hover
-        text-decoration: none
-        color: $dark-purple
+	@include flex-center
+	position: fixed
+	inset-block-start: 0
+	inset-inline-start: 0
+	inline-size: 100%
+	block-size: 58px
+	box-shadow: $shadow-header
+	background-color: $white
+	user-select: none
+	z-index: 10
+	&__limit
+		display: grid
+		grid-template-columns: repeat(3, 1fr)
+		inline-size: 1700px
+	&__container-isologo
+		grid-column: 2
+		display: flex
+		align-items: center
+		justify-content: center
+	&__a
+		display: flex
+		align-items: center
+		justify-content: flex-end
+		padding-inline-end: 8%
+		a
+			text-decoration: none
+			font-size: 1.4rem
+			color: $purple
+			transition: all 0.3s ease
+			&:hover
+				text-decoration: underline
+				color: $dark-purple
 // End header for help
 
