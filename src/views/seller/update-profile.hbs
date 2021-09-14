@@ -1,0 +1,95 @@
+{{>menu}}
+
+<section class="update-profile">
+	<div class="update-profile-form">
+		<h1 class="update-profile__title">
+			Actualizar informaci&oacuten
+		</h1>
+		<button class="update-profile-form__btn-image">
+			<i class="bi bi-pencil update-profile-form__btn-image-icon"></i>Cambiar imagen
+		</button>
+		<form action="/seller/user/update/{{resRows.id}}?_m=PUT" method="POST">
+		<input type="hidden" name="_m" value="PUT">
+			<input
+				class="update-profile-form__input"
+				type="text"
+				name="name"
+				placeholder="Nombre"
+				autocomplete="name"
+				value="{{resRows.name}}"
+				required
+			/>
+			<input
+				class="update-profile-form__input"
+				type="text"
+				name="last_name"
+				placeholder="Apellido"
+				autocomplete="additional-name"
+				value="{{resRows.last_name}}"
+				required
+			/>
+			<input
+				class="update-profile-form__input"
+				type="email"
+				name="email"
+				placeholder="Email"
+				autocomplete="email"
+				value="{{resRows.email}}"
+				required
+			/>
+			<input
+				class="update-profile-form__input"
+				type="number"
+				name="phone_number"
+				placeholder="Teléfono"
+				maxlength="14"
+				autocomplete="mobile"
+				value="{{resRows.phone_number}}"
+				required
+			/>
+			<input
+				class="update-profile-form__input"
+				type="text"
+				name="town"
+				placeholder="Ciudad"
+				autocomplete="country-name"
+				value="{{resRows.town}}"
+				required
+			/>
+			<input
+				class="update-profile-form__input"
+				type="text"
+				name="address"
+				placeholder="Dirección (Casa, apartamento, etc...)"
+				autocomplete="street-address"
+				value="{{resRows.address}}"
+				required
+			/>
+			<input
+				class="update-profile-form__input"
+				type="password"
+				name="password"
+				placeholder="Contraseña nueva"
+				autocomplete="current-password"
+				value=""
+			/>
+			<input
+				class="update-profile-form__confirm-password"
+				type="password"
+				name="confirm_password"
+				placeholder="Contraseña actual"
+				title="Debe ingresar su contraseña actual para continuar"
+				autocomplete="current-password"
+				required
+			/>
+			<input
+				class="update-profile-form__btn-save"
+				type="submit"
+				value="Guardar cambios"
+			/>
+		</form>
+			<a href="/seller/user/{{resRows.id}}" class="update-profile-form__redirection"
+				>Volver a mi perfil</a
+			>
+	</div>
+</section>

@@ -1,0 +1,69 @@
+{{>menu}}
+
+<section class="title-page">
+	<p>{{category}}</p>
+</section>
+
+<section class="shopping-history-container">
+
+{{#if response.rows}}
+
+	{{#each response.rows}}
+
+	<article class="product-history">
+		<figure class="product-history__img-container">
+			<img src="{{#if picture}}{{picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}" alt="Imagen del producto" />
+		</figure>
+		<section class="product-history__info">
+			<div>
+				<p class="product-history__name">{{name}}</p>
+				<p class="product-history__price">$ {{priceFormatted}}</p>
+				<p class="product-history__text">Fecha de compra: {{order_date}}</p>
+				<p class="product-history__text">N° de compra: {{id}}</p>
+			</div>
+		</section>
+			{{#if statusPending}}
+			<section class="product-history__status--orange">
+			<div>
+				<p class="product-history__status-title">
+					<i class="bi bi-hourglass-split product-history__status-icons"></i>
+					Llega mañana
+				</p>
+				<p class="product-history__status-subtitle">Preparando</p>
+
+			{{else if statusWay}}
+			<section class="product-history__status--green">
+			<div>
+				<p class="product-history__status-title">
+								<i class="bi bi-box-seam product-history__status-icons"></i>
+								Llega hoy
+							</p>
+							<p class="product-history__status-subtitle">En camino</p>
+			{{else if statusDelivered}}
+			<section class="product-history__status">
+			<div>
+				<p class="product-history__status-title">
+								<i class="bi bi-bag-check product-history__status-icons"></i>
+								Entregado
+							</p>
+							<p class="product-history__status-subtitle">{{delivery_date}}</p>
+			{{/if}}
+				</p>
+			</div>
+		</section>
+	</article>
+
+	{{/each}}
+
+	{{else}}
+
+	<figure class="shopping-history-fail">
+		<div>
+			<p class="shopping-history-fail__text">Aún no has hecho ninguna compra</p>
+			<p class="shopping-history-fail__face">:(</p>
+		</div>
+	</figure>
+
+{{/if}}
+
+</section>

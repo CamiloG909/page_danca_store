@@ -1,0 +1,67 @@
+{{#if headerSkeleto}}
+	<header class="header-help">
+		<figure class="header-help__container-isologo">
+			<img src="/assets/img/isologo-black.png" alt="Isologo del header" />
+		</figure>
+	</header>
+{{else if headerHelp}}
+	<header class="header-help">
+		<div class="header-help__limit">
+			<figure class="header-help__container-isologo">
+				<a href="/"
+					><img src="/assets/img/isologo-black.png" alt="Isologo del header"
+				/></a>
+			</figure>
+			<div class="header-help__a">
+				<a href="/help" target="_blank">Ayuda</a>
+			</div>
+		</div>
+	</header>
+{{else if headerClient}}
+	<header class="header">
+		<div class="header__limit">
+			<section class="header__icon-menu">
+				<label for="header__btn-menu"
+					><i class="bi bi-list header__icon"></i
+				></label>
+			</section>
+			<figure class="header__container-isologo">
+				<a href="/home"
+					><img src="/assets/img/isologo-black.png" alt="Isologo del header"
+				/></a>
+			</figure>
+			<section class="header__icons-right">
+				{{#each user.rows}}
+				<a href="/cart" class="header__a"
+					><i class="bi bi-cart3 header__icon"></i
+				></a>
+				<a href="/user/{{id}}" class="header__a"
+					><i class="bi bi-person header__icon"></i
+				></a>
+				{{/each}}
+			</section>
+		</div>
+	</header>
+{{else if headerSeller}}
+<header class="header">
+		<div class="header__limit">
+			<section class="header__icon-menu">
+				<label for="header__btn-menu"
+					><i class="bi bi-list header__icon"></i
+				></label>
+			</section>
+			<figure class="header__container-isologo">
+				<a href="/home"
+					><img src="/assets/img/isologo-black.png" alt="Isologo del header"
+				/></a>
+			</figure>
+			<section class="header__icons-right">
+				{{#each user.rows}}
+				<a href="/seller/user/{{id}}" class="header__a"
+					><i class="bi bi-person header__icon"></i
+				></a>
+				{{/each}}
+			</section>
+		</div>
+	</header>
+{{/if}}

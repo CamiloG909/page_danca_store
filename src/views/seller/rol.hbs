@@ -1,0 +1,15 @@
+{{>menu}}
+
+<section class="select-rol">
+	<div class="select-rol-box">
+		<p class="select-rol-box__text">Hola, por favor elige una opción para ingresar</p>
+		<i class="bi bi-caret-down-fill select-rol-box__select-arrow"></i>
+		<form action="/seller/destiny" method="POST">
+			<select name="rol" class="select-rol-box__select">
+				<option value="seller" default>Vendedor</option>
+				<option value="client">Cliente</option>
+			</select>
+			<input class="select-rol-box__btn" type="submit" value="Continuar">
+		</form>
+	</div>
+</section>

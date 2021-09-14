@@ -9,6 +9,16 @@
 	max-inline-size: 750px
 	min-block-size: 76vh
 
+.shopping-history-fail
+	padding-block-start: 15px
+	text-align: center
+	&__text
+		@include font(bold, 2rem, normal, $text-gray)
+	&__face
+		font-size: 30rem
+		color: $text-gray
+		user-select: none
+
 .product-history
 	display: grid
 	grid-template-columns: 150px 407px 170px
@@ -58,4 +68,3 @@
 		&--green
 			@extend .product-history__status
 			color: $green
-

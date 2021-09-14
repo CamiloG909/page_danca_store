@@ -1,0 +1,30 @@
+{{>menu}}
+
+{{#if category}}
+<section class="title-page">
+	<p>{{category}}</p>
+</section>
+{{/if}}
+
+<section class="products-cards-container">
+
+{{#each response.rows}}
+
+<article class="card-product">
+		<figure class="card-product__img-container">
+			<img
+				loading="lazy"
+				src="{{#if picture}}{{picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}"
+				alt="Imagen del producto"
+			/>
+		</figure>
+		<div class="card-product__text-container">
+			<p class="card-product__name">{{name}}</p>
+			<p class="card-product__price">$ {{priceFormatted}}</p>
+			<a href="/product/{{id}}" class="card-product__btn-more">Ver más...</a>
+		</div>
+	</article>
+
+{{/each}}
+
+</section>

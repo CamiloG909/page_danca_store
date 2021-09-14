@@ -1,0 +1,15 @@
+{{#if success_msg}}
+<div class="message-container" id="message-container">
+	<div class="message message--succesfully" id="message">
+	<p class="message__text">{{success_msg}}</p>
+	</div>
+</div>
+{{/if}}
+
+{{#if error_msg}}
+<div class="message-container" id="message-container">
+	<div class="message message--error" id="message">
+	<p class="message__text">{{error_msg}}</p>
+	</div>
+</div>
+{{/if}}

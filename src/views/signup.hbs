@@ -1,0 +1,113 @@
+<section class="signup">
+	<figure class="signup__img-container">
+		<img
+			src="/assets/img/signup.jpg"
+			alt="Imagen de la página de registro"
+		/>
+	</figure>
+	<section class="signup__form-container">
+		<div class="signup-form">
+			<form action="/signup" method="POST">
+				<h1 class="signup-form__title">Crear cuenta</h1>
+				<input
+					class="signup-form__input"
+					type="text"
+					name="name"
+					placeholder="Nombre"
+					autocomplete="name"
+					value="{{name}}"
+					required
+				/>
+				<input
+					class="signup-form__input"
+					type="text"
+					name="last_name"
+					placeholder="Apellido"
+					autocomplete="additional-name"
+					value="{{last_name}}"
+					required
+				/><br />
+				<select
+					class="signup-form__input signup-form__input--select"
+					name="document_type"
+					title="Selecciona el tipo de documento"
+					required
+				>
+					<option value="CC">C.C</option>
+					<option value="CE">C.E</option>
+				</select>
+				<label>
+					<input
+						class="signup-form__input signup-form__input--short"
+						type="number"
+						name="document_number"
+						placeholder="Número de documento"
+						maxlength="12"
+						autocomplete="cc-number"
+						value="{{document_number}}"
+						required
+					/>
+					<p class="signup-form__only-numbers">*Solo n&uacutemeros</p>
+				</label>
+				<input
+					class="signup-form__input"
+					type="email"
+					name="email"
+					placeholder="Email"
+					autocomplete="email"
+					value="{{email}}"
+					required
+				/>
+				<input
+					class="signup-form__input"
+					type="number"
+					name="phone_number"
+					placeholder="Teléfono"
+					maxlength="14"
+					autocomplete="mobile"
+					value="{{phone_number}}"
+					required
+				/>
+				<input
+					class="signup-form__input"
+					type="text"
+					name="town"
+					placeholder="Ciudad"
+					autocomplete="country-name"
+					value="{{town}}"
+					required
+				/>
+				<input
+					class="signup-form__input"
+					type="text"
+					name="address"
+					placeholder="Dirección (Casa, apartamento, etc...)"
+					autocomplete="street-address"
+					value="{{address}}"
+					required
+				/>
+				<input
+					class="signup-form__input"
+					type="password"
+					name="password"
+					placeholder="Contraseña"
+					autocomplete="current-password"
+					value="{{password}}"
+					required
+				/>
+				<input
+					class="signup-form__btn"
+					type="submit"
+					value="Registrarse"
+				/>
+			</form>
+			<p class="signup-form__redirection">
+				¿Ya tienes una cuenta?
+				<a href="/#signin-index"
+					>Inicia sesi&oacuten</a
+				>
+			</p>
+
+		</div>
+	</section>
+</section>

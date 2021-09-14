@@ -1,0 +1,36 @@
+{{>menu}}
+
+<section class="profile-section">
+	<div class="profile-card">
+		<section class="profile-card__left">
+			<figure class="profile-card__img-container" >
+				<img src="{{#if resRows.image_url}}{{resRows.image_url}}{{else}}/assets/img/defaultProfile.png{{/if}}" alt="Imagen del perfil" />
+			</figure>
+		</section>
+		<section class="profile-card__right">
+			<h1 class="profile-card__name">{{resRows.name}} {{resRows.last_name}}</h1>
+			<p class="profile-card__title">PERFIL</p>
+			<hr class="profile-card__line" />
+			<p class="profile-card__text">
+				<b>CORREO: </b>{{resRows.email}}
+			</p>
+			<p class="profile-card__text"><b>TEL&EacuteFONO: </b>{{resRows.phone_number}}</p>
+			<p class="profile-card__text"><b>N° DOCUMENTO: </b>{{resRows.document_number}}</p>
+			<p class="profile-card__text"><b>CIUDAD: </b>{{resRows.town}}</p>
+			<p class="profile-card__text">
+				<b>DIRECCI&OacuteN DE ENV&IacuteO: </b>{{resRows.address}}
+			</p>
+			<a href="/logout" class="profile-card__btn-logout"
+				>Cerrar sesi&oacuten
+			</a
+			>
+			<a
+				href="/seller/user/update/{{resRows.id}}"
+				class="profile-card__btn-update-profile"
+				title="Actualizar información"
+				>
+				<i class="bi bi-gear-fill profile-card__btn-icon-u"></i></a
+			>
+		</section>
+	</div>
+</section>

@@ -1,0 +1,70 @@
+{{#if menuSeller}}
+<input type="checkbox" id="header__btn-menu" />
+<section class="lateral-menu">
+	<label for="header__btn-menu"><i class="bi bi-x-lg lateral-menu__icon-close"></i></label>
+	<img src="/assets/img/isologo-black.png" alt="Isologo del menú" class="lateral-menu__isologo" />
+	<ul class="lateral-menu__ul">
+		<li>
+			<a href="/seller" class="lateral-menu__a"><i class="bi bi-house-door lateral-menu__icon"></i> INICIO</a>
+		</li>
+		<li>
+			<a href="/seller/list" class="lateral-menu__a"><i class="bi bi-receipt lateral-menu__icon"></i> LISTA DE
+				COMPRAS</a>
+		</li>
+		<li>
+			<a href="/seller/suppliers" class="lateral-menu__a"><i class="bi bi-archive lateral-menu__icon"></i> PROVEEDORES</a>
+		</li>
+		<li>
+			<a href="/seller/suppliers/add" class="lateral-menu__a"><i class="bi bi-plus-circle lateral-menu__icon"></i> AÑADIR PROVEEDOR</a>
+		</li>
+		{{#each user.rows}}
+		<li>
+			<a href="/seller/user/{{id}}" class="lateral-menu__a"><i class="bi bi-person lateral-menu__icon"></i> MI PERFIL</a>
+		</li>
+		{{/each}}
+		<li>
+			<a href="/logout" class="lateral-menu__a"><i class="bi bi-door-open lateral-menu__icon"></i> CERRAR
+				SESIÓN</a>
+		</li>
+	</ul>
+</section>
+{{else}}
+<input type="checkbox" id="header__btn-menu" />
+<section class="lateral-menu">
+	<label for="header__btn-menu"><i class="bi bi-x-lg lateral-menu__icon-close"></i></label>
+	<img src="/assets/img/isologo-black.png" alt="Isologo del menú" class="lateral-menu__isologo" />
+	<ul class="lateral-menu__ul">
+		<li>
+			<a href="/home" class="lateral-menu__a"><i class="bi bi-house-door lateral-menu__icon"></i> INICIO</a>
+		</li>
+		<li>
+			<a href="/category/computers" class="lateral-menu__a"><i class="bi bi-laptop lateral-menu__icon"></i>
+				COMPUTADORES</a>
+		</li>
+		<li>
+			<a href="/category/phones" class="lateral-menu__a"><i class="bi bi-phone lateral-menu__icon"></i> CELULARES</a>
+		</li>
+		<li>
+			<a href="/cart" class="lateral-menu__a"><i class="bi bi-cart3 lateral-menu__icon"></i> CARRITO DE
+				COMPRAS</a>
+		</li>
+		{{#each user.rows}}
+		<li>
+			<a href="/history/{{id}}" class="lateral-menu__a"><i class="bi bi-clock-history lateral-menu__icon"></i>
+				HISTORIAL DE COMPRAS</a>
+		</li>
+		<li>
+			<a href="/user/{{id}}" class="lateral-menu__a"><i class="bi bi-person lateral-menu__icon"></i> MI PERFIL</a>
+		</li>
+		{{/each}}
+		<li>
+			<a href="/help" class="lateral-menu__a" target="_blank"><i class="bi bi-question-circle lateral-menu__icon"></i>
+				AYUDA</a>
+		</li>
+		<li>
+			<a href="/logout" class="lateral-menu__a"><i class="bi bi-door-open lateral-menu__icon"></i> CERRAR
+				SESIÓN</a>
+		</li>
+	</ul>
+</section>
+{{/if}}
