@@ -13,3 +13,19 @@
 	</div>
 </div>
 {{/if}}
+
+{{#if error_text}}
+<div class="message-container" id="message-container">
+	<div class="message message--error" id="message">
+	<p class="message__text">{{error_text}}</p>
+	</div>
+</div>
+{{/if}}
+
+{{#each errors}}
+<div class="message-container" id="message-container">
+	<div class="message message--error" id="message">
+	<p class="message__text">{{error}}</p>
+	</div>
+</div>
+{{/each}}

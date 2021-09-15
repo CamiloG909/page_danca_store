@@ -17,6 +17,7 @@
 				placeholder="Nombre"
 				autocomplete="name"
 				value="{{resRows.name}}"
+				title="Digite su nombre"
 				required
 			/>
 			<input
@@ -26,6 +27,7 @@
 				placeholder="Apellido"
 				autocomplete="additional-name"
 				value="{{resRows.last_name}}"
+				title="Digite su apellido"
 				required
 			/>
 			<input
@@ -35,6 +37,7 @@
 				placeholder="Email"
 				autocomplete="email"
 				value="{{resRows.email}}"
+				title="Digite su correo electrónico"
 				required
 			/>
 			<input
@@ -45,6 +48,7 @@
 				maxlength="14"
 				autocomplete="mobile"
 				value="{{resRows.phone_number}}"
+				title="Digite su número de teléfono"
 				required
 			/>
 			<input
@@ -54,6 +58,7 @@
 				placeholder="Ciudad"
 				autocomplete="country-name"
 				value="{{resRows.town}}"
+				title="Es importante su ciudad para realizar los envíos"
 				required
 			/>
 			<input
@@ -63,6 +68,7 @@
 				placeholder="Dirección (Casa, apartamento, etc...)"
 				autocomplete="street-address"
 				value="{{resRows.address}}"
+				title="Es importante su dirección para realizar los envíos"
 				required
 			/>
 			<input
@@ -72,14 +78,15 @@
 				placeholder="Contraseña nueva"
 				autocomplete="current-password"
 				value=""
+				title="Digite una contraseña segura"
 			/>
 			<input
 				class="update-profile-form__confirm-password"
 				type="password"
 				name="confirm_password"
 				placeholder="Contraseña actual"
-				title="Debe ingresar su contraseña actual para continuar"
 				autocomplete="current-password"
+				title="Debe ingresar su contraseña actual para continuar"
 				required
 			/>
 			<input

@@ -1,5 +1,5 @@
-{{#each errors}}
-<p class="signup-form__redirection">
-	{{errors}}
-</p>
-{{/each}}
+{{#if error}}
+<div class="message-signin" id="message-signin">
+	<p class="message-signin__text"><i class="bi bi-exclamation-circle-fill"></i> {{error}}</p>
+</div>
+{{/if}}
