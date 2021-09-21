@@ -1,6 +1,7 @@
 .section-index-seller
 	margin: 58px 0
 	padding-block-start: 35px
+	min-block-size: 69.1vh
 
 .index-seller-container
 	margin: 0 auto
@@ -47,10 +48,11 @@
 	margin-inline-start: 6px
 
 .add-product-form
-	display: none
+	block-size: 0
 	margin-block-start: 10px
-	padding-block-end: 94px
 	text-align: center
+	overflow: hidden
+	transition: all 0.5s
 	&__title
 		margin: 0
 		@include font(bold,3rem,4rem,$purple)
@@ -71,4 +73,3 @@
 	&__btn-save
 		@include btn-input
 		margin-block-start: 29px
-

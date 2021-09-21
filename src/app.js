@@ -70,11 +70,13 @@ const closeChoiceMenuProfile = () => {
 const formAddProducts = () => {
 	let addProductForm = document.querySelector('.add-product-form');
 	const boxIcons = document.querySelector('.seller-add-products');
-	boxIcons.classList.toggle('after-box-add-products');
-	if (addProductForm.style.display === 'block') {
-		addProductForm.style.display = 'none';
+	setTimeout(() => boxIcons.classList.toggle('after-box-add-products'), 300);
+	if (addProductForm.style.height === '1250px') {
+		addProductForm.style.height = 0;
+		addProductForm.style.paddingBottom = 0;
 	} else {
-		addProductForm.style.display = 'block';
+		addProductForm.style.height = '1250px';
+		addProductForm.style.paddingBottom = '20px';
 	}
 };
 

@@ -23,8 +23,7 @@ router
 	.get(isAuthenticatedSeller, renderRol)
 	.post(isAuthenticatedSeller, redirectionSeller);
 
-//router.get('/seller', isAuthenticatedSeller, renderHome);
-router.get('/seller', renderHome);
+router.get('/seller', isAuthenticatedSeller, renderHome);
 
 router.post('/seller/product/add', isAuthenticatedSeller, addProduct);
 

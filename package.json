@@ -1,6 +1,6 @@
 {
 	"name": "danca_store",
-	"version": "2.2.0",
+	"version": "2.2.1",
 	"description": "Tienda online para la compra de celulares y computadores de forma rápida y segura",
 	"main": "src/index.js",
 	"scripts": {
