@@ -7,7 +7,6 @@
 	padding-block-start: 30px
 	inline-size: 98%
 	max-inline-size: 1008px
-	min-block-size: 76vh
 	&--fail
 		@extend .shopping-cart-container
 		display: block
@@ -22,7 +21,7 @@
 
 .product-cart
 	display: grid
-	grid-template-columns: 150px 372px 130px
+	grid-template-columns: 150px 360px 132px
 	padding: 20px 0 20px 0
 	max-inline-size: 655px
 	border: 1px solid $dark-gray
@@ -49,28 +48,21 @@
 		@extend .product-cart__name
 		font-family: $second-font
 		color: $text-gray
+	&__color
+		@include font(normal,1.9rem,normal,$text-gray)
 	&__amount
 		@include flex-center
 		&-title
-			@include font (bold, 2rem, 5rem)
+			@include font (bold, 2rem, 2.5rem)
+			text-align: center
 		&-number
 			@extend .product-cart__amount-title
+			font-weight: normal
+			font-family: $second-font
 			text-align: center
-			user-select: none
-			span
-				font-weight: normal
-				font-family: $second-font
-	&__icons
-		margin: 0 5px
-		padding: 2px 4px 0
-		font-size: 1.8rem
-		cursor: pointer
-		transition: 0.3s all ease
-		&:hover
-			border-radius: 5px
-			background-color: $bg-icons
 
 .total-value-cart
+	position: relative
 	margin-block-end: 49vh
 	padding: 10px 20px 20px 20px
 	max-inline-size: 353px
@@ -101,3 +93,20 @@
 		inline-size: 70%
 		&-icon
 			margin-inline-start: 10px
+
+.delete-products-cart
+	position: absolute
+	inset-inline-start: calc( 50% - 99px )
+	inset-block-end: -35px
+	inline-size: 198px
+	block-size: 25px
+	font-weight: bold
+	font-size: 1.4rem
+	color: $white
+	border: none
+	border-radius: 15px
+	background-color: $red
+	cursor: pointer
+	transition: all 0.3s ease
+	&:hover
+		background-color: $dark-red

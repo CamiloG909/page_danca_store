@@ -14,6 +14,23 @@
 </div>
 {{/if}}
 
+{{#if payComplete_msg}}
+<section class="container-modal-cart" id="modal-pay-complete">
+	<div class="pay-complete">
+		<i class="bi bi-x-circle pay-complete__icon-close" onclick="closeModalCart()"></i>
+		<p class="pay-complete__title">PAGO EXITOSO</p>
+		<i class="bi bi-check2-circle pay-complete__icon-check"></i>
+		<p class="pay-complete__text">Gracias por comprar en Danca Store</p>
+		<hr class="pay-complete__line">
+		<div class="pay-complete__redirection">
+		<p class="pay-complete__goto">Ir a: </p>
+		<a class="pay-complete__btn-redirection --home" href="/home">Inicio</a>
+		<a class="pay-complete__btn-redirection --history" href="/history">Mis compras</a>
+		</div>
+	</div>
+</section>
+{{/if}}
+
 {{#if error_text}}
 <div class="message-container" id="message-container">
 	<div class="message message--error" id="message">

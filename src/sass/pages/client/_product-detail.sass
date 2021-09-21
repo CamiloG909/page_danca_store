@@ -47,11 +47,16 @@
 		max-block-size: 361px
 		border: 1px solid $dark-gray
 		background-color: $white
+		overflow: hidden
 		img
 			position: absolute
-			inline-size: 100%
+			margin: auto
+			inset-block-start: 0
+			inset-block-end: 0
+			inset-inline-start: 0
+			inset-inline-end: 0
 			max-inline-size: 359px
-			min-block-size: 359px
+			max-block-size: 359px
 		input[type="radio"]
 			display: none
 			&:checked~img

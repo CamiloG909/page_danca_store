@@ -66,8 +66,23 @@ indexController.signup = async (req, res) => {
 		address.length == 0 ||
 		password.length == 0
 	) {
-		req.flash('error_msg', 'Por favor llena los campos');
-		res.redirect('/signup');
+		errors.push({
+			error: 'Por favor llena los campos',
+		});
+		res.render('signup', {
+			errors,
+			headerHelp: true,
+			title: 'Registrarse | Danca Store',
+			name,
+			last_name,
+			document_type,
+			document_number,
+			email,
+			phone_number,
+			town,
+			address,
+			password,
+		});
 	} else {
 		if (document_number.length > 12) {
 			errors.push({

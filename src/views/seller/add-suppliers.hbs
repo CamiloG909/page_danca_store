@@ -1,0 +1,16 @@
+{{>menu}}
+
+<section class="section-add-suppliers">
+	<div class="add-supplier-form">
+		<h1 class="add-supplier-form__title">Añadir proveedor</h1>
+		<form action="/seller/suppliers/add" method="POST">
+			<input class="add-supplier-form__input" type="text" name="company_name" placeholder="Nombre" title="Introduzca el nombre del proveedor" value="{{company_name}}" required>
+			<input class="add-supplier-form__input" type="number" name="phone_number" placeholder="Teléfono" title="Introduzca el número de teléfono" value="{{phone_number}}" required>
+			<input class="add-supplier-form__input" type="text" name="town" placeholder="Ciudad" title="Introduzca la ciudad" value="{{town}}" required>
+			<input class="add-supplier-form__input" type="text" name="address" placeholder="Dirección" title="Introduzca la dirección" value="{{address}}" required>
+			<input class="add-supplier-form__input" type="email" name="email" placeholder="Email" title="Introduzca el email" value="{{email}}" required>
+			<input class="add-supplier-form__btn-save" type="submit" value="Guardar">
+			<a class="add-supplier-form__redirection" href="/seller/suppliers">Ver proveedores</a>
+		</form>
+	</div>
+</section>

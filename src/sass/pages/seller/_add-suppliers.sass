@@ -1,0 +1,29 @@
+.section-add-suppliers
+	margin-block-start: 58px
+
+.add-supplier-form
+	inline-size: 430px
+	padding-block-end: 100px
+	margin: 85px auto 0
+	text-align: center
+	&__title
+		margin: 5px 0
+		font-size: 4rem
+		color: $purple
+	&__input
+		@include input-form
+	&__btn-save
+		@include btn-input
+		margin: 16px 0 13px
+	&__redirection
+		padding: 1px 156.1px
+		@include font(bold,1.4rem,normal,$purple)
+		text-decoration: none
+		border: 3px solid $purple
+		border-radius: 15px
+		background-color: $white
+		transition: all 0.3s ease
+		&:hover
+			color: $white
+			border: 3px solid $dark-purple
+			background-color: $dark-purple

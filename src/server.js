@@ -1,7 +1,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const path = require('path');
-const morgan = require('morgan');
 const methodoverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
@@ -25,7 +24,6 @@ app.engine(
 app.set('view engine', '.hbs');
 
 // Middlewares
-app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(methodoverride('_m'));
 app.use(
@@ -43,6 +41,7 @@ app.use(flash());
 app.use((req, res, next) => {
 	res.locals.success_msg = req.flash('success_msg');
 	res.locals.error_msg = req.flash('error_msg');
+	res.locals.payComplete_msg = req.flash('payComplete_msg');
 	res.locals.error_text = req.flash('error_text');
 	res.locals.error = req.flash('error');
 	res.locals.user = req.user || null;

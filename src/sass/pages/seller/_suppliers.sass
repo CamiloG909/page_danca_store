@@ -1,0 +1,51 @@
+.section-suppliers
+	margin-block-start: 58px
+	min-block-size: 100px
+
+.supplier-card-container
+	display: grid
+	justify-content: center
+	gap: 15px
+	grid-template-columns: 367.5px 367.5px
+	grid-template-rows: auto
+	margin: 0 auto
+	padding: 30px 0 100px
+	inline-size: 750px
+
+.supplier-card
+	position: relative
+	padding: 17px 20px 20px
+	inline-size: 100%
+	block-size: 140px
+	border: 1px solid $dark-gray
+	background-color: $gray
+	overflow: hidden
+	&__name
+		position: relative
+		font-weight: bold
+		font-size: 1.8rem
+	&__icon-status
+		position: absolute
+		inset-block-start: 5px
+		margin: 0 10px
+		font-size: 1rem
+		&.--active
+			color: $green
+		&.--inactive
+			color: $red
+	&__text
+		@include font(normal,1.6rem,normal,$text-gray)
+	&__icon-edit
+		position: absolute
+		inset-block-start: calc( 50% - 14.5px )
+		inset-inline-end: 20px
+		padding: 5px 5px 0
+		font-size: 2.9rem
+		color: $purple
+		border-radius: 10px
+		transition: 0.5s all ease
+		cursor: pointer
+		&:hover
+			background-color: $bg-icons
+		&:active
+			background-color: #0000002d

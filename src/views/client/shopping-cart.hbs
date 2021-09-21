@@ -1,98 +1,68 @@
-
 {{>menu}}
 
 <section class="title-page">
 	<p>{{category}}</p>
 </section>
-{{#if response.rows}}
+
+{{#if detailsProduct}}
 
 <section class="shopping-cart-container">
 	<section class="products-shopping-cart">
+		{{#each detailsProduct}}
 		<article class="product-cart">
 			<figure class="product-cart__img-container">
-				<img src="/assets/img/cart/1.jpg" alt="Imagen del producto" />
+				<img src="{{#if picture}}{{picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}" alt="Imagen del producto" />
 			</figure>
 			<section class="product-cart__text">
 				<div>
-					<p class="product-cart__name">MacBook Air MQD32E/A</p>
-					<p class="product-cart__price">$ 3.479.000</p>
+					<p class="product-cart__name">{{name}}</p>
+					<p class="product-cart__price">$ {{price}}</p>
+					{{#if color}}
+					<p class="product-cart__color">Color: {{color}}</p>
+					{{/if}}
 				</div>
 			</section>
 			<section class="product-cart__amount">
 				<div>
 					<p class="product-cart__amount-title">Cantidad</p>
-					<p class="product-cart__amount-number">
-						<i class="bi bi-dash-square product-cart__icons" title="Reducir"></i>
-						<span id="product-cart__amount-number">1</span>
-						<i class="bi bi-plus-square product-cart__icons" title="Aumentar"></i>
-					</p>
+					<p class="product-cart__amount-number">{{amount}}
+						<p class="product-cart__amount-title">Referencia</p>
+						<p class="product-cart__amount-number">{{reference}}
+						</p>
 				</div>
 			</section>
 		</article>
-		<article class="product-cart">
-			<figure class="product-cart__img-container">
-				<img src="/assets/img/cart/2.png" alt="Imagen del producto" />
-			</figure>
-			<section class="product-cart__text">
-				<div>
-					<p class="product-cart__name">ACER A515-56G-72RX</p>
-					<p class="product-cart__price">$ 3.499.000</p>
-				</div>
-			</section>
-			<section class="product-cart__amount">
-				<div>
-					<p class="product-cart__amount-title">Cantidad</p>
-					<p class="product-cart__amount-number">
-						<i class="bi bi-dash-square product-cart__icons" title="Reducir"></i>
-						<span id="product-cart__amount-number">1</span>
-						<i class="bi bi-plus-square product-cart__icons" title="Aumentar"></i>
-					</p>
-				</div>
-			</section>
-		</article>
-		<article class="product-cart">
-			<figure class="product-cart__img-container">
-				<img src="/assets/img/cart/3.jpeg" alt="Imagen del producto" />
-			</figure>
-			<section class="product-cart__text">
-				<div>
-					<p class="product-cart__name">Motorola G9 Plus</p>
-					<p class="product-cart__price">$ 899.900</p>
-				</div>
-			</section>
-			<section class="product-cart__amount">
-				<div>
-					<p class="product-cart__amount-title">Cantidad</p>
-					<p class="product-cart__amount-number">
-						<i class="bi bi-dash-square product-cart__icons" title="Reducir"></i>
-						<span id="product-cart__amount-number">1</span>
-						<i class="bi bi-plus-square product-cart__icons" title="Aumentar"></i>
-					</p>
-				</div>
-			</section>
-		</article>
+		{{/each}}
 	</section>
 
 	<section class="total-value-cart">
 		<p class="total-value-cart__title">Valor total</p>
-		<p class="total-value-cart__product">
-			MacBook Air MQD32E/A<span> x 1</span>
-		</p>
-		<p class="total-value-cart__product">
-			ACER A515-56G-72RX<span> x 1</span>
-		</p>
-		<p class="total-value-cart__product">
-			Motorola G9 Plus<span> x 1</span>
-		</p>
-		<hr class="total-value-cart__line" />
-		<p class="total-value-cart__total"><span>$ </span>7.877.900</p>
-		<button class="total-value-cart__btn-pay">
-			Ir a pagar<i class="bi bi-cash-coin total-value-cart__btn-pay-icon"></i>
-		</button>
+		<form action="/cart/pay" method="POST">
+			{{#each detailsProduct}}
+			<input type="hidden" name="user" value="{{user}}">
+			<input type="hidden" name="product" value="{{product}}">
+			<input type="hidden" name="amount" value="{{amount}}">
+			<input type="hidden" name="color" value="{{color}}">
+			<p class="total-value-cart__product">
+				{{name}}<span> x{{amount}}</span>
+			</p>
+			{{/each}}
+			<hr class="total-value-cart__line" />
+			<p class="total-value-cart__total"><span>$ </span>{{#if total}}{{total.total}}{{/if}}</p>
+			<button class="total-value-cart__btn-pay">
+				Ir a pagar<i class="bi bi-cash-coin total-value-cart__btn-pay-icon"></i>
+			</button>
+		</form>
+		<form action="/cart/clear" method="POST">
+			<button class="delete-products-cart">
+				<i class="bi bi-x-circle-fill"></i> Eliminar productos
+			</button>
+		</form>
 	</section>
 </section>
 
 {{else}}
+
 <section class="shopping-cart-container--fail">
 	<figure class="shopping-history-fail">
 		<div>
@@ -103,4 +73,3 @@
 </section>
 
 {{/if}}
-

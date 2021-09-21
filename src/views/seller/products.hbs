@@ -1,5 +1,47 @@
 {{>menu}}
 
-<h1>You are seller</h1>
-<h1>You are seller</h1>
-<h1>You are seller</h1>
+<section class="section-index-seller">
+	<div class="index-seller-container" id="container-seller-home">
+		<article class="seller-index-box seller-add-products">
+			<i class="bi bi-clipboard-plus seller-index-box__icon"></i>
+			<p class="seller-index-box__text">Agregar productos</p>
+			<i class="bi bi-chevron-compact-down seller-index-box__icon-arrow" id="open-add-product-form" onclick="formAddProducts()"></i>
+		</article>
+		<article class="seller-index-box seller-show-products">
+			<i class="bi bi-folder seller-index-box__icon"></i>
+			<p class="seller-index-box__text">Productos</p>
+			<i class="bi bi-chevron-compact-down seller-index-box__icon-arrow"></i>
+		</article>
+
+		<section class="add-product-form">
+			<h1 class="add-product-form__title">Añadir producto</h1>
+			<form action="/seller/product/add" method="POST">
+				<input class="add-product-form__input" type="number" name="reference" placeholder="Referencia"
+					title="Referencia del producto" required />
+				<input class="add-product-form__input" type="text" name="name" placeholder="Nombre" title="Nombre del producto" value="{{name}}"
+					required />
+				<input class="add-product-form__input" type="number" min="1000" name="price" placeholder="Precio"
+					title="No son necesarios los puntos" value="{{price}}" required />
+				<textarea class="add-product-form__input-textarea" name="picture" placeholder="Imágenes" title="Hipervínculo de las imágenes" required>{{picture}}</textarea>
+				<textarea class="add-product-form__input-textarea" name="specs" placeholder="Especificaciones" title="Especificaciones del producto" required>{{specs}}</textarea>
+				<textarea class="add-product-form__input-textarea" name="information" placeholder="Información" title="Información del producto" required>{{information}}</textarea>
+				<input class="add-product-form__input" type="text" name="color" placeholder="Colores disponibles"
+					title="Introduzca los colores separados por ','" value="{{color}}" required />
+				<input class="add-product-form__input" type="number" name="stock" placeholder="Existencias"
+					title="Existencias del producto" value="{{stock}}" required />
+				<select class="add-product-form__input-select" name="category" required>
+					<option value="" default>Seleccionar categoría</option>
+					<option value="1">Computadores</option>
+					<option value="2">Celulares</option>
+				</select>
+				<select class="add-product-form__input-select" name="supplier" required>
+					<option value="" default>Seleccionar proveedor</option>
+					{{#each suppRows}}
+					<option value="{{id}}">{{company_name}}</option>
+					{{/each}}
+				</select>
+				<input class="add-product-form__btn-save" type="submit" value="Guardar">
+			</form>
+		</section>
+	</div>
+</section>
