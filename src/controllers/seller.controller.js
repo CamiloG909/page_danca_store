@@ -1,33 +1,23 @@
 const sellerController = {};
-const { db } = require('../database');
+const { db } = require('../database/connection');
 const bcrypt = require('bcryptjs');
+const { sellerQuerys } = require('../database/querys');
+const { check, validationResult } = require('express-validator');
 
-sellerController.renderRol = (req, res) => {
-	res.render('seller/rol', {
-		headerSkeleto: true,
-		title: 'Bienvenido | Danca Store',
+sellerController.renderHome = (req, res) => {
+	res.render('seller/home', {
+		menuSeller: true,
+		title: 'Inicio | Danca Store',
 	});
 };
 
-sellerController.redirectionSeller = (req, res) => {
-	const { rol } = req.body;
-	if (rol == 'seller') {
-		res.redirect('/seller');
-	} else if (rol == 'client') {
-		res.redirect('/home');
-	}
-};
-
-sellerController.renderHome = async (req, res) => {
-	const suppliers = await db.query(
-		`select id, company_name from ${process.env.DB_SCHEMA}.supplier where status = 'Activo';`
-	);
-
+sellerController.renderProducts = async (req, res) => {
+	const suppliers = await db.query(sellerQuerys.renderProducts);
 	const suppRows = suppliers.rows;
 	res.render('seller/products', {
 		headerSeller: true,
 		menuSeller: true,
-		title: 'Panel | Danca Store',
+		title: 'Productos | Danca Store',
 		suppRows,
 		footerSeller: true,
 	});
@@ -62,17 +52,14 @@ sellerController.addProduct = async (req, res) => {
 		supplier.length == 0
 	) {
 		req.flash('error_msg', 'Por favor llena los campos');
-		res.redirect('/seller');
+		res.redirect('/seller/products');
 	} else {
-		const suppliers = await db.query(
-			`select id, company_name from ${process.env.DB_SCHEMA}.supplier where status = 'Activo';`
-		);
+		const suppliers = await db.query(sellerQuerys.addProduct[0]);
 		const suppRows = suppliers.rows;
 
-		const resReference = await db.query(
-			`select reference from ${process.env.DB_SCHEMA}.product where reference = $1`,
-			[reference]
-		);
+		const resReference = await db.query(sellerQuerys.addProduct[1], [
+			reference,
+		]);
 
 		if (resReference.rows.length > 0) {
 			errors.push({
@@ -96,23 +83,20 @@ sellerController.addProduct = async (req, res) => {
 				footerSeller: true,
 			});
 		} else {
-			const response = await db.query(
-				`insert into ${process.env.DB_SCHEMA}.product (reference,name,price,picture,specs,information,color,stock,id_category,id_supplier,status) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'Disponible');`,
-				[
-					reference,
-					name,
-					price,
-					picture,
-					specs,
-					information,
-					color,
-					stock,
-					category,
-					supplier,
-				]
-			);
+			const response = await db.query(sellerQuerys.addProduct[2], [
+				reference,
+				name,
+				price,
+				picture,
+				specs,
+				information,
+				color,
+				stock,
+				category,
+				supplier,
+			]);
 			req.flash('success_msg', `${name} agregado satisfactoriamente`);
-			res.redirect('/seller');
+			res.redirect('/seller/products');
 		}
 	}
 };
@@ -122,10 +106,7 @@ sellerController.renderProfile = async (req, res) => {
 	if (req.params.id != idUser) {
 		return res.redirect(`/seller/user/${idUser}`);
 	}
-	const response = await db.query(
-		`select u.id, c.name, c.last_name, u.email, u.phone_number, c.document_number, u.town, u.address, u.image_url from ${process.env.DB_SCHEMA}.client c inner join ${process.env.DB_SCHEMA}.user_ u on c.id_user = u.id where u.id = $1;`,
-		[idUser]
-	);
+	const response = await db.query(sellerQuerys.renderProfile, [idUser]);
 	const resRows = response.rows[0];
 	const title = `${resRows.name} ${resRows.last_name}`;
 	res.render('seller/profile', {
@@ -142,10 +123,9 @@ sellerController.renderUpdateUserInformation = async (req, res) => {
 	if (req.params.id != idUser) {
 		return res.redirect(`/seller/user/update/${idUser}`);
 	}
-	const response = await db.query(
-		`select u.id, c.name, c.last_name, u.email, u.phone_number, u.town, u.address, u.image_url from ${process.env.DB_SCHEMA}.client c inner join ${process.env.DB_SCHEMA}.user_ u on c.id_user = u.id where u.id = $1;`,
-		[req.params.id]
-	);
+	const response = await db.query(sellerQuerys.renderUpdateUserInformation, [
+		req.params.id,
+	]);
 	const resRows = response.rows[0];
 	res.render('seller/update-profile', {
 		headerSeller: true,
@@ -188,13 +168,12 @@ sellerController.updateUserInformation = async (req, res) => {
 			req.flash('error_msg', 'Digite un correo válido');
 			res.redirect(`/seller/user/update/${idUser}`);
 		} else if (email.indexOf('@') >= 0) {
-			const resEmail = await db.query(
-				`select email from ${process.env.DB_SCHEMA}.user_ where email = $1;`,
-				[email]
-			);
+			const resEmail = await db.query(sellerQuerys.updateUserInformation[0], [
+				email,
+			]);
 
 			const resUserEmail = await db.query(
-				`select email from ${process.env.DB_SCHEMA}.user_ u where id = $1;`,
+				sellerQuerys.updateUserInformation[1],
 				[idUser]
 			);
 
@@ -220,7 +199,7 @@ sellerController.updateUserInformation = async (req, res) => {
 						res.redirect(`/seller/user/update/${idUser}`);
 					} else {
 						const resPass = await db.query(
-							`select password from ${process.env.DB_SCHEMA}.user_ where id = $1;`,
+							sellerQuerys.updateUserInformation[2],
 							[idUser]
 						);
 						const match = await bcrypt.compare(
@@ -233,7 +212,7 @@ sellerController.updateUserInformation = async (req, res) => {
 						} else if (match) {
 							// Complete update
 							const resUser_ = await db.query(
-								`update ${process.env.DB_SCHEMA}.user_ set login=$1,password=$2,email=$3,phone_number=$4,town=$5,address=$6 where id = $7;`,
+								sellerQuerys.updateUserInformation[3],
 								[
 									email,
 									passwordHash,
@@ -245,7 +224,7 @@ sellerController.updateUserInformation = async (req, res) => {
 								]
 							);
 							const resClient = await db.query(
-								`update ${process.env.DB_SCHEMA}.client set name=$1,last_name=$2 where id_user = $3;`,
+								sellerQuerys.updateUserInformation[4],
 								[name, last_name, idUser]
 							);
 							req.flash('success_msg', 'Datos actualizados');
@@ -270,36 +249,133 @@ sellerController.updateUserImage = async (req, res) => {
 		req.flash('error_msg', 'Por favor llena el campo');
 		res.redirect(`/seller/user/update/${idUser}`);
 	} else {
-		const resUser_ = await db.query(
-			`update ${process.env.DB_SCHEMA}.user_ set image_url = $1 where id = $2;`,
-			[image_url, idUser]
-		);
+		const resUser_ = await db.query(sellerQuerys.updateUserImage, [
+			image_url,
+			idUser,
+		]);
 		req.flash('success_msg', 'Imagen actualizada');
 		res.redirect(`/seller/user/${idUser}`);
 	}
 };
 
 sellerController.renderSuppliers = async (req, res) => {
-	const response = await db.query(
-		`select id, company_name, phone_number, email, town, address, status from ${process.env.DB_SCHEMA}.supplier order by id DESC;`
-	);
-	const resRows = response.rows;
+	try {
+		const response = await db.query(sellerQuerys.renderSuppliers);
+		const resRows = response.rows;
 
-	for (let i in resRows) {
-		if (resRows[i].status === 'Activo') {
-			const newResponse = resRows[i];
-			newResponse.statusActive = true;
+		for (const supplier of resRows) {
+			if (supplier.status === 'Activo') {
+				const newResponse = supplier;
+				newResponse.statusActive = true;
+			}
 		}
-	}
 
-	res.render('seller/suppliers', {
-		headerSeller: true,
-		title: 'Proveedores | Danca Store',
-		menuSeller: true,
-		category: 'Proveedores',
-		resRows,
-		footerSeller: true,
-	});
+		res.render('seller/suppliers', {
+			headerSeller: true,
+			title: 'Proveedores | Danca Store',
+			menuSeller: true,
+			category: 'Proveedores',
+			resRows,
+			footerSeller: true,
+		});
+	} catch {
+		res.redirect('/error');
+	}
+};
+
+sellerController.updateSupplier = async (req, res) => {
+	try {
+		// Validate
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			res.status(400);
+			req.flash('error_msg', errors.errors[0].msg);
+			res.redirect('/seller/suppliers');
+		} else {
+			const {
+				company_name_current,
+				company_name,
+				phone_number,
+				email,
+				town,
+				address,
+				status,
+				id,
+			} = req.body;
+
+			// Validate company name
+			if (company_name_current === company_name) {
+				// Save in DB
+				const response = await db.query(sellerQuerys.updateSupplier[1], [
+					company_name,
+					phone_number,
+					town,
+					address,
+					email,
+					status,
+					id,
+				]);
+			} else {
+				const resCompanyName = await db.query(sellerQuerys.updateSupplier[0], [
+					company_name,
+				]);
+
+				if (resCompanyName.rows.length > 0) {
+					req.flash('error_msg', `${company_name} ya ha sido agregado`);
+					res.redirect('/seller/suppliers');
+				} else {
+					// Save in DB
+					const response = await db.query(sellerQuerys.updateSupplier[1], [
+						company_name,
+						phone_number,
+						town,
+						address,
+						email,
+						status,
+						id,
+					]);
+				}
+			}
+
+			req.flash(
+				'success_msg',
+				`${company_name} actualizado satisfactoriamente`
+			);
+			res.redirect('/seller/suppliers');
+		}
+	} catch {
+		res.redirect('/error');
+	}
+};
+
+sellerController.deleteSupplier = async (req, res) => {
+	try {
+		// Validate id
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			res.status(400);
+			req.flash('error_msg', errors.errors[0].msg);
+			res.redirect('/seller/suppliers');
+		} else {
+			const { id, company_name } = req.body;
+
+			try {
+				// Delete from DB
+				const response = await db.query(sellerQuerys.deleteSupplier, [id]);
+
+				req.flash(
+					'success_msg',
+					`${company_name} eliminado satisfactoriamente`
+				);
+				res.redirect('/seller/suppliers');
+			} catch {
+				req.flash('error_msg', `Aún hay productos activos de ${company_name}`);
+				res.redirect('/seller/suppliers');
+			}
+		}
+	} catch {
+		res.redirect('/error');
+	}
 };
 
 sellerController.renderSuppliersForm = (req, res) => {
@@ -339,10 +415,9 @@ sellerController.addSupplier = async (req, res) => {
 			footerSeller: true,
 		});
 	} else {
-		const resCompanyName = await db.query(
-			`select company_name from ${process.env.DB_SCHEMA}.supplier where company_name = $1;`,
-			[company_name]
-		);
+		const resCompanyName = await db.query(sellerQuerys.addSupplier[0], [
+			company_name,
+		]);
 
 		if (resCompanyName.rows.length > 0) {
 			errors.push({
@@ -408,10 +483,13 @@ sellerController.addSupplier = async (req, res) => {
 					});
 				} else if (email.indexOf('@') >= 0) {
 					// Complete register
-					const response = await db.query(
-						`insert into ${process.env.DB_SCHEMA}.supplier (company_name,phone_number,town,address,email,status) values ($1,$2,$3,$4,$5,'Activo');`,
-						[company_name, phone_number, town, address, email]
-					);
+					const response = await db.query(sellerQuerys.addSupplier[1], [
+						company_name,
+						phone_number,
+						town,
+						address,
+						email,
+					]);
 
 					req.flash(
 						'success_msg',

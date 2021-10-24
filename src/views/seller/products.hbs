@@ -2,46 +2,93 @@
 
 <section class="section-index-seller">
 	<div class="index-seller-container" id="container-seller-home">
-		<article class="seller-index-box seller-add-products">
+		<article class="seller-index-box" id="container-form-add" style="height: 100px;">
 			<i class="bi bi-clipboard-plus seller-index-box__icon"></i>
-			<p class="seller-index-box__text">Agregar productos</p>
-			<i class="bi bi-chevron-compact-down seller-index-box__icon-arrow" id="open-add-product-form" onclick="formAddProducts()"></i>
-		</article>
-		<article class="seller-index-box seller-show-products">
-			<i class="bi bi-folder seller-index-box__icon"></i>
-			<p class="seller-index-box__text">Productos</p>
-			<i class="bi bi-chevron-compact-down seller-index-box__icon-arrow"></i>
+			<p id="text-add-products" class="seller-index-box__text">Agregar productos</p>
+			<div style="transform: rotate(0deg);">
+				<i class="bi bi-chevron-compact-down seller-index-box__icon-arrow" id="open-add-product-form"></i>
+			</div>
+			<section class="add-product-form">
+				<form action="/seller/products/add" method="POST">
+					<input class="add-product-form__input first" type="number" name="reference" placeholder="Referencia"
+						title="Referencia del producto" required />
+					<input class="add-product-form__input price" type="number" min="1000" name="price" placeholder="Precio"
+						title="No son necesarios los puntos" value="{{price}}" required />
+					<input class="add-product-form__input" type="text" name="name" placeholder="Nombre"
+						title="Nombre del producto" value="{{name}}" required />
+					<textarea class="add-product-form__input-textarea" name="picture" placeholder="Imágenes"
+						title="Hipervínculo de las imágenes" required>{{picture}}</textarea>
+					<textarea class="add-product-form__input-textarea" name="specs" placeholder="Especificaciones"
+						title="Especificaciones del producto" required>{{specs}}</textarea>
+					<textarea class="add-product-form__input-textarea" name="information" placeholder="Información"
+						title="Información del producto" required>{{information}}</textarea>
+					<input class="add-product-form__input colors" type="text" name="color" placeholder="Colores disponibles"
+						title="Introduzca los colores separados por ','" value="{{color}}" required />
+					<input class="add-product-form__input stock" type="number" name="stock" placeholder="Existencias"
+						title="Existencias del producto" value="{{stock}}" required />
+					<select class="add-product-form__input-select category" name="category" required>
+						<option value="" default>Categoría</option>
+						<option value="1">Computadores</option>
+						<option value="2">Celulares</option>
+					</select>
+					<select class="add-product-form__input-select supplier" name="supplier" required>
+						<option value="" default>Proveedor</option>
+						{{#each suppRows}}
+						<option value="{{id}}">{{company_name}}</option>
+						{{/each}}
+					</select>
+					<input class="add-product-form__btn-save" type="submit" value="Guardar">
+				</form>
+			</section>
 		</article>
 
-		<section class="add-product-form">
-			<h1 class="add-product-form__title">Añadir producto</h1>
-			<form action="/seller/product/add" method="POST">
-				<input class="add-product-form__input" type="number" name="reference" placeholder="Referencia"
-					title="Referencia del producto" required />
-				<input class="add-product-form__input" type="text" name="name" placeholder="Nombre" title="Nombre del producto" value="{{name}}"
-					required />
-				<input class="add-product-form__input" type="number" min="1000" name="price" placeholder="Precio"
-					title="No son necesarios los puntos" value="{{price}}" required />
-				<textarea class="add-product-form__input-textarea" name="picture" placeholder="Imágenes" title="Hipervínculo de las imágenes" required>{{picture}}</textarea>
-				<textarea class="add-product-form__input-textarea" name="specs" placeholder="Especificaciones" title="Especificaciones del producto" required>{{specs}}</textarea>
-				<textarea class="add-product-form__input-textarea" name="information" placeholder="Información" title="Información del producto" required>{{information}}</textarea>
-				<input class="add-product-form__input" type="text" name="color" placeholder="Colores disponibles"
-					title="Introduzca los colores separados por ','" value="{{color}}" required />
-				<input class="add-product-form__input" type="number" name="stock" placeholder="Existencias"
-					title="Existencias del producto" value="{{stock}}" required />
-				<select class="add-product-form__input-select" name="category" required>
-					<option value="" default>Seleccionar categoría</option>
-					<option value="1">Computadores</option>
-					<option value="2">Celulares</option>
-				</select>
-				<select class="add-product-form__input-select" name="supplier" required>
-					<option value="" default>Seleccionar proveedor</option>
-					{{#each suppRows}}
-					<option value="{{id}}">{{company_name}}</option>
-					{{/each}}
-				</select>
-				<input class="add-product-form__btn-save" type="submit" value="Guardar">
-			</form>
-		</section>
+		<article class="seller-index-box" id="container-show-all" style="max-height: 100px;">
+			<i class="bi bi-folder seller-index-box__icon"></i>
+			<p id="text-show-products" class="seller-index-box__text">Productos</p>
+			<div style="transform: rotate(0deg);">
+				<i class="bi bi-chevron-compact-down seller-index-box__icon-arrow" id="open-show-products"></i>
+			</div>
+			<section class="seller-products-container">
+				<article class="seller-product-card-slide" style="height: 134px;">
+					<div class="seller-product-card">
+						<figure class="seller-product-card__img">
+							<img src="/assets/img/defaultCP.jpg" alt="Imagen del producto">
+						</figure>
+						<section class="seller-product-card__info" data-ref="" data-img="" data-specs="" data-info="" data-colors="" data-suppliers="">
+							<p class="seller-product-card__name name">HP 14<i
+									class="bi bi-circle-fill seller-product-card__status --active status"></i></p>
+							{{!-- <p class="seller-product-card__name">Name <i class="bi bi-circle-fill seller-product-card__status {{#if statusActive}}--active{{else}}--inactive{{/if}}"></i></p> --}}
+							<p class="seller-product-card__price price">$ 9.999</p>
+							<p class="seller-product-card__text supplier">Proveedor: Xiaomi</p>
+							<p class="seller-product-card__text stock">Existencias: 4</p>
+						</section>
+						<section class="seller-product-card__icon-edit">
+							<i class="bi bi-pencil-square seller-product-icon"></i>
+						</section>
+					</div>
+
+				</article>
+				<article class="seller-product-card-slide" style="height: 134px;">
+					<div class="seller-product-card">
+						<figure class="seller-product-card__img">
+							<img src="/assets/img/defaultCP.jpg" alt="Imagen del producto">
+						</figure>
+						<section class="seller-product-card__info" data-ref="" data-img="" data-specs="" data-info="" data-colors="" data-suppliers="">
+							<p class="seller-product-card__name name">HP 14<i
+									class="bi bi-circle-fill seller-product-card__status --active status"></i></p>
+							{{!-- <p class="seller-product-card__name">Name <i class="bi bi-circle-fill seller-product-card__status {{#if statusActive}}--active{{else}}--inactive{{/if}}"></i></p> --}}
+							<p class="seller-product-card__price price">$ 9.999</p>
+							<p class="seller-product-card__text supplier">Proveedor: Xiaomi</p>
+							<p class="seller-product-card__text stock">Existencias: 4</p>
+						</section>
+						<section class="seller-product-card__icon-edit">
+							<i class="bi bi-pencil-square seller-product-icon"></i>
+						</section>
+					</div>
+
+				</article>
+
+			</section>
+		</article>
 	</div>
 </section>

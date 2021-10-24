@@ -8,13 +8,15 @@
 
 	<div class="supplier-card-container">
 		{{#each resRows}}
-		<article class="supplier-card">
-			<p class="supplier-card__name">{{company_name}}<i class="bi bi-circle-fill supplier-card__icon-status {{#if statusActive}}--active{{else}}--inactive{{/if}}"></i></p>
-			<p class="supplier-card__text">Teléfono: {{phone_number}}</p>
-			<p class="supplier-card__text">Email: {{email}}</p>
-			<p class="supplier-card__text">Ciudad: {{town}}</p>
-			<p class="supplier-card__text">Dirección: {{address}}</p>
-			<i class="bi bi-pencil-square supplier-card__icon-edit"></i>
+		<article class="supplier-card-slide" style="height: 143px;">
+			<div class="supplier-card" data-id="{{id}}">
+				<p class="supplier-card__name name">{{company_name}}<i id="status" class="bi bi-circle-fill supplier-card__icon-status {{#if statusActive}}--active{{else}}--inactive{{/if}}"></i></p>
+				<p class="supplier-card__text phone">Teléfono: {{phone_number}}</p>
+				<p class="supplier-card__text email">Email: {{email}}</p>
+				<p class="supplier-card__text city">Ciudad: {{town}}</p>
+				<p class="supplier-card__text address">Dirección: {{address}}</p>
+				<i class="bi bi-pencil-square supplier-card__icon-edit"></i>
+			</div>
 		</article>
 		{{/each}}
 	</div>

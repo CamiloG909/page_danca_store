@@ -1,20 +1,20 @@
 .help-page
 	@include flex-center
 	flex-direction: column
-	margin-block-start: 58px
-	padding: 10vh 0
-	min-block-size: 83vh
+	min-block-size: 100vh
 	text-align: center
 	background: $gradient-purple
-	&__img-container
-		margin: 0 auto 40px
-		max-inline-size: 318px
+	background-size: 500%
+	animation: bganimation 10s infinite
+	&__img-logo-container
+		max-inline-size: 310px
 		user-select: none
 		img
 			inline-size: 100%
-			border-radius: 500px
 	&__text-container
 		margin: 0 auto
+		padding: 50px 0
+		inline-size: 95%
 		max-inline-size: 600px
 		font-size: 3rem
 		text-align: center
@@ -26,3 +26,10 @@
 		&:hover
 			text-decoration: underline
 			color: $soft-purple
+	&__img-help-container
+		margin: 0 auto 40px
+		max-inline-size: 208px
+		user-select: none
+		img
+			inline-size: 100%
+			border-radius: 500px

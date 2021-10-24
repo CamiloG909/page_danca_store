@@ -1,7 +1,10 @@
 const clientController = {};
 const auth = require('basic-auth');
-const { db } = require('../database');
+const { db } = require('../database/connection');
 const bcrypt = require('bcryptjs');
+const { clientQuerys } = require('../database/querys');
+
+let rolUser;
 
 // Price formatter function
 const formatterPrice = (object) => {
@@ -20,10 +23,10 @@ const imageCardProduct = (object) => {
 		const arrImages = resImages.split(',');
 		for (let i in arrImages) {
 			let image = arrImages[i].trim();
-			let objImage = {
+			image = {
 				image,
 			};
-			images.push(objImage);
+			images.push(image);
 		}
 
 		const imageProduct = images[0].image;
@@ -52,58 +55,60 @@ const numberRandom = (min, max) => {
 };
 
 clientController.renderRol = async (req, res) => {
-	const response = await db.query(
-		`select rol_name from ${process.env.DB_SCHEMA}.user_rol where id_user = $1;`,
-		[req.user.rows[0].id]
-	);
+	const response = await db.query(clientQuerys.renderRol, [
+		req.user.rows[0].id,
+	]);
+
 	const rol = response.rows[0].rol_name;
 	if (rol === 'Cliente') {
+		rolUser = undefined;
 		res.redirect('/home');
 	} else if (rol === 'Vendedor') {
-		res.redirect('/seller/destiny');
+		rolUser = 'Vendedor';
+		res.redirect('/seller/home');
 	}
 };
 
 clientController.renderHome = async (req, res) => {
-	const response = await db.query(
-		`select id, picture, name, price from ${process.env.DB_SCHEMA}.product where status = 'Disponible' order by id desc;`
-	);
-	imageCardProduct(response.rows);
-	formatterPrice(response.rows);
-	res.render('client/products', {
-		headerClient: true,
-		title: 'Inicio | Danca Store',
-		response,
-		footer: true,
-	});
+	try {
+		const response = await db.query(clientQuerys.renderHome);
+		imageCardProduct(response.rows);
+		formatterPrice(response.rows);
+		res.render('client/products', {
+			headerClient: true,
+			title: 'Inicio | Danca Store',
+			rolUser,
+			response,
+			footer: true,
+		});
+	} catch {
+		res.redirect('/error');
+	}
 };
 
 clientController.renderComputers = async (req, res) => {
-	const response = await db.query(
-		`select id, picture, name, price from ${process.env.DB_SCHEMA}.product where id_category = 1 and status = 'Disponible' order by id desc;`
-	);
+	const response = await db.query(clientQuerys.renderComputers);
 	imageCardProduct(response.rows);
 	formatterPrice(response.rows);
 	res.render('client/products', {
 		headerClient: true,
 		title: 'Computadores | Danca Store',
 		category: 'Computadores',
+		rolUser,
 		response,
 		footer: true,
 	});
 };
 
 clientController.renderPhones = async (req, res) => {
-	const response = await db.query(
-		`select id, picture, name, price from ${process.env.DB_SCHEMA}.product where id_category = 2 and status = 'Disponible' order by id desc;`
-	);
-
+	const response = await db.query(clientQuerys.renderPhones);
 	imageCardProduct(response.rows);
 	formatterPrice(response.rows);
 	res.render('client/products', {
 		headerClient: true,
 		title: 'Celulares | Danca Store',
 		category: 'Celulares',
+		rolUser,
 		response,
 		footer: true,
 	});
@@ -114,23 +119,17 @@ clientController.renderProductDetail = async (req, res) => {
 		req.session.detailsProduct = [];
 	}
 	const idUser = req.user.rows[0];
-	const response = await db.query(
-		`select p.id, p.reference, p.name, p.price, p.picture, p.specs, p.information, p.color, p.stock, s.company_name from ${process.env.DB_SCHEMA}.product p inner join ${process.env.DB_SCHEMA}.supplier s on p.id_supplier = s.id where p.id = $1;`,
-		[req.params.id]
-	);
+	const response = await db.query(clientQuerys.renderProductDetail, [
+		req.params.id,
+	]);
 	const colors = [];
 	const resColors = response.rows[0].color;
-	if (resColors === null) {
-		return (colors = []);
-	} else {
-		const arrColors = resColors.split(',');
-		for (let i in arrColors) {
-			let color = arrColors[i].trim();
-			let objColor = {
-				color,
-			};
-			colors.push(objColor);
-		}
+	const arrColors = resColors.split(',');
+
+	for (let color of arrColors) {
+		color = color.trim();
+		color = { color };
+		colors.push(color);
 	}
 
 	const images = [];
@@ -139,6 +138,14 @@ clientController.renderProductDetail = async (req, res) => {
 		return (images = []);
 	} else {
 		const arrImages = resImages.split(',');
+		// for (let image of arrImages) {
+		// 	image = image.trim()
+		// 	image = {
+		// 		image
+		// 	}
+		// 	images.push(image)
+		// }
+		// Delete when fix images with js
 		for (let i in arrImages) {
 			let idImage = i;
 			let image = arrImages[i].trim();
@@ -157,6 +164,7 @@ clientController.renderProductDetail = async (req, res) => {
 	res.render('client/product-detail', {
 		headerClient: true,
 		title: `${title} | Danca Store`,
+		rolUser,
 		resRows,
 		idUser,
 		images,
@@ -167,17 +175,19 @@ clientController.renderProductDetail = async (req, res) => {
 };
 
 clientController.addCartProduct = (req, res) => {
-	const detailsProductObj = {};
 	const { user, product, reference, name, picture, price, amount, color } =
 		req.body;
-	detailsProductObj.user = user;
-	detailsProductObj.product = product;
-	detailsProductObj.reference = reference;
-	detailsProductObj.name = name;
-	detailsProductObj.picture = picture;
-	detailsProductObj.price = price;
-	detailsProductObj.amount = amount;
-	detailsProductObj.color = color;
+
+	const detailsProductObj = {
+		user,
+		product,
+		reference,
+		name,
+		picture,
+		price,
+		amount,
+		color,
+	};
 
 	if (amount > 3) {
 		req.flash('error_msg', 'La cantidad no es válida');
@@ -223,6 +233,7 @@ clientController.renderShoppingCart = (req, res) => {
 		headerClient: true,
 		category: 'Carrito de compras',
 		title: 'Carrito de compras | Danca Store',
+		rolUser,
 		detailsProduct,
 		total,
 		footer: true,
@@ -236,8 +247,8 @@ clientController.clearProductsCart = (req, res) => {
 
 clientController.productsPay = async (req, res) => {
 	const { user, product, amount, color } = req.body;
+	// Validate amount
 	let resAmount;
-	// Validate amount number
 	if (amount.length > 1) {
 		const amountValue = amount.find((e) => e > 3);
 		if (amountValue == undefined) {
@@ -260,15 +271,12 @@ clientController.productsPay = async (req, res) => {
 	// Date
 	let today = new Date();
 	let dd = today.getDate();
+	dd = dd < 10 ? '0' + dd : dd;
 	let mm = today.getMonth() + 1;
-	let yyyy = today.getFullYear();
-	if (dd < 10) {
-		dd = '0' + dd;
-	}
-	if (mm < 10) {
-		mm = '0' + mm;
-	}
-	today = `${dd}/${mm}/${yyyy}`;
+	mm = mm < 10 ? '0' + mm : mm;
+
+	today = `${dd}/${mm}/${today.getFullYear()}`;
+
 	// Hours
 	let hour = new Date();
 	hour = `${hour.getHours()}:${hour.getMinutes()}:${hour.getSeconds()}`;
@@ -277,58 +285,53 @@ clientController.productsPay = async (req, res) => {
 
 	for (let i in product) {
 		// Get town and address user
-		const resUser = await db.query(
-			`select town,address from ${process.env.DB_SCHEMA}.user_ where id = $1`,
-			[user[0]]
-		);
+		const resUser = await db.query(clientQuerys.productsPay[0], [user[0]]);
 
 		const userTown = resUser.rows[0].town;
 		const userAddress = resUser.rows[0].address;
 
-		const resOrder = await db.query(
-			`insert into ${process.env.DB_SCHEMA}.order_ (id_client,order_date,status) values ($1,$2,'Pendiente');`,
-			[user[i], today]
-		);
+		const resOrder = await db.query(clientQuerys.productsPay[1], [
+			user[i],
+			today,
+		]);
 
 		// Get last id order
-		const resIdOrder = await db.query(
-			`select id from ${process.env.DB_SCHEMA}.order_`
-		);
+		const resIdOrder = await db.query(clientQuerys.productsPay[2]);
 		let idOrder = resIdOrder.rows;
 		const idOrderLength = idOrder.length - 1;
 		idOrder = idOrder[idOrderLength].id;
 
 		// Get total value
-		const response = await db.query(
-			`select price from ${process.env.DB_SCHEMA}.product where id = $1;`,
-			[product[i]]
-		);
+		const response = await db.query(clientQuerys.productsPay[3], [product[i]]);
 		let priceProduct = response.rows[0].price;
 		priceProduct = parseInt(priceProduct);
 		const total = priceProduct * amount[i];
 
 		// Get color
-		let colorProduct;
-		if (typeof color === 'object') {
-			colorProduct = color[i];
-		} else if (typeof color === 'string') {
-			colorProduct = color;
-		}
+		let colorProduct = typeof color === 'object' ? color[i] : color;
 
-		const resOrderDetails = await db.query(
-			`insert into ${process.env.DB_SCHEMA}.order_details (id_order,id_product,total_value,amount,color) values ($1,$2,$3,$4,$5);`,
-			[idOrder, product[i], total, amount[i], colorProduct]
-		);
+		const resOrderDetails = await db.query(clientQuerys.productsPay[4], [
+			idOrder,
+			product[i],
+			total,
+			amount[i],
+			colorProduct,
+		]);
 
-		const resPayment = await db.query(
-			`insert into ${process.env.DB_SCHEMA}.payment (id_method_payment,id_order,bill_date,status) values ($1,$2,$3,'Completado')`,
-			[numberRandom(1, 3), idOrder, time]
-		);
+		const resPayment = await db.query(clientQuerys.productsPay[5], [
+			numberRandom(1, 3),
+			idOrder,
+			time,
+		]);
 
-		const resShipping = await db.query(
-			`insert into ${process.env.DB_SCHEMA}.shipping (id_order,shipping_company_name,town,address,shipping_date,delivery_date,status) values ($1,$2,$3,$4,$5,$6,'Pendiente')`,
-			[idOrder, '-------', userTown, userAddress, '-------', '-------']
-		);
+		const resShipping = await db.query(clientQuerys.productsPay[6], [
+			idOrder,
+			'-------',
+			userTown,
+			userAddress,
+			'-------',
+			'-------',
+		]);
 	}
 
 	req.session.detailsProduct = [];
@@ -342,19 +345,9 @@ clientController.renderShoppingHistory = async (req, res) => {
 		return res.redirect(`/history/${idUser}`);
 	}
 
-	const response = await db.query(
-		`select p.picture, p.name, od.total_value, o.order_date, o.id, o.status, s.delivery_date
-		from ${process.env.DB_SCHEMA}.order_ o
-		inner join ${process.env.DB_SCHEMA}.client c on o.id_client = c.id
-		inner join ${process.env.DB_SCHEMA}.order_details od on od.id_order = o.id
-		inner join ${process.env.DB_SCHEMA}.product p on od.id_product = p.id
-		inner join ${process.env.DB_SCHEMA}.shipping s on s.id_order= o.id
-		where c.id_user = $1
-		order by o.id DESC
-		;`,
-		[idUser]
-	);
+	const response = await db.query(clientQuerys.renderShoppingHistory, [idUser]);
 
+	// Format price
 	for (let i = 0; i < response.rows.length; i++) {
 		const priceFormat = new Intl.NumberFormat('de-DE');
 		const priceFormatted = priceFormat.format(response.rows[i].total_value);
@@ -368,6 +361,7 @@ clientController.renderShoppingHistory = async (req, res) => {
 		headerClient: true,
 		category: 'Historial de compras',
 		title: 'Historial de compras | Danca Store',
+		rolUser,
 		response,
 		footer: true,
 	});
@@ -383,15 +377,13 @@ clientController.renderProfile = async (req, res) => {
 	if (req.params.id != idUser) {
 		return res.redirect(`/user/${idUser}`);
 	}
-	const response = await db.query(
-		`select u.id, c.name, c.last_name, u.email, u.phone_number, c.document_number, u.town, u.address, u.image_url from ${process.env.DB_SCHEMA}.client c inner join ${process.env.DB_SCHEMA}.user_ u on c.id_user = u.id where u.id = $1;`,
-		[idUser]
-	);
+	const response = await db.query(clientQuerys.renderProfile, [idUser]);
 	const resRows = response.rows[0];
 	const title = `${resRows.name} ${resRows.last_name}`;
 	res.render('client/profile', {
 		headerClient: true,
 		title: `${title} | Danca Store`,
+		rolUser,
 		resRows,
 		footer: true,
 	});
@@ -402,14 +394,14 @@ clientController.renderUpdateUserInformation = async (req, res) => {
 	if (req.params.id != idUser) {
 		return res.redirect(`/user/update/${idUser}`);
 	}
-	const response = await db.query(
-		`select u.id, c.name, c.last_name, u.email, u.phone_number, u.town, u.address, u.image_url from ${process.env.DB_SCHEMA}.client c inner join ${process.env.DB_SCHEMA}.user_ u on c.id_user = u.id where u.id = $1;`,
-		[req.params.id]
-	);
+	const response = await db.query(clientQuerys.renderUpdateUserInformation, [
+		req.params.id,
+	]);
 	const resRows = response.rows[0];
 	res.render('client/update-profile', {
 		headerClient: true,
 		title: 'Actualizar perfil | Danca Store',
+		rolUser,
 		resRows,
 		footer: true,
 	});
@@ -447,13 +439,12 @@ clientController.updateUserInformation = async (req, res) => {
 			req.flash('error_msg', 'Digite un correo válido');
 			res.redirect(`/user/update/${idUser}`);
 		} else if (email.indexOf('@') >= 0) {
-			const resEmail = await db.query(
-				`select email from ${process.env.DB_SCHEMA}.user_ where email = $1;`,
-				[email]
-			);
+			const resEmail = await db.query(clientQuerys.updateUserInformation[0], [
+				email,
+			]);
 
 			const resUserEmail = await db.query(
-				`select email from ${process.env.DB_SCHEMA}.user_ u where id = $1;`,
+				clientQuerys.updateUserInformation[1],
 				[idUser]
 			);
 
@@ -479,7 +470,7 @@ clientController.updateUserInformation = async (req, res) => {
 						res.redirect(`/user/update/${idUser}`);
 					} else {
 						const resPass = await db.query(
-							`select password from ${process.env.DB_SCHEMA}.user_ where id = $1;`,
+							clientQuerys.updateUserInformation[2],
 							[idUser]
 						);
 						const match = await bcrypt.compare(
@@ -492,7 +483,7 @@ clientController.updateUserInformation = async (req, res) => {
 						} else if (match) {
 							// Complete update
 							const resUser_ = await db.query(
-								`update ${process.env.DB_SCHEMA}.user_ set login=$1,password=$2,email=$3,phone_number=$4,town=$5,address=$6 where id = $7;`,
+								clientQuerys.updateUserInformation[3],
 								[
 									email,
 									passwordHash,
@@ -504,7 +495,7 @@ clientController.updateUserInformation = async (req, res) => {
 								]
 							);
 							const resClient = await db.query(
-								`update ${process.env.DB_SCHEMA}.client set name=$1,last_name=$2 where id_user = $3;`,
+								clientQuerys.updateUserInformation[4],
 								[name, last_name, idUser]
 							);
 							req.flash('success_msg', 'Datos actualizados');
@@ -529,10 +520,10 @@ clientController.updateUserImage = async (req, res) => {
 		req.flash('error_msg', 'Por favor llena el campo');
 		res.redirect(`/user/update/${idUser}`);
 	} else {
-		const resUser_ = await db.query(
-			`update ${process.env.DB_SCHEMA}.user_ set image_url = $1 where id = $2;`,
-			[image_url, idUser]
-		);
+		const resUser_ = await db.query(clientQuerys.updateUserImage, [
+			image_url,
+			idUser,
+		]);
 		req.flash('success_msg', 'Imagen actualizada');
 		res.redirect(`/user/${idUser}`);
 	}

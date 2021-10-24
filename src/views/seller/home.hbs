@@ -1,0 +1,55 @@
+<section class="bg-home-seller">
+		<label for="header__btn-menu"><i class="bi bi-list index-seller__menu"></i></label>
+	<section class="index-seller">
+		<figure class="index-seller__logo">
+			<a href="/seller/home">
+			<img src="/assets/img/isologo-black-og.png" alt="Logo de la página de inicio de vendedor">
+			</a>
+		</figure>
+		<p class="index-seller__text">Ir a:</p>
+		<div class="index-seller-box">
+			<a class="index-seller-box__a" href="/seller/products">
+				<li class="index-seller-box__li first">
+					<i class="bi bi-folder"></i> Administrar productos
+				</li>
+			</a>
+			
+			<a class="index-seller-box__a" href="/seller/list">
+				<li class="index-seller-box__li">
+					<i class="bi bi-receipt"></i> Lista de compras
+				</li>
+			</a>
+			
+			<a class="index-seller-box__a" href="/seller/suppliers">
+				<li class="index-seller-box__li">
+					<i class="bi bi-archive"></i> Proveedores
+				</li>
+			</a>
+			
+			<a class="index-seller-box__a" href="/seller/suppliers/add">
+				<li class="index-seller-box__li">
+					<i class="bi bi-plus-circle"></i> Añadir
+					proveedor
+				</li>
+			</a>
+			{{#each user.rows}}
+			<a class="index-seller-box__a" href="/seller/user/{{id}}">
+				<li class="index-seller-box__li">
+					<i class="bi bi-person"></i> Mi perfil
+				</li>
+			</a>
+			{{/each}}
+			<a class="index-seller-box__a" href="/home">
+				<li class="index-seller-box__li">
+					<i class="bi bi-arrow-repeat"></i> Cambiar a cliente
+				</li>
+			</a>
+			<a class="index-seller-box__a" href="/logout">
+				<li class="index-seller-box__li last">
+					<i class="bi bi-door-open"></i> Cerrar sesi&oacuten
+				</li>
+			</a>
+		</div>
+	</section>
+</section>
+{{>menu}}

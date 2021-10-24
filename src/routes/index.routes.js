@@ -6,6 +6,7 @@ const {
 	renderSignup,
 	signup,
 	logout,
+	renderError,
 } = require('../controllers/index.controller');
 
 const { isNotAuthenticated } = require('../helpers/auth');
@@ -23,5 +24,7 @@ router
 router.get('/help', renderHelp);
 
 router.get('/logout', logout);
+
+router.get('/error', renderError);
 
 module.exports = router;

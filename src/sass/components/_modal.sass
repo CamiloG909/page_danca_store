@@ -1,3 +1,4 @@
+// Shopping cart
 .container-modal-cart
 	@include flex-center
 	position: fixed
@@ -6,6 +7,7 @@
 	inline-size: 100%
 	block-size: 100vh
 	background-color: rgba(0, 0, 0, 0.25)
+	transition: all .3s ease
 	z-index: 9888
 
 .pay-complete
@@ -68,3 +70,64 @@
 			background-color: $green
 			&:hover
 				background-color: $dark-green
+
+// Profile
+.container-choice-image-profile
+	position: fixed
+	inset-block-start: 0
+	inset-inline-start: 0
+	inline-size: 100%
+	block-size: 100vh
+	background-color: rgba(0, 0, 0, 0.25)
+	transition: all .3s ease
+	opacity: 0
+	z-index: 9888
+
+.choice-image-profile
+	position: absolute
+	inset-inline-start: calc( 50% - 172.5px )
+	inset-block-start: 145px
+	padding: 20px
+	inline-size: 345px
+	text-align: center
+	border-radius: 15px
+	background-color: $white
+	box-shadow: $strong-shadow
+	&__icon-close
+		position: absolute
+		padding: 4px 3px 3px 4px
+		inset-block-start: 12px
+		inset-inline-end: 12px
+		font-size: 2.2rem
+		color: $text-gray
+		border-radius: 10px
+		cursor: pointer
+		transition: all 0.3s ease
+		&:hover
+			background-color: $bg-icons
+		&:active
+			background-color: #0000002d
+	&__title
+		@include font(bold,2rem,1.5rem,$text-gray)
+	&__input
+		margin: 15px 0
+		padding: 5px 4%
+		inline-size: 100%
+		@include font(bold,1.9rem,normal,$purple)
+		border: 1px solid $dark-gray
+		border-radius: 15px
+		outline: none
+		transition: all 0.3s ease
+		&:focus
+			border: 1px solid $purple
+	&__btn
+		padding: 5px 15px
+		@include font(bold,1.8rem,normal,$white)
+		border: none
+		border-radius: 15px
+		background-color: $purple
+		cursor: pointer
+		transition: all 0.3s ease
+		&:hover
+			background-color: $dark-purple
+

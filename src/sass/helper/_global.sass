@@ -15,23 +15,23 @@
 		border: 2px solid $purple
 
 // Button input base
-@mixin btn-input
+@mixin btn-input ($normal: $purple,$dark: $dark-purple)
 	inline-size: 100%
 	block-size: 45px
 	@include font(bold,2rem,normal,$white)
 	border: 0
 	border-radius: 15px
-	background-color: $purple
+	background-color: $normal
 	cursor: pointer
 	transition: 0.5s all ease
+	user-select: none
 	&:hover
-		background-color: $dark-purple
+		background-color: $dark
 
 // Button input base a
 @mixin btn-input__a
 	@include btn-input
 	text-decoration: none
-	user-select: none
 
 // Inputs select
 @mixin input-select
@@ -69,3 +69,12 @@
 	background-repeat: no-repeat
 	background-size: cover
 	background-image: url($url-image)
+
+// Background animated
+@keyframes bganimation
+	0%
+		background-position: 0% 50%
+	50%
+		background-position: 100% 50%
+	100%
+		background-position: 0% 50%

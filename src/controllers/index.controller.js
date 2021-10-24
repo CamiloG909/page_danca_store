@@ -1,7 +1,8 @@
 const passport = require('passport');
 const indexController = {};
-const { db } = require('../database');
+const { db } = require('../database/connection');
 const bcrypt = require('bcryptjs');
+const { indexQuerys } = require('../database/querys');
 
 indexController.renderIndex = (req, res) => {
 	res.render('index', {
@@ -18,7 +19,6 @@ indexController.signin = passport.authenticate('local', {
 
 indexController.renderHelp = (req, res) => {
 	res.render('help', {
-		headerSkeleto: true,
 		title: 'Ayuda | Danca Store',
 		footerCN: true,
 	});
@@ -45,13 +45,7 @@ indexController.signup = async (req, res) => {
 		password,
 	} = req.body;
 
-	let documentTypeId;
-
-	if (document_type == 'CC') {
-		documentTypeId = 1;
-	} else if (document_type == 'CE') {
-		documentTypeId = 2;
-	}
+	const documentTypeId = document_type === 'CC' ? 1 : 2;
 
 	const passwordHash = await bcrypt.hash(password, 8);
 
@@ -69,6 +63,7 @@ indexController.signup = async (req, res) => {
 		errors.push({
 			error: 'Por favor llena los campos',
 		});
+
 		res.render('signup', {
 			errors,
 			headerHelp: true,
@@ -154,10 +149,7 @@ indexController.signup = async (req, res) => {
 					password,
 				});
 			} else if (email.indexOf('@') >= 0) {
-				const resEmail = await db.query(
-					`select email from ${process.env.DB_SCHEMA}.user_ where email = $1;`,
-					[email]
-				);
+				const resEmail = await db.query(indexQuerys.signUp[0], [email]);
 				if (resEmail.rows.length >= 1) {
 					errors.push({
 						error: 'El correo ya está en uso',
@@ -230,26 +222,26 @@ indexController.signup = async (req, res) => {
 							});
 						} else {
 							// Complete register
-							const resUser_ = await db.query(
-								`insert into ${process.env.DB_SCHEMA}.user_ (login,password,email,phone_number,town,address,status) values ($1,$2,$3,$4,$5,$6,'Activo');`,
-								[email, passwordHash, email, phone_number, town, address]
-							);
-							const resId = await db.query(
-								`select id from ${process.env.DB_SCHEMA}.user_ where email = $1;`,
-								[email]
-							);
+							const resUser_ = await db.query(indexQuerys.signUp[1], [
+								email,
+								passwordHash,
+								email,
+								phone_number,
+								town,
+								address,
+							]);
+							const resId = await db.query(indexQuerys.signUp[2], [email]);
 
 							const idUser = resId.rows[0].id;
 
-							const resRol = await db.query(
-								`insert into ${process.env.DB_SCHEMA}.user_rol (rol_name,id_user) values ('Cliente',$1)`,
-								[idUser]
-							);
-							const resClient = await db.query(
-								`insert into ${process.env.DB_SCHEMA}.client (id_document_type,document_number,name,last_name,id_user) values
-						($1, $2, $3, $4, $5);`,
-								[documentTypeId, document_number, name, last_name, idUser]
-							);
+							const resRol = await db.query(indexQuerys.signUp[3], [idUser]);
+							const resClient = await db.query(indexQuerys.signUp[4], [
+								documentTypeId,
+								document_number,
+								name,
+								last_name,
+								idUser,
+							]);
 							req.flash('success_msg', 'Te has registrado satisfactoriamente');
 							res.redirect('/signup');
 							// End complete register
@@ -264,6 +256,13 @@ indexController.signup = async (req, res) => {
 indexController.logout = (req, res) => {
 	req.logout();
 	res.redirect('/');
+};
+
+indexController.renderError = (req, res) => {
+	res.render('error', {
+		title: 'Woops! | Danca Store',
+		footerCN: true,
+	});
 };
 
 module.exports = indexController;

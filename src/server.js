@@ -10,7 +10,7 @@ const app = express();
 require('./config/passport');
 
 // Settings
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views'));
 app.engine(
 	'.hbs',
@@ -24,6 +24,7 @@ app.engine(
 app.set('view engine', '.hbs');
 
 // Middlewares
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(methodoverride('_m'));
 app.use(
@@ -42,7 +43,6 @@ app.use((req, res, next) => {
 	res.locals.success_msg = req.flash('success_msg');
 	res.locals.error_msg = req.flash('error_msg');
 	res.locals.payComplete_msg = req.flash('payComplete_msg');
-	res.locals.error_text = req.flash('error_text');
 	res.locals.error = req.flash('error');
 	res.locals.user = req.user || null;
 	next();
@@ -55,5 +55,14 @@ app.use(require('./routes/seller.routes'));
 
 // Static files
 app.use(express.static(path.resolve(__dirname, '../public')));
+
+//Error 404
+app.use(function (req, res, next) {
+	res.status(404);
+	res.render('404', {
+		title: '404 Página no encontrada | Danca Store',
+		footerCN: true,
+	});
+});
 
 module.exports = app;

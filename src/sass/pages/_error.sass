@@ -1,0 +1,28 @@
+.error
+	&-page
+		@include flex-center (start)
+		flex-direction: column
+		padding-block-start: 40px
+		min-block-size: 100vh
+		text-align: center
+		background: $gradient-purple
+		background-size: 500%
+		animation: bganimation 10s infinite
+	&-img-container
+		inline-size: 310px
+		img
+			inline-size: 100%
+			user-select: none
+	&-text-container
+		padding: 40px 0
+		inline-size: 95%
+		max-inline-size: 550px
+	&__text
+		@include font(bold,3rem,8rem,$white)
+	&__redirection
+		@include font(normal,2.5rem,8rem,$soft-purple)
+		transition: all 0.3s ease
+		&:hover
+			color: $white
+			text-decoration: none
+			transition: all 0.3s ease
