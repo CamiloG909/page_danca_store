@@ -1,12 +1,14 @@
 const express = require('express');
+const app = express();
 const exphbs = require('express-handlebars');
 const path = require('path');
 const methodoverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
+const morgan = require('morgan');
 
-const app = express();
+require('./database/connection');
 require('./config/passport');
 
 // Settings

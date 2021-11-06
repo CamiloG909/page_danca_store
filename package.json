@@ -1,11 +1,11 @@
 {
 	"name": "danca_store",
-	"version": "2.3.0",
+	"version": "2.4.0",
 	"description": "Tienda online para la compra de celulares y computadores de forma rápida y segura",
 	"main": "src/index.js",
 	"scripts": {
 		"start": "node src/index.js",
-		"dev": "nodemon src/index.js",
+		"dev": "nodemon --ignore './public/' src/index.js",
 		"gulp": "gulp",
 		"all": "npm-run-all --parallel dev gulp"
 	},
@@ -24,8 +24,6 @@
 		"@babel/core": "^7.15.0",
 		"@babel/preset-env": "^7.15.0",
 		"@babel/register": "^7.15.3",
-		"autoprefixer": "^10.3.5",
-		"cssnano": "^5.0.8",
 		"dotenv": "^10.0.0",
 		"eslint": "^7.32.0",
 		"eslint-config-airbnb-base": "^14.2.1",
@@ -34,7 +32,6 @@
 		"gulp": "^4.0.2",
 		"gulp-babel": "^8.0.0",
 		"gulp-concat": "^2.6.1",
-		"gulp-postcss": "^9.0.1",
 		"gulp-sass": "^5.0.0",
 		"gulp-terser": "^2.0.1",
 		"handlebars": "^4.7.7",

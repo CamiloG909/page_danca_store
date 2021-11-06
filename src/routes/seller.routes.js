@@ -1,10 +1,11 @@
 const { Router } = require('express');
 const {
-	renderRol,
-	redirectionSeller,
 	renderHome,
 	renderProducts,
 	addProduct,
+	updateProduct,
+	updateStatusProduct,
+	deleteProduct,
 	renderProfile,
 	renderUpdateUserInformation,
 	updateUserInformation,
@@ -18,30 +19,129 @@ const {
 } = require('../controllers/seller.controller');
 
 const { isAuthenticatedSeller } = require('../helpers/auth');
-const { check, validationResult } = require('express-validator');
+const { body } = require('express-validator');
 
 const router = Router();
 
 router.get('/seller/home', isAuthenticatedSeller, renderHome);
 
-router
-	.route('/seller/products')
-	.get(isAuthenticatedSeller, renderProducts)
-	.put(isAuthenticatedSeller, renderProducts)
-	.delete(isAuthenticatedSeller, renderProducts);
+router.get('/seller/products', isAuthenticatedSeller, renderProducts);
 
-router.post('/seller/products/add', isAuthenticatedSeller, addProduct);
+router.post(
+	'/seller/products/add',
+	isAuthenticatedSeller,
+	[
+		body(
+			[
+				'reference',
+				'price',
+				'name',
+				'picture',
+				'specs',
+				'information',
+				'color',
+				'stock',
+				'category',
+				'supplier',
+			],
+			'Por favor completa todos los campos'
+		)
+			.not()
+			.isEmpty()
+			.trim(),
+		body('stock', 'Por favor corrija las existencias').isInt(),
+		body('category', 'ID de categoría no válida').isInt(),
+		body('supplier', 'ID de proveedor no válido').isInt(),
+	],
+	addProduct
+);
+
+router.put(
+	'/seller/product/edit',
+	isAuthenticatedSeller,
+	[
+		body(
+			[
+				'reference',
+				'price',
+				'name',
+				'picture',
+				'specs',
+				'information',
+				'color',
+				'stock',
+				'category',
+				'supplier',
+			],
+			'Por favor completa todos los campos'
+		)
+			.not()
+			.isEmpty()
+			.trim(),
+		body('stock', 'Por favor corrija las existencias').isInt(),
+		body('category', 'ID de categoría no válida').isInt(),
+		body('supplier', 'ID de proveedor no válida').isInt(),
+	],
+	updateProduct
+);
+
+router.put(
+	'/seller/product/edit-status',
+	isAuthenticatedSeller,
+	updateStatusProduct
+);
+
+router.delete('/seller/product/delete', isAuthenticatedSeller, deleteProduct);
 
 router.get('/seller/user/:id', isAuthenticatedSeller, renderProfile);
 
 router
 	.route('/seller/user/update/:id')
 	.get(isAuthenticatedSeller, renderUpdateUserInformation)
-	.put(isAuthenticatedSeller, updateUserInformation);
+	.put(
+		isAuthenticatedSeller,
+		[
+			body(
+				[
+					'name',
+					'last_name',
+					'email',
+					'phone_number',
+					'town',
+					'address',
+					'confirm_password',
+				],
+				'Por favor completa todos los campos'
+			)
+				.not()
+				.isEmpty()
+				.trim(),
+			body('email', 'Digite un correo válido').isEmail(),
+			body('phone_number')
+				.isInt()
+				.withMessage('Por favor corrija el número de teléfono')
+				.isLength({ min: 7 })
+				.withMessage('El número de teléfono debe tener mínimo 7 caracteres')
+				.isLength({ max: 14 })
+				.withMessage(
+					'El número de teléfono no debe tener más de 14 caracteres'
+				),
+		],
+		updateUserInformation
+	);
 
 router.put(
 	'/seller/user/update/image/:id',
 	isAuthenticatedSeller,
+	[
+		body('image_url')
+			.not()
+			.isEmpty()
+			.trim()
+			.withMessage('Por favor completa el campo')
+			.isURL()
+			.withMessage('Por favor ingresa una URL válida'),
+	],
 	updateUserImage
 );
 
@@ -51,46 +151,59 @@ router
 	.put(
 		isAuthenticatedSeller,
 		[
-			check('id', 'Id no válido').isLength({ min: 1 }).isNumeric(),
-			check('company_name')
-				.isLength({ min: 1 })
-				.withMessage('Por favor llena los campos'),
-			check('phone_number')
+			body('id', 'ID de proveedor no válido').not().isEmpty().isInt().trim(),
+			body(
+				['company_name', 'phone_number', 'email', 'town', 'address', 'status'],
+				'Por favor completa todos los campos'
+			)
+				.not()
+				.isEmpty()
+				.trim(),
+			body('phone_number')
+				.isInt()
+				.withMessage('El número de teléfono debe ser numérico')
 				.isLength({ min: 5 })
 				.withMessage('El número de teléfono debe tener mínimo 5 caracteres')
-				.isNumeric()
-				.withMessage('El número de teléfono debe ser numérico')
 				.isLength({ max: 16 })
 				.withMessage(
 					'El número de teléfono no debe tener más de 16 caracteres'
 				),
-			check('email')
-				.isLength({ min: 1 })
-				.withMessage('Por favor llena los campos')
-				.isEmail()
-				.withMessage('Digite un correo válido'),
-			check('town', 'town no valido')
-				.isLength({ min: 1 })
-				.withMessage('Por favor llena los campos'),
-			check('address')
-				.isLength({ min: 1 })
-				.withMessage('Por favor llena los campos'),
-			check('status')
-				.isLength({ min: 1 })
-				.withMessage('Por favor llena los campos'),
+			body('email', 'Digite un correo válido').isEmail(),
 		],
 		updateSupplier
 	)
 	.delete(
 		isAuthenticatedSeller,
-		[check('id', 'Id no válido').isLength({ min: 1 }).isNumeric()],
+		[body('id', 'ID de proveedor no válido').not().isEmpty().isInt().trim()],
 		deleteSupplier
 	);
 
 router
 	.route('/seller/suppliers/add')
 	.get(isAuthenticatedSeller, renderSuppliersForm)
-	.post(isAuthenticatedSeller, addSupplier);
+	.post(
+		isAuthenticatedSeller,
+		[
+			body(
+				['company_name', 'phone_number', 'email', 'town', 'address'],
+				'Por favor completa todos los campos'
+			)
+				.not()
+				.isEmpty()
+				.trim(),
+			body('phone_number')
+				.isInt()
+				.withMessage('El número de teléfono debe ser numérico')
+				.isLength({ min: 5 })
+				.withMessage('El número de teléfono debe tener mínimo 5 caracteres')
+				.isLength({ max: 16 })
+				.withMessage(
+					'El número de teléfono no debe tener más de 16 caracteres'
+				),
+			body('email', 'Digite un correo válido').isEmail(),
+		],
+		addSupplier
+	);
 
 router.get('/seller/list', isAuthenticatedSeller, renderShoppingList);
 

@@ -8,4 +8,6 @@ const db = new Pool({
 	port: process.env.DB_PORT,
 });
 
+console.log('PostgreSQL is connected...');
+
 module.exports = { db };

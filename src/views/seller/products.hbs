@@ -10,10 +10,10 @@
 			</div>
 			<section class="add-product-form">
 				<form action="/seller/products/add" method="POST">
-					<input class="add-product-form__input first" type="number" name="reference" placeholder="Referencia"
+					<input class="add-product-form__input first" type="text" name="reference" placeholder="Referencia"
 						title="Referencia del producto" required />
-					<input class="add-product-form__input price" type="number" min="1000" name="price" placeholder="Precio"
-						title="No son necesarios los puntos" value="{{price}}" required />
+					<input class="add-product-form__input price" type="text" name="price" placeholder="Precio"
+						title="Introduzca el precio del producto" value="{{price}}" required />
 					<input class="add-product-form__input" type="text" name="name" placeholder="Nombre"
 						title="Nombre del producto" value="{{name}}" required />
 					<textarea class="add-product-form__input-textarea" name="picture" placeholder="Imágenes"
@@ -33,7 +33,7 @@
 					</select>
 					<select class="add-product-form__input-select supplier" name="supplier" required>
 						<option value="" default>Proveedor</option>
-						{{#each suppRows}}
+						{{#each activeSuppliers}}
 						<option value="{{id}}">{{company_name}}</option>
 						{{/each}}
 					</select>
@@ -48,19 +48,19 @@
 			<div style="transform: rotate(0deg);">
 				<i class="bi bi-chevron-compact-down seller-index-box__icon-arrow" id="open-show-products"></i>
 			</div>
-			<section class="seller-products-container">
+			<section class="seller-products-container" data-suppliers="{{#each allSuppRows}}{{company_name}},{{/each}}" data-indexsuppliers="{{#each allSuppRows}}{{id}},{{/each}}">
+
+				{{#each prodRows}}
 				<article class="seller-product-card-slide" style="height: 134px;">
 					<div class="seller-product-card">
 						<figure class="seller-product-card__img">
-							<img src="/assets/img/defaultCP.jpg" alt="Imagen del producto">
+							<img src="{{#if image}}{{image}}{{else}}/assets/img/defaultCP.jpg{{/if}}" alt="Imagen del producto">
 						</figure>
-						<section class="seller-product-card__info" data-ref="" data-img="" data-specs="" data-info="" data-colors="" data-suppliers="">
-							<p class="seller-product-card__name name">HP 14<i
-									class="bi bi-circle-fill seller-product-card__status --active status"></i></p>
-							{{!-- <p class="seller-product-card__name">Name <i class="bi bi-circle-fill seller-product-card__status {{#if statusActive}}--active{{else}}--inactive{{/if}}"></i></p> --}}
-							<p class="seller-product-card__price price">$ 9.999</p>
-							<p class="seller-product-card__text supplier">Proveedor: Xiaomi</p>
-							<p class="seller-product-card__text stock">Existencias: 4</p>
+						<section class="seller-product-card__info" data-id="{{id}}" data-ref="{{reference}}" data-img="{{picture}}" data-specs="{{specs}}" data-info="{{information}}" data-colors="{{color}}" data-supplier="{{id_supplier}}" data-category="{{id_category}}">
+							<p class="seller-product-card__name name">{{name}} <i class="bi bi-circle-fill seller-product-card__status {{#if statusAvailable}}--active{{else}}--inactive{{/if}} status"></i></p>
+							<p class="seller-product-card__price price">$ {{priceFormatted}}</p>
+							<p class="seller-product-card__text supplier">Proveedor: {{id_supplier}}</p>
+							<p class="seller-product-card__text stock">Existencias: {{stock}}</p>
 						</section>
 						<section class="seller-product-card__icon-edit">
 							<i class="bi bi-pencil-square seller-product-icon"></i>
@@ -68,25 +68,7 @@
 					</div>
 
 				</article>
-				<article class="seller-product-card-slide" style="height: 134px;">
-					<div class="seller-product-card">
-						<figure class="seller-product-card__img">
-							<img src="/assets/img/defaultCP.jpg" alt="Imagen del producto">
-						</figure>
-						<section class="seller-product-card__info" data-ref="" data-img="" data-specs="" data-info="" data-colors="" data-suppliers="">
-							<p class="seller-product-card__name name">HP 14<i
-									class="bi bi-circle-fill seller-product-card__status --active status"></i></p>
-							{{!-- <p class="seller-product-card__name">Name <i class="bi bi-circle-fill seller-product-card__status {{#if statusActive}}--active{{else}}--inactive{{/if}}"></i></p> --}}
-							<p class="seller-product-card__price price">$ 9.999</p>
-							<p class="seller-product-card__text supplier">Proveedor: Xiaomi</p>
-							<p class="seller-product-card__text stock">Existencias: 4</p>
-						</section>
-						<section class="seller-product-card__icon-edit">
-							<i class="bi bi-pencil-square seller-product-icon"></i>
-						</section>
-					</div>
-
-				</article>
+				{{/each}}
 
 			</section>
 		</article>

@@ -9,6 +9,7 @@ eventListeners();
 function eventListeners() {
 	eventRefresh();
 	hiddenMsg();
+	moreInfoHistory();
 	showFormAddProduct();
 	showProducts();
 	editProduct();
@@ -49,6 +50,83 @@ function hiddenErrorIndex() {
 	}
 }
 
+// /history
+function moreInfoHistory() {
+	const cardsContainer = document.querySelector('.shopping-history-container');
+	// Validate if exist cards in correct page
+	if (cardsContainer !== null) {
+		cardsContainer.addEventListener('click', (e) => {
+			// Validate click button
+			if (e.target.getAttribute('id') === 'history-show-info-parent' || e.target.getAttribute('id') === 'history-show-info') {
+				const btnInfo = e.target.getAttribute('id') === 'history-show-info-parent' ? e.target : e.target.parentElement;
+				const productCard = e.target.getAttribute('id') === 'history-show-info-parent' ? e.target.parentElement : e.target.parentElement.parentElement;
+
+				// Add styles
+				if (productCard.style.height == '') {
+					// Get data
+					const price = productCard.getAttribute('data-price-unit');
+					const reference = productCard.getAttribute('data-ref');
+					const color = productCard.getAttribute('data-color');
+					const methodPayment = productCard.getAttribute('data-payment');
+					const supplier = productCard.getAttribute('data-supplier');
+					const address = productCard.getAttribute('data-address');
+					const city = productCard.getAttribute('data-city');
+					const shippingCompany = productCard.getAttribute('data-shipp-company');
+					const shippingDate = productCard.getAttribute('data-shipp-date');
+
+					// Create boxes
+					const section = document.createElement('section');
+					section.className = 'product-history__second-section'
+					const sectionProduct = document.createElement('section');
+					const sectionPayment = document.createElement('section');
+					const sectionAddress = document.createElement('section');
+					const sectionDelivery = document.createElement('section');
+					sectionProduct.innerHTML = `<p class="product-history__more-text"><span class="product-history__more-assistant">$ ${price} </span>/ Unidad</p>
+				<p class="product-history__more-text">Ref: <span class="product-history__more-text-gray">${reference}</span></p>
+				<p class="product-history__more-text">Color: <span class="product-history__more-text-gray">${color}</span></p>`
+					sectionPayment.innerHTML = `<p class="product-history__more-title">M&eacutetodo de pago</p>
+				<p class="product-history__more-text-gray">${methodPayment}</p>
+				<p class="product-history__more-title">Proveedor</p>
+				<p class="product-history__more-text-gray">${supplier}</p>`
+					sectionAddress.innerHTML = `<p class="product-history__more-title">Direcci&oacuten</p>
+				<p class="product-history__more-text-gray">${address}</p>
+				<p class="product-history__more-text-gray">${city}</p>`
+					sectionDelivery.innerHTML = `<p class="product-history__more-title">Envío</p>
+				<p class="product-history__more-text">Empresa: <span class="product-history__more-text-gray">${shippingCompany}</span></p>
+				<p class="product-history__more-text">Fecha: <span class="product-history__more-text-gray">${shippingDate}</span></p>`
+
+					// Insert in container
+					section.appendChild(sectionProduct);
+					section.appendChild(sectionPayment);
+					section.appendChild(sectionAddress);
+					section.appendChild(sectionDelivery);
+
+					productCard.style.height = '243px';
+
+					// Change style button
+					btnInfo.classList.add('product-history__show-less')
+					btnInfo.querySelector('i').className = "bi bi-dash-lg"
+
+					// Insert info
+					productCard.appendChild(section);
+					setTimeout(() => {
+						section.style.opacity = 1;
+					}, 100)
+				} else {
+					productCard.style = null;
+					btnInfo.classList.remove('product-history__show-less')
+					btnInfo.querySelector('i').className = "bi bi-plus-lg"
+					// Hidden info
+					productCard.querySelector('.product-history__second-section').style.opacity = 0;
+					setTimeout(() => {
+						productCard.querySelector('.product-history__second-section').remove();
+					}, 200)
+				}
+			}
+		})
+	}
+}
+
 // /cart
 // Close modal pay complete
 function closeModalCart() {
@@ -56,7 +134,7 @@ function closeModalCart() {
 	box.style.opacity = 0;
 	setTimeout(() => {
 		box.remove();
-	}, 100);
+	}, 200);
 }
 
 // /user
@@ -81,12 +159,13 @@ function choiceMenuProfile(direction, id) {
 
 	document.body.insertAdjacentElement('afterbegin', section);
 }
+
 function closeChoiceMenuProfile() {
 	const box = document.querySelector('#choice-menu-profile');
 	box.style.opacity = null;
 	setTimeout(() => {
 		box.remove();
-	}, 100);
+	}, 200);
 }
 
 // /seller/products
@@ -132,7 +211,7 @@ function showProducts() {
 				btn.parentElement.parentElement
 					.querySelector('i')
 					.classList.toggle('bi-folder2-open');
-			}, 100);
+			}, 200);
 			// Color purple
 			btn.parentElement.parentElement.classList.toggle(
 				'seller-index-box-purple'
@@ -162,6 +241,18 @@ function editProduct() {
 		productsContainer.addEventListener('click', (e) => {
 			if (e.target.classList.contains('seller-product-icon')) {
 				const productCard = e.target.parentElement.parentElement.parentElement;
+				const productsParentContainer =
+					e.target.parentElement.parentElement.parentElement.parentElement;
+
+				// Get suppliers in array
+				let suppliersArray = productsParentContainer.getAttribute('data-suppliers');
+				suppliersArray = suppliersArray.substring(0, suppliersArray.length - 1);
+				suppliersArray = suppliersArray.split(',');
+
+				// Get index of suppliers in array for value
+				let suppliersIndex = productsParentContainer.getAttribute('data-indexsuppliers');
+				suppliersIndex = suppliersIndex.substring(0, suppliersIndex.length - 1);
+				suppliersIndex = suppliersIndex.split(',');
 
 				if (productCard.style.height === '134px') {
 					// Expand card
@@ -173,50 +264,55 @@ function editProduct() {
 					const info = e.target.parentElement.parentElement.querySelector(
 						'.seller-product-card__info'
 					);
+
+					const idProduct = info.getAttribute('data-id');
+					const reference = info.getAttribute('data-ref');
 					const name = info.querySelector('.name').textContent;
 					const price = info.querySelector('.price').textContent.slice(2);
-					const supplier = info.querySelector('.supplier').textContent;
+					const pictures = info.getAttribute('data-img');
+					const specs = info.getAttribute('data-specs');
+					const information = info.getAttribute('data-info');
+					const colors = info.getAttribute('data-colors');
+					const supplier = info.getAttribute('data-supplier');
 					const stock = info.querySelector('.stock').textContent.slice(13);
+					const category = info.getAttribute('data-category');
 					let status = info
 						.querySelector('.name .status')
-						.classList.contains('--active')
-						? `<i class="bi bi-eye-slash"></i> Ocultar`
-						: `<i class="bi bi-eye"></i> Mostrar`;
+						.classList.contains('--active') ?
+						`<i class="bi bi-eye-slash"></i> Ocultar` :
+						`<i class="bi bi-eye"></i> Mostrar`;
 
-					let method;
+					// Show name supplier
+					for (let i = 0; i < suppliersIndex.length; i++) {
+						if (supplier == suppliersIndex[i]) {
+							info.querySelector('.supplier').textContent = `Proveedor: ${suppliersArray[i]}`
+						}
+					}
 					// Create form
 					const form = document.createElement('form');
 					form.className = 'seller-product-form';
-					form.action = '/seller/products';
+					form.method = 'POST';
 					form.style.opacity = 0;
 					form.innerHTML = `
 					<i class="bi bi-caret-down-fill seller-product-form__arrow"></i>
 						<p class="seller-product-form__title">Modificar producto</p>
-						<input class="add-product-form__input first" type="number" name="reference" placeholder="Referencia"
-							title="Referencia del producto" required />
-						<input class="add-product-form__input price" type="text" min="1000" name="price" placeholder="Precio"
-							title="No son necesarios los puntos" value="${price}" required />
+						<input id="method-input" type="hidden" name="_m" value="">
+						<input class="add-product-form__input first" type="text" name="reference" placeholder="Referencia"
+							title="Referencia del producto" value="${reference}" required />
+						<input class="add-product-form__input price" type="text" name="price" placeholder="Precio"
+							title="Introduzca el precio del producto" value="${price}" required />
 						<input class="add-product-form__input" type="text" name="name" placeholder="Nombre"
-							title="Nombre del producto" value="${name}" required />
+							title="Nombre del producto" value='${name}' required />
 						<textarea class="add-product-form__input-textarea" name="picture" placeholder="Imágenes"
-							title="Hipervínculo de las imágenes" required></textarea>
+							title="Hipervínculo de las imágenes" required>${pictures}</textarea>
 						<textarea class="add-product-form__input-textarea" name="specs" placeholder="Especificaciones"
-							title="Especificaciones del producto" required></textarea>
+							title="Especificaciones del producto" required>${specs}</textarea>
 						<textarea class="add-product-form__input-textarea" name="information" placeholder="Información"
-							title="Información del producto" required></textarea>
+							title="Información del producto" required>${information}</textarea>
 						<input class="add-product-form__input colors" type="text" name="color" placeholder="Colores disponibles"
-							title="Introduzca los colores separados por ','" value="" required />
+							title="Introduzca los colores separados por ','" value="${colors}" required />
 						<input class="add-product-form__input stock" type="number" name="stock" placeholder="Existencias"
 							title="Existencias del producto" value="${stock}" required />
-						<select class="add-product-form__input-select category" name="category" required>
-							<option value="" default>Categoría</option>
-							<option value="1">Computadores</option>
-							<option value="2">Celulares</option>
-						</select>
-						<select class="add-product-form__input-select supplier" name="supplier" required>
-							<option value="" default>Proveedor</option>
-							<option value="test" default>Test</option>
-						</select>
 						<input id="modify-product-update" class="add-product-form__btn-save" type="submit" value="Guardar">
 						<button id="modify-product-status" class="seller-product-form__btn-hidden">${status}</button>
 						<button id="modify-product-delete" class="seller-product-form__btn-delete"><i class="bi bi-x-lg"></i> Eliminar</button>
@@ -227,27 +323,74 @@ function editProduct() {
 						form.style.opacity = 1;
 					}, 100);
 
+					// Select categories
+					const categories = document.createElement('select');
+					categories.className = 'add-product-form__input-select category';
+					categories.name = 'category';
+					categories.required = true;
+					categories.innerHTML =
+						category == 1 ?
+						`
+					<option value="1" selected>Computadores</option>
+					<option value="2">Celulares</option>` :
+						`
+					<option value="1">Computadores</option>
+					<option value="2" selected>Celulares</option>`;
+
+					form.insertBefore(categories, form.querySelector('#modify-product-update'));
+
+					// Select suppliers
+					const suppliers = document.createElement('select');
+					suppliers.className = 'add-product-form__input-select supplier';
+					suppliers.name = 'supplier';
+					suppliers.required = true;
+
+					// Insert options
+					for (let i = 0; i < suppliersArray.length; i++) {
+						const option = document.createElement('option');
+						option.value = suppliersIndex[i];
+						option.textContent = suppliersArray[i];
+						if (suppliersIndex[i] == supplier) option.selected = true;
+
+						suppliers.appendChild(option);
+
+					}
+
+					form.insertBefore(suppliers, form.querySelector('#modify-product-update'));
+
+
 					// Methods
 					const btnUpdate = form.querySelector('#modify-product-update');
 					const btnHidden = form.querySelector('#modify-product-status');
 					const btnDelete = form.querySelector('#modify-product-delete');
 					// PUT
 					btnUpdate.addEventListener('click', () => {
-						form.action = '/seller/products?_m=PUT';
-						form.method = 'POST';
+						form.action = `/seller/product/edit?id=${idProduct}&_m=PUT`;
+						form.querySelector('#method-input').value = 'PUT';
 					});
 
 					// PUT (STATUS)
 					btnHidden.addEventListener('click', () => {
-						form.action = '/seller/products?_m=PUT';
-						form.method = 'POST';
+						const statusDb = info
+							.querySelector('.name .status')
+							.classList.contains('--active') ?
+							2 :
+							1;
+
+						form.action = `/seller/product/edit-status?id=${idProduct}&status=${statusDb}&product=${name}&_m=PUT`;
+						form.querySelector('#method-input').value = 'PUT';
 					});
 
 					// DELETE
 					btnDelete.addEventListener('click', () => {
-						form.method = 'DELETE';
+						form.action = `/seller/product/delete?id=${idProduct}&product=${name}&_m=DELETE`;
+						form.querySelector('#method-input').value = 'DELETE';
 					});
 				} else {
+					// Hidden supplier
+					const supplier = e.target.parentElement.parentElement.querySelector('.seller-product-card__info').getAttribute('data-supplier')
+					e.target.parentElement.parentElement.querySelector('.supplier').textContent = `Proveedor: ${supplier}`
+
 					productCard.style.height = '134px';
 					e.target.style.transform = 'rotate(0deg)';
 					e.target.className = 'bi bi-pencil-square seller-product-icon';
@@ -284,9 +427,9 @@ function editSupplier() {
 					const address = info.querySelector('.address').textContent.slice(11);
 					const statusCurrent = info
 						.querySelector('#status')
-						.classList.contains('--active')
-						? 'Activo'
-						: 'Suspendido';
+						.classList.contains('--active') ?
+						'Activo' :
+						'Suspendido';
 					const statusAlternate =
 						statusCurrent === 'Activo' ? 'Suspendido' : 'Activo';
 

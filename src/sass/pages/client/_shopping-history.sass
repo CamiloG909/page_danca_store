@@ -1,7 +1,6 @@
 .shopping-history-container
 	display: grid
 	grid-template-columns: 1fr
-	grid-auto-rows: 152px
 	grid-gap: 15px 0
 	margin: 58px auto 80px
 	padding-block-start: 30px
@@ -19,15 +18,19 @@
 		user-select: none
 
 .product-history
-	display: grid
-	grid-template-columns: 150px 407px 170px
-	padding: 20px 20px 20px 0
+	position: relative
+	padding: 20px 20px 5px
+	height: 152px
 	max-inline-size: 750px
 	border: 1px solid $dark-gray
 	background-color: $gray
+	transition: all 0.2s ease
+	overflow: hidden
+	&__first-section
+		display: grid
+		grid-template-columns: 130px 407px 170px
 	&__img-container
 		@include flex-center
-		margin: 0 20px
 		inline-size: 110px
 		block-size: 110px
 		border: 1px solid $dark-gray
@@ -67,3 +70,56 @@
 		&--green
 			@extend .product-history__status
 			color: $green
+	&__second-section
+		display: grid
+		grid-template-columns: 23% 22% 27% 28%
+		block-size: 105px
+		transition: all .2s ease
+		opacity: 0
+		section
+			@include flex-center (center, flex-start)
+			flex-direction: column
+		&-container
+			padding-inline-end: 7px
+			&.last
+				padding: 0
+	&__more
+		&-assistant
+			font-family: $second-font
+			color: $text-gray
+		&-title
+			@include font (bold, 1.6rem)
+		&-text
+			@include font (400, 1.6rem)
+		&-text-gray
+			@include font (400, 1.6rem, normal, $text-gray)
+	&__no-padding
+		padding: 0
+	&__show-more
+		position: absolute
+		inset-block-end: -20px
+		inset-inline-start: -20px
+		@include flex-center (center,flex-start)
+		padding: 2px
+		block-size: 40px
+		inline-size: 40px
+		font-size: 1rem
+		color: white
+		border: 1px solid $dark-gray
+		background-color: $green
+		transform: rotate(45deg)
+		cursor: pointer
+		transition: all 0.3s ease
+		&:hover
+			background-color: $dark-green
+		&:active
+			border-color: $green
+		i::before
+			transform: rotate(-45deg)
+	&__show-less
+		@extend .product-history__show-more
+		background-color: $blue
+		&:hover
+			background-color: $dark-blue
+		&:active
+			border-color: $blue

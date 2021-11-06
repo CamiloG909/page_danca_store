@@ -10,46 +10,51 @@
 
 	{{#each response.rows}}
 
-	<article class="product-history">
-		<figure class="product-history__img-container">
-			<img src="{{#if image}}{{image}}{{else}}/assets/img/defaultCP.jpg{{/if}}" alt="Imagen del producto" />
-		</figure>
-		<section class="product-history__info">
-			<div>
-				<p class="product-history__name">{{name}}</p>
-				<p class="product-history__price">$ {{priceFormatted}}</p>
-				<p class="product-history__text">Fecha de compra: {{order_date}}</p>
-				<p class="product-history__text">N° de compra: {{id}}</p>
-			</div>
-		</section>
-			{{#if statusPending}}
-			<section class="product-history__status--orange">
-			<div>
-				<p class="product-history__status-title">
-					<i class="bi bi-hourglass-split product-history__status-icons"></i>
-					Llega mañana
-				</p>
-				<p class="product-history__status-subtitle">Preparando</p>
+	<article class="product-history" data-price-unit="{{priceFormatted}}" data-ref="{{reference}}" data-color="{{color}}" data-payment="{{method_payment}}" data-supplier="{{company_name}}" data-address="{{address}}" data-city="{{town}}" data-shipp-company="{{shipping_company_name}}" data-shipp-date="{{shipping_date}}">
+		<div id="history-show-info-parent" class="product-history__show-more">
+			<i  id="history-show-info" class="bi bi-plus-lg product-history-btn-info"></i>
+		</div>
+		<section class="product-history__first-section">
+			<figure class="product-history__img-container">
+				<img src="{{#if image}}{{image}}{{else}}/assets/img/defaultCP.jpg{{/if}}" alt="Imagen del producto" />
+			</figure>
+			<section class="product-history__info">
+				<div>
+					<p class="product-history__name">{{name}}</p>
+					<p class="product-history__price">$ {{priceFormatted}}</p>
+					<p class="product-history__text">Fecha de compra: {{order_date}}</p>
+					<p class="product-history__text">N° Compra: {{id}}</p>
+				</div>
+			</section>
+				{{#if statusPending}}
+				<section class="product-history__status--orange">
+				<div>
+					<p class="product-history__status-title">
+						<i class="bi bi-hourglass-split product-history__status-icons"></i>
+						Llega mañana
+					</p>
+					<p class="product-history__status-subtitle">Preparando</p>
 
-			{{else if statusWay}}
-			<section class="product-history__status--green">
-			<div>
-				<p class="product-history__status-title">
-								<i class="bi bi-box-seam product-history__status-icons"></i>
-								Llega hoy
-							</p>
-							<p class="product-history__status-subtitle">En camino</p>
-			{{else if statusDelivered}}
-			<section class="product-history__status">
-			<div>
-				<p class="product-history__status-title">
-								<i class="bi bi-bag-check product-history__status-icons"></i>
-								Entregado
-							</p>
-							<p class="product-history__status-subtitle">{{delivery_date}}</p>
-			{{/if}}
-				</p>
-			</div>
+				{{else if statusWay}}
+				<section class="product-history__status--green">
+				<div>
+					<p class="product-history__status-title">
+									<i class="bi bi-box-seam product-history__status-icons"></i>
+									Llega hoy
+								</p>
+								<p class="product-history__status-subtitle">En camino</p>
+				{{else if statusDelivered}}
+				<section class="product-history__status">
+				<div>
+					<p class="product-history__status-title">
+									<i class="bi bi-bag-check product-history__status-icons"></i>
+									Entregado
+								</p>
+								<p class="product-history__status-subtitle">{{delivery_date}}</p>
+				{{/if}}
+					</p>
+				</div>
+			</section>
 		</section>
 	</article>
 

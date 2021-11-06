@@ -26,6 +26,10 @@
 		</li>
 		{{/each}}
 		<li>
+			<a href="/help" class="lateral-menu__a" target="_blank"><i class="bi bi-question-circle lateral-menu__icon"></i>
+				AYUDA</a>
+		</li>
+		<li>
 			<a href="/home" class="lateral-menu__a"><i class="bi bi-arrow-repeat lateral-menu__icon"></i> CAMBIAR A CLIENTE</a>
 		</li>
 		<li>
@@ -54,11 +58,11 @@
 			<a href="/cart" class="lateral-menu__a"><i class="bi bi-cart3 lateral-menu__icon"></i> CARRITO DE
 				COMPRAS</a>
 		</li>
-		{{#each user.rows}}
 		<li>
-			<a href="/history/{{id}}" class="lateral-menu__a"><i class="bi bi-clock-history lateral-menu__icon"></i>
+			<a href="/history" class="lateral-menu__a"><i class="bi bi-clock-history lateral-menu__icon"></i>
 				HISTORIAL DE COMPRAS</a>
 		</li>
+		{{#each user.rows}}
 		<li>
 			<a href="/user/{{id}}" class="lateral-menu__a"><i class="bi bi-person lateral-menu__icon"></i> MI PERFIL</a>
 		</li>

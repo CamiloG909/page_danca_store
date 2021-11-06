@@ -3,12 +3,17 @@ const indexController = {};
 const { db } = require('../database/connection');
 const bcrypt = require('bcryptjs');
 const { indexQuerys } = require('../database/querys');
+const { validationResult } = require('express-validator');
 
 indexController.renderIndex = (req, res) => {
-	res.render('index', {
-		title: 'Danca Store',
-		footer: true,
-	});
+	try {
+		res.render('index', {
+			title: 'Danca Store',
+			footer: true,
+		});
+	} catch {
+		res.redirect('/error');
+	}
 };
 
 indexController.signin = passport.authenticate('local', {
@@ -18,244 +23,94 @@ indexController.signin = passport.authenticate('local', {
 });
 
 indexController.renderHelp = (req, res) => {
-	res.render('help', {
-		title: 'Ayuda | Danca Store',
-		footerCN: true,
-	});
+	try {
+		res.render('help', {
+			title: 'Ayuda | Danca Store',
+			footerCN: true,
+		});
+	} catch {
+		res.redirect('/error');
+	}
 };
 
 indexController.renderSignup = (req, res) => {
-	res.render('signup', {
-		headerHelp: true,
-		title: 'Registrarse | Danca Store',
-	});
+	try {
+		res.render('signup', {
+			headerHelp: true,
+			title: 'Registrarse | Danca Store',
+		});
+	} catch {
+		res.redirect('/error');
+	}
 };
 
 indexController.signup = async (req, res) => {
-	let errors = [];
-	const {
-		name,
-		last_name,
-		document_type,
-		document_number,
-		email,
-		phone_number,
-		town,
-		address,
-		password,
-	} = req.body;
+	try {
+		// Validate errors
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			res.status(400);
+			req.flash('error_msg', errors.errors[0].msg);
+			return res.redirect('/signup');
+		}
 
-	const documentTypeId = document_type === 'CC' ? 1 : 2;
-
-	const passwordHash = await bcrypt.hash(password, 8);
-
-	if (
-		name.length == 0 ||
-		last_name.length == 0 ||
-		document_type.length == 0 ||
-		document_number.length == 0 ||
-		email.length == 0 ||
-		phone_number.length == 0 ||
-		town.length == 0 ||
-		address.length == 0 ||
-		password.length == 0
-	) {
-		errors.push({
-			error: 'Por favor llena los campos',
-		});
-
-		res.render('signup', {
-			errors,
-			headerHelp: true,
-			title: 'Registrarse | Danca Store',
+		const {
 			name,
 			last_name,
-			document_type,
 			document_number,
 			email,
 			phone_number,
 			town,
 			address,
 			password,
-		});
-	} else {
-		if (document_number.length > 12) {
-			errors.push({
-				error: 'El número de documento no debe tener más de 12 caracteres',
-			});
-			res.render('signup', {
-				errors,
-				headerHelp: true,
-				title: 'Registrarse | Danca Store',
-				name,
-				last_name,
-				document_type,
-				email,
-				phone_number,
-				town,
-				address,
-				password,
-			});
-		} else if (document_number.length < 7) {
-			errors.push({
-				error: 'El número de documento debe tener mínimo 7 caracteres',
-			});
-			res.render('signup', {
-				errors,
-				headerHelp: true,
-				title: 'Registrarse | Danca Store',
-				name,
-				last_name,
-				document_type,
-				email,
-				phone_number,
-				town,
-				address,
-				password,
-			});
-		} else if (document_number.includes('.') || document_number.includes(',')) {
-			errors.push({
-				error: 'El número de documento solo debe tener números',
-			});
-			res.render('signup', {
-				errors,
-				headerHelp: true,
-				title: 'Registrarse | Danca Store',
-				name,
-				last_name,
-				document_type,
-				email,
-				phone_number,
-				town,
-				address,
-				password,
-			});
-		} else {
-			if (email.indexOf('@') == -1) {
-				errors.push({
-					error: 'Digite un correo válido',
-				});
-				res.render('signup', {
-					errors,
-					headerHelp: true,
-					title: 'Registrarse | Danca Store',
-					name,
-					last_name,
-					document_type,
-					document_number,
-					phone_number,
-					town,
-					address,
-					password,
-				});
-			} else if (email.indexOf('@') >= 0) {
-				const resEmail = await db.query(indexQuerys.signUp[0], [email]);
-				if (resEmail.rows.length >= 1) {
-					errors.push({
-						error: 'El correo ya está en uso',
-					});
-					res.render('signup', {
-						errors,
-						headerHelp: true,
-						title: 'Registrarse | Danca Store',
-						name,
-						last_name,
-						document_type,
-						document_number,
-						phone_number,
-						town,
-						address,
-						password,
-					});
-				} else {
-					if (phone_number.length > 14) {
-						errors.push({
-							error: 'El número de teléfono no debe tener más de 14 caracteres',
-						});
-						res.render('signup', {
-							errors,
-							headerHelp: true,
-							title: 'Registrarse | Danca Store',
-							name,
-							last_name,
-							document_type,
-							document_number,
-							email,
-							town,
-							address,
-							password,
-						});
-					} else if (phone_number.length < 7) {
-						errors.push({
-							error: 'El número de teléfono debe tener mínimo 7 caracteres',
-						});
-						res.render('signup', {
-							errors,
-							headerHelp: true,
-							title: 'Registrarse | Danca Store',
-							name,
-							last_name,
-							document_type,
-							document_number,
-							email,
-							town,
-							address,
-							password,
-						});
-					} else {
-						if (password.length < 6) {
-							errors.push({
-								error: 'La contraseña debe tener mínimo 6 caracteres',
-							});
-							res.render('signup', {
-								errors,
-								headerHelp: true,
-								title: 'Registrarse | Danca Store',
-								name,
-								last_name,
-								document_type,
-								document_number,
-								email,
-								phone_number,
-								town,
-								address,
-							});
-						} else {
-							// Complete register
-							const resUser_ = await db.query(indexQuerys.signUp[1], [
-								email,
-								passwordHash,
-								email,
-								phone_number,
-								town,
-								address,
-							]);
-							const resId = await db.query(indexQuerys.signUp[2], [email]);
+		} = req.body;
+		const document_type = req.body.document_type === 'CC' ? 1 : 2;
+		const passwordHash = await bcrypt.hash(password, 8);
 
-							const idUser = resId.rows[0].id;
-
-							const resRol = await db.query(indexQuerys.signUp[3], [idUser]);
-							const resClient = await db.query(indexQuerys.signUp[4], [
-								documentTypeId,
-								document_number,
-								name,
-								last_name,
-								idUser,
-							]);
-							req.flash('success_msg', 'Te has registrado satisfactoriamente');
-							res.redirect('/signup');
-							// End complete register
-						}
-					}
-				}
-			}
+		// Validate email
+		const resEmail = await db.query(indexQuerys.signUp[0], [email]);
+		if (resEmail.rows.length > 0) {
+			req.flash('error_msg', 'El correo ya está en uso');
+			return res.redirect('/signup');
 		}
+
+		// Save user in DB
+		await db.query(indexQuerys.signUp[1], [
+			email,
+			passwordHash,
+			email,
+			phone_number,
+			town,
+			address,
+		]);
+		// Get new id user for other table
+		const resId = await db.query(indexQuerys.signUp[2], [email]);
+		const idUser = resId.rows[0].id;
+		await db.query(indexQuerys.signUp[3], [idUser]);
+		await db.query(indexQuerys.signUp[4], [
+			document_type,
+			document_number,
+			name,
+			last_name,
+			idUser,
+		]);
+		req.flash(
+			'success_msg',
+			'Registro completado, vuelve al inicio para loguearte'
+		);
+		res.redirect('/signup');
+	} catch {
+		res.redirect('/error');
 	}
 };
 
 indexController.logout = (req, res) => {
-	req.logout();
-	res.redirect('/');
+	try {
+		req.logout();
+		res.redirect('/');
+	} catch {
+		res.redirect('/error');
+	}
 };
 
 indexController.renderError = (req, res) => {

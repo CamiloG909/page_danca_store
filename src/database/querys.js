@@ -30,14 +30,18 @@ clientQuerys.productsPay = [
 	`insert into ${process.env.DB_SCHEMA}.shipping (id_order,shipping_company_name,town,address,shipping_date,delivery_date,status) values ($1,$2,$3,$4,$5,$6,'Pendiente')`,
 ];
 
-clientQuerys.renderShoppingHistory = `select p.picture, p.name, od.total_value, o.order_date, o.id, o.status, s.delivery_date
+clientQuerys.renderShoppingHistory = `select p.reference, p.picture, p.name, p.price, sr.company_name, u.address, u.town, od.total_value, od.color, o.order_date, o.id, o.status, s.shipping_company_name, s.shipping_date, s.delivery_date, mp.method_payment
 from ${process.env.DB_SCHEMA}.order_ o
 inner join ${process.env.DB_SCHEMA}.client c on o.id_client = c.id
+inner join ${process.env.DB_SCHEMA}.user_ u on c.id_user = u.id
 inner join ${process.env.DB_SCHEMA}.order_details od on od.id_order = o.id
 inner join ${process.env.DB_SCHEMA}.product p on od.id_product = p.id
+inner join ${process.env.DB_SCHEMA}.supplier sr on p.id_supplier = sr.id
 inner join ${process.env.DB_SCHEMA}.shipping s on s.id_order= o.id
+inner join ${process.env.DB_SCHEMA}.payment pt on pt.id_order= o.id
+inner join ${process.env.DB_SCHEMA}.method_payment mp on pt.id_method_payment= mp.id
 where c.id_user = $1
-order by o.status DESC, o.order_date DESC
+order by o.status DESC, o.order_date ASC
 ;`;
 
 clientQuerys.renderProfile = `select u.id, c.name, c.last_name, u.email, u.phone_number, c.document_number, u.town, u.address, u.image_url from ${process.env.DB_SCHEMA}.client c inner join ${process.env.DB_SCHEMA}.user_ u on c.id_user = u.id where u.id = $1;`;
@@ -48,6 +52,7 @@ clientQuerys.updateUserInformation = [
 	`select email from ${process.env.DB_SCHEMA}.user_ where email = $1;`,
 	`select email from ${process.env.DB_SCHEMA}.user_ u where id = $1;`,
 	`select password from ${process.env.DB_SCHEMA}.user_ where id = $1;`,
+	`update ${process.env.DB_SCHEMA}.user_ set login=$1,email=$2,phone_number=$3,town=$4,address=$5 where id = $6;`,
 	`update ${process.env.DB_SCHEMA}.user_ set login=$1,password=$2,email=$3,phone_number=$4,town=$5,address=$6 where id = $7;`,
 	`update ${process.env.DB_SCHEMA}.client set name=$1,last_name=$2 where id_user = $3;`,
 ];
@@ -56,13 +61,22 @@ clientQuerys.updateUserImage = `update ${process.env.DB_SCHEMA}.user_ set image_
 
 const sellerQuerys = {};
 
-sellerQuerys.renderProducts = `select id, company_name from ${process.env.DB_SCHEMA}.supplier where status = 'Activo';`;
+sellerQuerys.renderProducts = [
+	`select id, company_name, status from ${process.env.DB_SCHEMA}.supplier;`,
+	`select * from ${process.env.DB_SCHEMA}.product order by name asc;`,
+];
 
 sellerQuerys.addProduct = [
-	`select id, company_name from ${process.env.DB_SCHEMA}.supplier where status = 'Activo';`,
-	`select reference from ${process.env.DB_SCHEMA}.product where reference = $1`,
+	`select id from ${process.env.DB_SCHEMA}.supplier where id = $1 and status = 'Activo';`,
+	`select id, reference from ${process.env.DB_SCHEMA}.product where reference = $1`,
 	`insert into ${process.env.DB_SCHEMA}.product (reference,name,price,picture,specs,information,color,stock,id_category,id_supplier,status) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'Disponible');`,
 ];
+
+sellerQuerys.updateProduct = `update ${process.env.DB_SCHEMA}.product set reference= $1, name= $2, price= $3, picture= $4, specs= $5, information= $6, color= $7, stock= $8, id_category= $9, id_supplier= $10 where id = $11;`;
+
+sellerQuerys.updateStatusProduct = `update ${process.env.DB_SCHEMA}.product set status = $1 where id = $2;`;
+
+sellerQuerys.deleteProduct = `delete from ${process.env.DB_SCHEMA}.product where id = $1;`;
 
 sellerQuerys.renderProfile = `select u.id, c.name, c.last_name, u.email, u.phone_number, c.document_number, u.town, u.address, u.image_url from ${process.env.DB_SCHEMA}.client c inner join ${process.env.DB_SCHEMA}.user_ u on c.id_user = u.id where u.id = $1;`;
 
@@ -72,6 +86,7 @@ sellerQuerys.updateUserInformation = [
 	`select email from ${process.env.DB_SCHEMA}.user_ where email = $1;`,
 	`select email from ${process.env.DB_SCHEMA}.user_ u where id = $1;`,
 	`select password from ${process.env.DB_SCHEMA}.user_ where id = $1;`,
+	`update ${process.env.DB_SCHEMA}.user_ set login=$1,email=$2,phone_number=$3,town=$4,address=$5 where id = $6;`,
 	`update ${process.env.DB_SCHEMA}.user_ set login=$1,password=$2,email=$3,phone_number=$4,town=$5,address=$6 where id = $7;`,
 	`update ${process.env.DB_SCHEMA}.client set name=$1,last_name=$2 where id_user = $3;`,
 ];

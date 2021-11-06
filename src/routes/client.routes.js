@@ -18,6 +18,7 @@ const {
 } = require('../controllers/client.controller');
 
 const { isAuthenticated } = require('../helpers/auth');
+const { body } = require('express-validator');
 
 const router = Router();
 
@@ -30,29 +31,72 @@ router.get('/category/phones', isAuthenticated, renderPhones);
 router
 	.route('/product/:id')
 	.get(isAuthenticated, renderProductDetail)
+	// TODO: no validate for now
 	.post(isAuthenticated, addCartProduct);
 
 router.get('/cart', isAuthenticated, renderShoppingCart);
 router
 	.route('/cart/clear')
-	.get(isAuthenticated, (req, res) => res.redirect('/home'))
+	// TODO: no validate for now
 	.post(isAuthenticated, clearProductsCart);
 
 router
 	.route('/cart/pay')
-	.get(isAuthenticated, (req, res) => res.redirect('/home'))
+	// TODO: no validate for now
 	.post(isAuthenticated, productsPay);
 
-router.get('/history/:id', isAuthenticated, renderShoppingHistory);
-router.get('/history', isAuthenticated, redirectionShoppingHistory);
+router.get('/history', isAuthenticated, renderShoppingHistory);
 
 router.get('/user/:id', isAuthenticated, renderProfile);
 
 router
 	.route('/user/update/:id')
 	.get(isAuthenticated, renderUpdateUserInformation)
-	.put(isAuthenticated, updateUserInformation);
+	.put(
+		isAuthenticated,
+		[
+			body(
+				[
+					'name',
+					'last_name',
+					'email',
+					'phone_number',
+					'town',
+					'address',
+					'confirm_password',
+				],
+				'Por favor completa todos los campos'
+			)
+				.not()
+				.isEmpty()
+				.trim(),
+			body('email', 'Digite un correo válido').isEmail(),
+			body('phone_number')
+				.isInt()
+				.withMessage('Por favor corrija el número de teléfono')
+				.isLength({ min: 7 })
+				.withMessage('El número de teléfono debe tener mínimo 7 caracteres')
+				.isLength({ max: 14 })
+				.withMessage(
+					'El número de teléfono no debe tener más de 14 caracteres'
+				),
+		],
+		updateUserInformation
+	);
 
-router.put('/user/update/image/:id', isAuthenticated, updateUserImage);
+router.put(
+	'/user/update/image/:id',
+	isAuthenticated,
+	[
+		body('image_url')
+			.not()
+			.isEmpty()
+			.trim()
+			.withMessage('Por favor completa el campo')
+			.isURL()
+			.withMessage('Por favor ingresa una URL válida'),
+	],
+	updateUserImage
+);
 
 module.exports = router;

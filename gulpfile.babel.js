@@ -19,17 +19,17 @@ gulp.task('sass', () =>
 );
 
 // JavaScript || Babel
-gulp.task('babel', () =>
-	gulp
-		.src('./src/app.js')
-		.pipe(concat('bundle.js'))
-		.pipe(babel())
-		.pipe(terser())
-		.pipe(gulp.dest('./public/js'))
-);
+// gulp.task('babel', () =>
+// 	gulp
+// 		.src('./src/app.js')
+// 		.pipe(concat('bundle.js'))
+// 		.pipe(babel())
+// 		.pipe(terser())
+// 		.pipe(gulp.dest('./public/js'))
+// );
 
 // Defaul task
 gulp.task('default', () => {
 	gulp.watch('./src/sass/**/*.sass', gulp.series('sass'));
-	gulp.watch('./src/app.js', gulp.series('babel'));
+	// gulp.watch('./src/app.js', gulp.series('babel'));
 });
