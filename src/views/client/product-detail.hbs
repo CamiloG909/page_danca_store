@@ -34,10 +34,10 @@
 		</p>
 		<p class="product-abstract__stock"><b>Stock disponible: </b>{{resRows.stock}}</p>
 
-		<form action="/product/{{resRows.id}}" method="POST">
+		<form id="add-cart-product-form">
 			<input type="hidden" name="user" value="{{idUser.id}}">
-			<input type="hidden" name="product" value="{{resRows.id}}">
 			<input type="hidden" name="reference" value="{{resRows.reference}}">
+			<input type="hidden" name="product" value="{{resRows.id}}">
 			<input type="hidden" name="name" value="{{resRows.name}}">
 			<input type="hidden" name="picture" value="{{sendImage.image}}">
 			<input type="hidden" name="price" value="{{resRows.priceFormatted}}">

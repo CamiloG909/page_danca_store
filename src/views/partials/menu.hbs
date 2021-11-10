@@ -1,5 +1,5 @@
 {{#if menuSeller}}
-<input type="checkbox" id="header__btn-menu" />
+<input type="checkbox" id="header__btn-menu"/>
 <section class="lateral-menu">
 	<label for="header__btn-menu"><i class="bi bi-x-lg lateral-menu__icon-close"></i></label>
 	<img src="/assets/img/isologo-black.png" alt="Isologo del menú" class="lateral-menu__isologo" />
@@ -39,7 +39,7 @@
 	</ul>
 </section>
 {{else}}
-<input type="checkbox" id="header__btn-menu" />
+<input type="checkbox" id="header__btn-menu" data-user="{{#each user.rows}}{{id}}{{/each}}"/>
 <section class="lateral-menu">
 	<label for="header__btn-menu"><i class="bi bi-x-lg lateral-menu__icon-close"></i></label>
 	<img src="/assets/img/isologo-black.png" alt="Isologo del menú" class="lateral-menu__isologo" />

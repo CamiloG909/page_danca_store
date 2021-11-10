@@ -29,6 +29,24 @@ function eventRefresh() {
 	});
 }
 
+// Show messages with transition
+function transitionMsg(msgContainer) {
+	msgContainer.style.transform = 'translateY(-70px)'
+	document.body.appendChild(msgContainer);
+	setTimeout(() => {
+		msgContainer.style.transform = null
+	}, 100)
+
+	// Hidden msg
+	setTimeout(() => {
+		msgContainer.style.transform = 'translateY(-70px)'
+		// Remove from DOM
+		setTimeout(() => {
+			msgContainer.remove()
+		}, 300)
+	}, 1500)
+}
+
 // Hidden global messages
 function hiddenMsg() {
 	const msg = document.querySelector('#message-container');
@@ -128,6 +146,308 @@ function moreInfoHistory() {
 }
 
 // /cart
+// Shopping cart
+(() => {
+
+	let productsCart = []
+
+	class InfoProduct {
+		constructor(id, user, reference, product, name, picture, price, amount, color) {
+			this.id = id
+			this.user = user
+			this.reference = reference
+			this.product = product
+			this.name = name
+			this.picture = picture
+			this.price = price
+			this.amount = amount
+			this.color = color
+		}
+	}
+
+	// Local Storage
+	class LS {
+		getProducts() {
+			if (localStorage.getItem('products-cart') === null) {
+				localStorage.setItem('products-cart', '[]')
+			} else {
+				productsCart = JSON.parse(localStorage.getItem('products-cart'))
+				ui.showNotificationCount()
+			}
+		}
+
+		syncProducts() {
+			localStorage.setItem('products-cart', JSON.stringify(productsCart))
+			ui.showNotificationCount()
+		}
+	}
+
+	class UI {
+		showNotificationCount() {
+			// Get info of user logged
+			const user = document.querySelector('#header__btn-menu').getAttribute('data-user')
+			const productsCartUser = productsCart.filter(product => product.user === user)
+
+			const count = productsCartUser.length
+			if (count > 0) {
+				// Show count cirlce in header
+				const header = document.querySelector('.header .header__limit .header__icons-right #count-header-cart')
+				const circle = document.createElement('div')
+				circle.className = 'header__circle-count'
+				circle.textContent = count
+
+				header.appendChild(circle)
+			}
+		}
+
+		addProduct(product) {
+			ls.getProducts()
+			productsCart.unshift(product)
+			this.showNotificationCount()
+			ls.syncProducts()
+		}
+
+		showMessage(message, type = "succesfully") {
+			const divContainer = document.createElement('div')
+			divContainer.className = 'message-container'
+			divContainer.setAttribute('id', 'message-container')
+
+			const div = document.createElement('div')
+			div.className = `message message--${type}`
+			div.setAttribute('id', 'message')
+			div.innerHTML = `<i class="bi bi-caret-up-fill message--${type}-icon"></i>
+		<p class="message__text">${message}</p>`
+
+			divContainer.appendChild(div)
+			transitionMsg(divContainer)
+		}
+
+		showProducts() {
+			// Get info of user logged
+			const user = document.querySelector('#header__btn-menu').getAttribute('data-user')
+			const productsCartUser = productsCart.filter(product => product.user === user)
+
+			const count = productsCartUser.length
+			if (count > 0) {
+				// Clean HTML
+				document.querySelector('.shopping-cart').innerHTML = ''
+
+				// Create container products
+				const container = document.createElement('section')
+				container.className = 'shopping-cart-container'
+				document.querySelector('.shopping-cart').appendChild(container)
+
+				const containerCards = document.createElement('section')
+				containerCards.className = 'products-shopping-cart'
+				container.appendChild(containerCards)
+
+				productsCartUser.forEach(product => {
+					const article = document.createElement('article')
+					article.className = 'product-cart'
+					article.innerHTML = `<div id="delete-product" class="product-cart__delete-product" data-id="${product.id}">
+				<i id="delete-product-icon" class="bi bi-x-lg"></i>
+			</div>
+			<figure class="product-cart__img-container">
+				<img src="${product.picture}" alt="Imagen del producto" />
+			</figure>
+			<section class="product-cart__text">
+				<div>
+					<p class="product-cart__name">${product.name}</p>
+					<p class="product-cart__price">$ ${product.price}</p>
+					<p class="product-cart__color">Color: ${product.color}</p>
+				</div>
+			</section>
+			<section class="product-cart__amount">
+				<div>
+					<p class="product-cart__amount-title">Cantidad</p>
+					<p class="product-cart__amount-number">${product.amount}
+						<p class="product-cart__amount-title">Referencia</p>
+						<p class="product-cart__amount-number">${product.reference}
+						</p>
+				</div>
+			</section>`
+
+					containerCards.appendChild(article)
+
+				})
+				// Show total products
+				this.showTotalBox(productsCartUser)
+			} else {
+				// Clean notification count
+				document.querySelector('#count-header-cart').innerHTML = '<i class="bi bi-cart3 header__icon"></i>'
+
+				// Clean HTML
+				document.querySelector('.shopping-cart').innerHTML = ''
+
+				const container = document.createElement('div')
+				container.className = 'shopping-cart-container--fail'
+				container.innerHTML = `<figure class="shopping-history-fail">
+				<div>
+					<p class="shopping-history-fail__text">Aún no has agregado ningún producto</p>
+					<p class="shopping-history-fail__face">:(</p>
+				</div>
+			</figure>`
+				document.querySelector('.shopping-cart').appendChild(container)
+			}
+		}
+
+		showTotalBox(products) {
+			// Create box container
+			const container = document.createElement('section')
+			container.className = 'total-value-cart'
+			document.querySelector('.shopping-cart-container').appendChild(container)
+
+			// Create title
+			const title =  document.createElement('p')
+			title.className = 'total-value-cart__title'
+			title.textContent = 'Valor total'
+			container.appendChild(title)
+
+			// Create form
+			const form = document.createElement('form')
+			form.setAttribute('id', 'pay-products-cart')
+			form.action = '/cart/pay'
+			form.method = 'POST'
+			container.appendChild(form)
+
+			// Show products
+			let totalValue = 0
+			products.forEach(product => {
+				const text = document.createElement('p')
+				text.className = 'total-value-cart__product'
+				text.innerHTML = `${product.name} <span> x${product.amount}</span>`
+				container.appendChild(text)
+
+				// Add to the total
+				let price = product.price.replace(/\./g, '');
+				price = Number(price)
+				totalValue += price * product.amount
+
+				// Add inputs to form
+				form.innerHTML += `
+				<input type="hidden" name="product" value="${product.product}">
+				<input type="hidden" name="amount" value="${product.amount}">
+				<input type="hidden" name="color" value="${product.color}">
+				`
+			})
+
+			// Format total
+			const priceFormatter = new Intl.NumberFormat('de-DE');
+			totalValue = priceFormatter.format(totalValue);
+
+			// Create line
+			const line = document.createElement('hr')
+			line.className = 'total-value-cart__line'
+			container.appendChild(line)
+
+			// Create total text
+			const total = document.createElement('p')
+			total.className = 'total-value-cart__total'
+			total.innerHTML = `<span>$ </span>${totalValue}`
+			container.appendChild(total)
+
+			// Create button pay
+			const btnPay = document.createElement('button')
+			btnPay.className = 'total-value-cart__btn-pay'
+			btnPay.setAttribute('form','pay-products-cart')
+			btnPay.innerHTML = 'Ir a pagar<i class="bi bi-cash-coin total-value-cart__btn-pay-icon"></i>'
+			container.appendChild(btnPay)
+
+			// Create button clear cart
+			const btnClear = document.createElement('button')
+			btnClear.className = 'total-value-cart__btn-clear'
+			btnClear.innerHTML = '<i class="bi bi-trash2-fill"></i> Vaciar carrito'
+			container.appendChild(btnClear)
+			btnClear.onclick = () => {
+				this.clearCart()
+			}
+		}
+
+		deleteProduct(id) {
+			const name = productsCart.find(product => product.id === id).name
+			productsCart = productsCart.filter(product => product.id !== id)
+			ls.syncProducts()
+			this.showProducts()
+			this.showMessage(`${name} eliminado del carrito`, 'error')
+		}
+
+		clearCart(showMsg = true) {
+			productsCart = productsCart.filter(product => product.user !== document.querySelector('#header__btn-menu').getAttribute('data-user'))
+			ls.syncProducts()
+			this.showProducts()
+			if(showMsg) this.showMessage('Tu carrito se ha vaciado', 'error')
+		}
+	}
+
+	const ls = new LS()
+	const ui = new UI()
+
+	// Know if the user is client
+	window.addEventListener('DOMContentLoaded', () => {
+		// Show count in header
+		if (document.querySelector('.header') != null && document.querySelector('.header').getAttribute('name') === 'header-client') {
+			const headerClient = document.querySelector('.header')
+			ls.getProducts();
+		}
+
+		// Show products in shopping cart
+		if (document.querySelector('.shopping-cart') != null) {
+			ui.showProducts()
+			// Delete product
+			if (document.querySelector('.shopping-cart') != null) {
+				document.querySelector('.shopping-cart').addEventListener('click', (e) => {
+					if (e.target.getAttribute('id') === 'delete-product' || e.target.getAttribute('id') === 'delete-product-icon') {
+						let id = e.target.getAttribute('id') === 'delete-product' ? e.target : e.target.parentElement
+						id = id.getAttribute('data-id')
+						ui.deleteProduct(id)
+					}
+				})
+			}
+		}
+
+		// Clear cart if user already paid
+		if(document.querySelector('#modal-pay-complete') != null) {
+			ui.clearCart(false)
+		}
+	})
+
+	// Get data from form
+	const getDataProduct = (e) => {
+		e.preventDefault()
+
+		const form = document.querySelector('#add-cart-product-form')
+		const data = new FormData(form)
+
+		// Validate amount
+		if (Number(data.get('amount')) > 3 || Number(data.get('amount')) < 1) return ui.showMessage('La cantidad permitida es de 1 a 3 por producto', 'error')
+
+		// Get stock
+		const stock = form.parentElement.querySelector('.product-abstract__stock').textContent.slice(18)
+
+		// Validate amount and stock
+		if (Number(stock) < data.get('amount')) return ui.showMessage('Por favor corrija la cantidad', 'error')
+
+		// Create obj product with info
+		const product = new InfoProduct(
+			uuid.v4(),
+			data.get('user'),
+			data.get('reference'),
+			data.get('product'),
+			data.get('name'),
+			data.get('picture'),
+			data.get('price'),
+			data.get('amount'),
+			data.get('color'),
+		)
+
+		ui.addProduct(product)
+		ui.showMessage(`${data.get('name')} agregado al carrito`)
+	}
+	if (document.querySelector('#add-cart-product-form') !== null) {
+		document.querySelector('#add-cart-product-form').addEventListener('submit', getDataProduct)
+	}
+
+})();
 // Close modal pay complete
 function closeModalCart() {
 	const box = document.querySelector('#modal-pay-complete');

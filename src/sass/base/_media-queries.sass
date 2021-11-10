@@ -1,28 +1,31 @@
 @media screen and ( max-width: 1050px )
-  // Shopping cart
-  .shopping-cart-container
-    grid-template-columns: 1fr
-    grid-gap: 15px
-  .product-cart
-    margin: 0 auto
-  .total-value-cart
-    margin: 0 auto 7vh
-    inline-size: 353px
-  // End shopping cart
+	// Shopping cart
+	.shopping-cart-container
+		grid-template-columns: 1fr
+		grid-gap: 15px
+	.products-shopping-cart
+		grid-row: 2
+	.product-cart
+		margin: 0 auto
+	.total-value-cart
+		margin: 0 auto 7vh
+		inline-size: 353px
+		grid-row: 1
+	// End shopping cart
 
 @media screen and (max-width: 850px)
-  // Profile client
-  .profile-card
-    flex-direction: column
-    width: 95%
-    &__left
-      border-block-end: none
-    &__right
-      padding: 0 20px 20px
-      border-block-start: none
-    &__btn-logout
-      padding: 5px 10px
+	// Profile client
+	.profile-card
+		flex-direction: column
+		width: 95%
+		&__left
+			border-block-end: none
+		&__right
+			padding: 0 20px 20px
+			border-block-start: none
+		&__btn-logout
+			padding: 5px 10px
 
-  .profile-card>section
-    width: 100%
-  // End profile client
+	.profile-card>section
+		width: 100%
+	// End profile client

@@ -18,7 +18,7 @@
 		</div>
 	</header>
 {{else if headerClient}}
-	<header class="header">
+	<header class="header" name="header-client">
 		<div class="header__limit">
 			<section class="header__icon-menu">
 				<label for="header__btn-menu"
@@ -32,7 +32,7 @@
 			</figure>
 			<section class="header__icons-right">
 				{{#each user.rows}}
-				<a href="/cart" class="header__a"
+				<a href="/cart" id="count-header-cart" class="header__a"
 					><i class="bi bi-cart3 header__icon"></i
 				></a>
 				<a href="/user/{{id}}" class="header__a"

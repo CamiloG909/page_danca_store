@@ -21,16 +21,16 @@ clientQuerys.renderPhones = `select id, picture, name, price from ${process.env.
 clientQuerys.renderProductDetail = `select p.id, p.reference, p.name, p.price, p.picture, p.specs, p.information, p.color, p.stock, s.company_name from ${process.env.DB_SCHEMA}.product p inner join ${process.env.DB_SCHEMA}.supplier s on p.id_supplier = s.id where p.id = $1;`;
 
 clientQuerys.productsPay = [
-	`select town,address from ${process.env.DB_SCHEMA}.user_ where id = $1`,
 	`insert into ${process.env.DB_SCHEMA}.order_ (id_client,order_date,status) values ($1,$2,'Pendiente');`,
-	`select id from ${process.env.DB_SCHEMA}.order_`,
+	`select id from ${process.env.DB_SCHEMA}.order_ where id=(select max(id) from ${process.env.DB_SCHEMA}.order_)`,
 	`select price from ${process.env.DB_SCHEMA}.product where id = $1;`,
 	`insert into ${process.env.DB_SCHEMA}.order_details (id_order,id_product,total_value,amount,color) values ($1,$2,$3,$4,$5);`,
 	`insert into ${process.env.DB_SCHEMA}.payment (id_method_payment,id_order,bill_date,status) values ($1,$2,$3,'Completado')`,
-	`insert into ${process.env.DB_SCHEMA}.shipping (id_order,shipping_company_name,town,address,shipping_date,delivery_date,status) values ($1,$2,$3,$4,$5,$6,'Pendiente')`,
+	`select town,address from ${process.env.DB_SCHEMA}.user_ where id = $1`,
+	`insert into ${process.env.DB_SCHEMA}.shipping (id_order,shipping_company_name,town,address,shipping_date,delivery_date,status) values ($1,'-------',$2,$3,'-------','-------','Pendiente')`,
 ];
 
-clientQuerys.renderShoppingHistory = `select p.reference, p.picture, p.name, p.price, sr.company_name, u.address, u.town, od.total_value, od.color, o.order_date, o.id, o.status, s.shipping_company_name, s.shipping_date, s.delivery_date, mp.method_payment
+clientQuerys.renderShoppingHistory = `select p.reference, p.picture, p.name, p.price, sr.company_name, s.address, s.town, od.total_value, od.color, o.order_date, o.id, o.status, s.shipping_company_name, s.shipping_date, s.delivery_date, mp.method_payment
 from ${process.env.DB_SCHEMA}.order_ o
 inner join ${process.env.DB_SCHEMA}.client c on o.id_client = c.id
 inner join ${process.env.DB_SCHEMA}.user_ u on c.id_user = u.id
@@ -41,7 +41,7 @@ inner join ${process.env.DB_SCHEMA}.shipping s on s.id_order= o.id
 inner join ${process.env.DB_SCHEMA}.payment pt on pt.id_order= o.id
 inner join ${process.env.DB_SCHEMA}.method_payment mp on pt.id_method_payment= mp.id
 where c.id_user = $1
-order by o.status DESC, o.order_date ASC
+order by o.id DESC
 ;`;
 
 clientQuerys.renderProfile = `select u.id, c.name, c.last_name, u.email, u.phone_number, c.document_number, u.town, u.address, u.image_url from ${process.env.DB_SCHEMA}.client c inner join ${process.env.DB_SCHEMA}.user_ u on c.id_user = u.id where u.id = $1;`;

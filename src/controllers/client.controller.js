@@ -193,73 +193,13 @@ clientController.renderProductDetail = async (req, res) => {
 	}
 };
 
-clientController.addCartProduct = (req, res) => {
-	try {
-		const { user, product, reference, name, picture, price, amount, color } =
-			req.body;
-
-		const detailsProductObj = {
-			user,
-			product,
-			reference,
-			name,
-			picture,
-			price,
-			amount,
-			color,
-		};
-
-		if (amount > 3) {
-			req.flash('error_msg', 'La cantidad no es válida');
-		} else {
-			req.session.detailsProduct.unshift(detailsProductObj);
-			req.flash('success_msg', 'Producto agregado al carrito');
-		}
-
-		res.redirect(`/product/${product}`);
-	} catch {
-		res.redirect('/error');
-	}
-};
-
 clientController.renderShoppingCart = (req, res) => {
 	try {
-		const idUser = req.user.rows[0].id;
-		let detailsProduct;
-		let total = {
-			total: 0,
-		};
-
-		if (req.session.detailsProduct) {
-			const details = req.session.detailsProduct;
-			const userDetailsProduct = details.filter((e) => e.user == idUser);
-			detailsProduct = userDetailsProduct;
-		} else {
-			detailsProduct = [];
-		}
-
-		if (detailsProduct.length >= 1) {
-			for (let i in detailsProduct) {
-				let priceWithout = detailsProduct[i].price.replace(/\./g, '');
-				let price = parseInt(priceWithout);
-				let totalValue = price * detailsProduct[i].amount;
-				total.total += totalValue;
-			}
-		} else {
-			detailsProduct = [];
-		}
-
-		const priceFormat = new Intl.NumberFormat('de-DE');
-		const priceFormatted = priceFormat.format(total.total);
-		total.total = priceFormatted;
-
 		res.render('client/shopping-cart', {
 			headerClient: true,
 			category: 'Carrito de compras',
 			title: 'Carrito de compras | Danca Store',
 			rolUser,
-			detailsProduct,
-			total,
 			footer: true,
 		});
 	} catch {
@@ -267,112 +207,134 @@ clientController.renderShoppingCart = (req, res) => {
 	}
 };
 
-clientController.clearProductsCart = (req, res) => {
-	try {
-		req.session.detailsProduct = [];
-		res.redirect('/cart');
-	} catch {
-		res.redirect('/error');
-	}
-};
-
 clientController.productsPay = async (req, res) => {
 	try {
-		const { user, product, amount, color } = req.body;
-		// Validate amount
-		let resAmount;
-		if (amount.length > 1) {
-			const amountValue = amount.find((e) => e > 3);
-			if (amountValue == undefined) {
-				resAmount = true;
+		class Product {
+			constructor(product, amount, color) {
+				this.id = product;
+				this.amount = amount;
+				this.color = color;
+			}
+		}
+
+		const products = [];
+		// Validate data
+		const { product, amount, color } = req.body;
+		const errorMsg = 'Ha ocurrido un error, por favor verifique los productos';
+		let oneProduct;
+		// If is one product
+		if (
+			typeof product === 'string' ||
+			typeof amount === 'string' ||
+			typeof color === 'string'
+		) {
+			if (
+				typeof product === 'object' ||
+				typeof amount === 'object' ||
+				typeof color === 'object'
+			) {
+				req.flash('error_msg', errorMsg);
+				return res.redirect('/cart');
 			} else {
-				resAmount = false;
+				// Validate if is empty
+				if (!product || !amount || !color || amount > 3) {
+					req.flash('error_msg', errorMsg);
+					return res.redirect('/cart');
+				}
+
+				oneProduct = true;
 			}
 		} else {
-			if (amount <= 3) {
-				resAmount = true;
-			} else {
-				resAmount = false;
+			// Validate length of arrays
+			if (
+				product.length !== amount.length ||
+				product.length !== color.length ||
+				amount.length !== color.length
+			) {
+				req.flash('error_msg', errorMsg);
+				return res.redirect('/cart');
+			}
+			// Validate if is empty
+			for (let i = 0; i < product.length; i++) {
+				if (!product[i] || !amount[i] || !color[i] || amount[i] > 3) {
+					req.flash('error_msg', errorMsg);
+					return res.redirect('/cart');
+				}
 			}
 		}
-		if (!resAmount) {
-			req.flash('error_msg', 'La cantidad no es válida');
-			res.redirect('/cart');
+
+		// Complete array products
+		// Create new products
+		if (oneProduct) {
+			const newProduct = new Product(product, amount, color);
+			products.push(newProduct);
+		} else {
+			for (let i = 0; i < product.length; i++) {
+				const newProduct = new Product(product[i], amount[i], color[i]);
+				products.push(newProduct);
+			}
 		}
 
-		// Date
-		let today = new Date();
-		let dd = today.getDate();
-		dd = dd < 10 ? '0' + dd : dd;
-		let mm = today.getMonth() + 1;
-		mm = mm < 10 ? '0' + mm : mm;
+		// Save in DB
+		for (let product of products) {
+			// ID User
+			const idUser = req.user.rows[0].id;
+			// Date
+			let today = new Date();
+			let dd = today.getDate();
+			dd = dd < 10 ? '0' + dd : dd;
+			let mm = today.getMonth() + 1;
+			mm = mm < 10 ? '0' + mm : mm;
+			today = `${dd}/${mm}/${today.getFullYear()}`;
+			// Hours
+			let hour = new Date();
+			hour = `${hour.getHours()}:${hour.getMinutes()}:${hour.getSeconds()}`;
+			const time = `${hour} ${today}`;
 
-		today = `${dd}/${mm}/${today.getFullYear()}`;
+			// 1- Create Order
+			await db.query(clientQuerys.productsPay[0], [idUser, today]);
 
-		// Hours
-		let hour = new Date();
-		hour = `${hour.getHours()}:${hour.getMinutes()}:${hour.getSeconds()}`;
-
-		const time = `${hour} ${today}`;
-
-		for (let i in product) {
-			// Get town and address user
-			const resUser = await db.query(clientQuerys.productsPay[0], [user[i]]);
-
-			const userTown = resUser.rows[0].town;
-			const userAddress = resUser.rows[0].address;
-
-			const resOrder = await db.query(clientQuerys.productsPay[1], [
-				user[i],
-				today,
+			// Get id order
+			const resIdOrder = await db.query(clientQuerys.productsPay[1]);
+			const idOrder = resIdOrder.rows[0].id;
+			// Calculate total value
+			const resProduct = await db.query(clientQuerys.productsPay[2], [
+				product.id,
 			]);
+			const totalValue = resProduct.rows[0].price * product.amount;
 
-			// Get last id order
-			const resIdOrder = await db.query(clientQuerys.productsPay[2]);
-			let idOrder = resIdOrder.rows;
-			const idOrderLength = idOrder.length - 1;
-			idOrder = idOrder[idOrderLength].id;
-
-			// Get total value
-			const response = await db.query(clientQuerys.productsPay[3], [
-				product[i],
-			]);
-			let priceProduct = response.rows[0].price;
-			priceProduct = parseInt(priceProduct);
-			const total = priceProduct * amount[i];
-
-			// Get color
-			let colorProduct = typeof color === 'object' ? color[i] : color;
-
-			const resOrderDetails = await db.query(clientQuerys.productsPay[4], [
+			// 2- Create Order Details
+			await db.query(clientQuerys.productsPay[3], [
 				idOrder,
-				product[i],
-				total,
-				amount[i],
-				colorProduct,
+				product.id,
+				totalValue,
+				product.amount,
+				product.color,
 			]);
 
-			const resPayment = await db.query(clientQuerys.productsPay[5], [
+			// 3- Create Payment
+			await db.query(clientQuerys.productsPay[4], [
 				numberRandom(1, 3),
 				idOrder,
 				time,
 			]);
 
-			const resShipping = await db.query(clientQuerys.productsPay[6], [
+			// Get town and address
+			const resUser = await db.query(clientQuerys.productsPay[5], [idUser]);
+			const userTown = resUser.rows[0].town;
+			const userAddress = resUser.rows[0].address;
+
+			// 4- Create Shipping
+			await db.query(clientQuerys.productsPay[6], [
 				idOrder,
-				'-------',
 				userTown,
 				userAddress,
-				'-------',
-				'-------',
 			]);
 		}
 
-		req.session.detailsProduct = [];
 		req.flash('payComplete_msg', 'Pago completo');
 		res.redirect('/cart');
-	} catch (e) {
-		console.log(e);
+	} catch {
 		res.redirect('/error');
 	}
 };
@@ -390,7 +352,7 @@ clientController.renderShoppingHistory = async (req, res) => {
 			const priceFormat = new Intl.NumberFormat('de-DE');
 			const priceFormatted = priceFormat.format(response.rows[i].total_value);
 			const newResponse = response.rows[i];
-			newResponse.priceFormatted = priceFormatted;
+			newResponse.totalValueFormatted = priceFormatted;
 		}
 
 		formatterPrice(response.rows);

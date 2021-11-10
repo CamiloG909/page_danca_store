@@ -18,7 +18,7 @@ const {
 } = require('../controllers/client.controller');
 
 const { isAuthenticated } = require('../helpers/auth');
-const { body } = require('express-validator');
+const { body, check } = require('express-validator');
 
 const router = Router();
 
@@ -28,22 +28,11 @@ router.get('/home', isAuthenticated, renderHome);
 router.get('/category/computers', isAuthenticated, renderComputers);
 router.get('/category/phones', isAuthenticated, renderPhones);
 
-router
-	.route('/product/:id')
-	.get(isAuthenticated, renderProductDetail)
-	// TODO: no validate for now
-	.post(isAuthenticated, addCartProduct);
+router.route('/product/:id').get(isAuthenticated, renderProductDetail);
 
 router.get('/cart', isAuthenticated, renderShoppingCart);
-router
-	.route('/cart/clear')
-	// TODO: no validate for now
-	.post(isAuthenticated, clearProductsCart);
 
-router
-	.route('/cart/pay')
-	// TODO: no validate for now
-	.post(isAuthenticated, productsPay);
+router.post('/cart/pay', isAuthenticated, productsPay);
 
 router.get('/history', isAuthenticated, renderShoppingHistory);
 
