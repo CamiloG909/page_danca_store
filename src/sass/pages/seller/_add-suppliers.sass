@@ -15,6 +15,9 @@
 	&__btn-save
 		@include btn-input
 		margin: 16px 0 13px
+		&.--disabled
+			cursor: not-allowed
+			opacity: .7
 	&__redirection
 		padding: 1px 156.1px
 		@include font(bold,1.4rem,normal,$purple)

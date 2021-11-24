@@ -95,31 +95,3 @@
 			@include font (400, 1.6rem, normal, $text-gray)
 	&__no-padding
 		padding: 0
-	&__show-more
-		position: absolute
-		inset-block-end: -20px
-		inset-inline-start: -20px
-		@include flex-center (center,flex-start)
-		padding: 2px
-		block-size: 40px
-		inline-size: 40px
-		font-size: 1rem
-		color: white
-		border: 1px solid $dark-gray
-		background-color: $green
-		transform: rotate(45deg)
-		cursor: pointer
-		transition: all 0.3s ease
-		&:hover
-			background-color: $dark-green
-		&:active
-			border-color: $green
-		i::before
-			transform: rotate(-45deg)
-	&__show-less
-		@extend .product-history__show-more
-		background-color: $blue
-		&:hover
-			background-color: $dark-blue
-		&:active
-			border-color: $blue

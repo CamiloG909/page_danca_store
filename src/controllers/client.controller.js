@@ -4,56 +4,14 @@ const { db } = require('../database/connection');
 const bcrypt = require('bcryptjs');
 const { clientQuerys } = require('../database/querys');
 const { validationResult } = require('express-validator');
+const {
+	formatterPrice,
+	imageCardProduct,
+	statusChoose,
+	numberRandom,
+} = require('../helpers/functions');
 
 let rolUser;
-
-// Price formatter function
-const formatterPrice = (object) => {
-	for (let i = 0; i < object.length; i++) {
-		const priceFormat = new Intl.NumberFormat('de-DE');
-		const priceFormatted = priceFormat.format(object[i].price);
-		const newResponse = object[i];
-		newResponse.priceFormatted = priceFormatted;
-	}
-};
-// First image function
-const imageCardProduct = (object) => {
-	for (let i = 0; i < object.length; i++) {
-		const images = [];
-		const resImages = object[i].picture;
-		const arrImages = resImages.split(',');
-		for (let i in arrImages) {
-			let image = arrImages[i].trim();
-			image = {
-				image,
-			};
-			images.push(image);
-		}
-
-		const imageProduct = images[0].image;
-		const newResponse = object[i];
-		newResponse.image = imageProduct;
-	}
-};
-// Status selector
-const statusChoose = (object) => {
-	for (let i = 0; i < object.length; i++) {
-		if (object[i].status === 'Completado') {
-			const newResponse = object[i];
-			newResponse.statusDelivered = true;
-		} else if (object[i].status === 'En camino') {
-			const newResponse = object[i];
-			newResponse.statusWay = true;
-		} else if (object[i].status === 'Pendiente') {
-			const newResponse = object[i];
-			newResponse.statusPending = true;
-		}
-	}
-};
-// Generate random number
-const numberRandom = (min, max) => {
-	return Math.floor(Math.random() * (max + 1 - min) + min);
-};
 
 clientController.renderRol = async (req, res) => {
 	try {

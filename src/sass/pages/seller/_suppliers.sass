@@ -78,9 +78,23 @@
 		background-color: #f6f0ff
 		outline: none
 		transition: .3s all ease
+		cursor: pointer
+		&.--correct
+			border-color: $green
+			background-color: $soft-green
+			&:focus
+				border-color: $green
+		&.--error
+			border-color: $red
+			background-color: $soft-red
+			&:focus
+				border-color: $red
 	&__btn-save
 		@include btn-input
 		margin: 16px 0 8px
+		&.--disabled
+			cursor: not-allowed
+			opacity: .7
 	&__btn-delete
 		@include btn-input
 		block-size: 25px

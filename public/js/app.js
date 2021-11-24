@@ -14,6 +14,7 @@ function eventListeners() {
 	showProducts();
 	editProduct();
 	editSupplier();
+	moreInfoShoppingList();
 }
 
 // Refresh navigator for login
@@ -67,6 +68,731 @@ function hiddenErrorIndex() {
 		document.querySelector('#message-signin').remove();
 	}
 }
+
+// Validate forms
+(() => {
+	class Validation {
+		expressions = {
+			user: /^[a-zA-Z0-9\_\-]{4,16}$/,
+			names: /^[a-zA-ZÀ-ÿ\s]{1,40}$/,
+			email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+			textCommas: /^[A-Za-zÀ-ÿ\,\s]*[A-Za-zÀ-ÿ]$/
+		}
+
+		expressionLimitter(min, max) {
+			return new RegExp(`^.{${min},${max}}$`)
+		}
+
+		expressionLimitterNumbers(min, max) {
+			return new RegExp(`^\\d{${min},${max}}$`)
+		}
+
+		validatePrice(value) {
+			const price = value.replace(/\./g, '');
+
+			if (!Number(price)) {
+				return false;
+			}
+
+			return true
+		}
+
+		validateField(expression, input, field, obj, allowF, body = document) {
+			// Validate price
+			if (expression === 'validatePrice') {
+				const response = this.validatePrice(input.value)
+
+				if (response) {
+					body.querySelector(`#input-${field}`).classList.add('--correct')
+					body.querySelector(`#input-${field}`).classList.remove('--error')
+					body.querySelector(`#input-${field} .group-input-validate__icon`).classList.add('--correct')
+					body.querySelector(`#input-${field} .group-input-validate__icon`).classList.remove('--error')
+					body.querySelector(`#input-${field} .group-input-validate__icon i`).classList.add('bi-check-circle-fill')
+					body.querySelector(`#input-${field} .group-input-validate__icon i`).classList.remove('bi-x-circle-fill')
+					obj[field] = true;
+					allowF();
+				} else {
+					body.querySelector(`#input-${field}`).classList.add('--error')
+					body.querySelector(`#input-${field}`).classList.remove('--correct')
+					body.querySelector(`#input-${field} .group-input-validate__icon`).classList.add('--error')
+					body.querySelector(`#input-${field} .group-input-validate__icon`).classList.remove('--correct')
+					body.querySelector(`#input-${field} .group-input-validate__icon i`).classList.add('bi-x-circle-fill')
+					body.querySelector(`#input-${field} .group-input-validate__icon i`).classList.remove('bi-check-circle-fill')
+					obj[field] = false;
+					allowF();
+				}
+
+				return;
+			}
+
+			if (expression.test(input.value)) {
+				body.querySelector(`#input-${field}`).classList.add('--correct')
+				body.querySelector(`#input-${field}`).classList.remove('--error')
+				body.querySelector(`#input-${field} .group-input-validate__icon`).classList.add('--correct')
+				body.querySelector(`#input-${field} .group-input-validate__icon`).classList.remove('--error')
+				body.querySelector(`#input-${field} .group-input-validate__icon i`).classList.add('bi-check-circle-fill')
+				body.querySelector(`#input-${field} .group-input-validate__icon i`).classList.remove('bi-x-circle-fill')
+				obj[field] = true;
+				allowF();
+			} else {
+				body.querySelector(`#input-${field}`).classList.add('--error')
+				body.querySelector(`#input-${field}`).classList.remove('--correct')
+				body.querySelector(`#input-${field} .group-input-validate__icon`).classList.add('--error')
+				body.querySelector(`#input-${field} .group-input-validate__icon`).classList.remove('--correct')
+				body.querySelector(`#input-${field} .group-input-validate__icon i`).classList.add('bi-x-circle-fill')
+				body.querySelector(`#input-${field} .group-input-validate__icon i`).classList.remove('bi-check-circle-fill')
+				obj[field] = false;
+				allowF();
+			}
+		}
+
+		showMessage(box, message, type = "error") {
+			const text = document.createElement('p');
+			text.className = type === 'error' ? 'group-input-validate__text' : 'group-input-validate__text-success'
+			text.textContent = message;
+
+			if (box.querySelector('.group-input-validate__text') == null) {
+				box.appendChild(text);
+				setTimeout(() => {
+					text.remove()
+				}, 3000)
+			}
+		}
+	}
+	const validation = new Validation();
+
+	// Signup
+	if (document.querySelector('#form-signup') != null) {
+		const inputs = document.querySelectorAll('.signup-form__input')
+
+		const fields = {
+			name: false,
+			last_name: false,
+			document_type: true,
+			document_number: false,
+			email: false,
+			phone_number: false,
+			town: false,
+			address: false,
+			password: false,
+		}
+
+		const allowSubmit = () => {
+			if (fields.name && fields.last_name && fields.document_type && fields.document_number && fields.email && fields.phone_number && fields.town && fields.address && fields.password) {
+				document.querySelector('.signup-form__btn').classList.remove('--disabled')
+				document.querySelector('.signup-form__btn').disabled = false
+			} else {
+				document.querySelector('.signup-form__btn').classList.add('--disabled')
+				document.querySelector('.signup-form__btn').disabled = true
+			}
+		}
+
+		const validateForm = (e) => {
+			switch (e.target.name) {
+				case "name":
+					validation.validateField(validation.expressions.names, e.target, 'name', fields, allowSubmit);
+					break;
+				case "last_name":
+					validation.validateField(validation.expressions.names, e.target, 'last_name', fields, allowSubmit);
+					break;
+				case "document_type":
+					validation.validateField(validation.expressions.names, e.target, 'document_type', fields, allowSubmit);
+					break;
+				case "document_number":
+					validation.validateField(validation.expressionLimitterNumbers(7, 12), e.target, 'document_number', fields, allowSubmit);
+					break;
+				case "email":
+					validation.validateField(validation.expressions.email, e.target, 'email', fields, allowSubmit);
+					break;
+				case "phone_number":
+					validation.validateField(validation.expressionLimitterNumbers(7, 14), e.target, 'phone_number', fields, allowSubmit);
+					break;
+				case "town":
+					validation.validateField(validation.expressionLimitter(1, 50), e.target, 'town', fields, allowSubmit);
+					break;
+				case "address":
+					validation.validateField(validation.expressionLimitter(1, 50), e.target, 'address', fields, allowSubmit);
+					break;
+				case "password":
+					validation.validateField(validation.expressionLimitter(6, 50), e.target, 'password', fields, allowSubmit);
+					break;
+			}
+		}
+
+		inputs.forEach((input) => {
+			// Validate selects
+			if (input.classList.contains('signup-form__input--select')) {
+				return input.addEventListener('change', () => {
+					if (input.value !== '') {
+						input.classList.add('--correct')
+						input.classList.remove('--error')
+						fields[input.name] = true;
+						allowSubmit();
+					} else {
+						input.classList.add('--error')
+						input.classList.remove('--correct')
+						fields[input.name] = false;
+						allowSubmit();
+					}
+				})
+			}
+			input.addEventListener('keyup', validateForm);
+			input.addEventListener('blur', validateForm);
+		});
+	}
+
+	// Update profile
+	if (document.querySelector('#form-update-profile') != null) {
+		const inputs = document.querySelectorAll('.update-profile-form__input')
+
+		const fields = {
+			name: true,
+			last_name: true,
+			email: true,
+			phone_number: true,
+			town: true,
+			address: true,
+		}
+
+		const allowSubmit = () => {
+			if (fields.name && fields.last_name && fields.email && fields.phone_number && fields.town && fields.address) {
+				document.querySelector('.update-profile-form__btn-save').classList.remove('--disabled')
+				document.querySelector('.update-profile-form__btn-save').disabled = false
+			} else {
+				document.querySelector('.update-profile-form__btn-save').classList.add('--disabled')
+				document.querySelector('.update-profile-form__btn-save').disabled = true
+			}
+		}
+
+		const validateForm = (e) => {
+			switch (e.target.name) {
+				case "name":
+					validation.validateField(validation.expressions.names, e.target, 'name', fields, allowSubmit);
+					break;
+				case "last_name":
+					validation.validateField(validation.expressions.names, e.target, 'last_name', fields, allowSubmit);
+					break;
+				case "email":
+					validation.validateField(validation.expressions.email, e.target, 'email', fields, allowSubmit);
+					break;
+				case "phone_number":
+					validation.validateField(validation.expressionLimitterNumbers(7, 14), e.target, 'phone_number', fields, allowSubmit);
+					break;
+				case "town":
+					validation.validateField(validation.expressionLimitter(1, 50), e.target, 'town', fields, allowSubmit);
+					break;
+				case "address":
+					validation.validateField(validation.expressionLimitter(1, 50), e.target, 'address', fields, allowSubmit);
+					break;
+			}
+		}
+
+		inputs.forEach((input) => {
+			input.addEventListener('keyup', validateForm);
+			input.addEventListener('blur', validateForm);
+		});
+	}
+
+	// Add suppliers
+	if (document.querySelector('#form-add-suppliers') != null) {
+		const inputs = document.querySelectorAll('.add-supplier-form__input')
+
+		const fields = {
+			company_name: false,
+			phone_number: false,
+			email: false,
+			town: false,
+			address: false,
+		}
+
+		const allowSubmit = () => {
+			if (fields.company_name && fields.phone_number && fields.email && fields.town && fields.address) {
+				document.querySelector('.add-supplier-form__btn-save').classList.remove('--disabled')
+				document.querySelector('.add-supplier-form__btn-save').disabled = false
+			} else {
+				document.querySelector('.add-supplier-form__btn-save').classList.add('--disabled')
+				document.querySelector('.add-supplier-form__btn-save').disabled = true
+			}
+		}
+
+		const validateForm = (e) => {
+			switch (e.target.name) {
+				case "company_name":
+					validation.validateField(validation.expressionLimitter(1, 50), e.target, 'company_name', fields, allowSubmit);
+					break;
+				case "phone_number":
+					validation.validateField(validation.expressionLimitterNumbers(5, 16), e.target, 'phone_number', fields, allowSubmit);
+					break;
+				case "email":
+					validation.validateField(validation.expressions.email, e.target, 'email', fields, allowSubmit);
+					break;
+				case "town":
+					validation.validateField(validation.expressionLimitter(1, 50), e.target, 'town', fields, allowSubmit);
+					break;
+				case "address":
+					validation.validateField(validation.expressionLimitter(1, 50), e.target, 'address', fields, allowSubmit);
+					break;
+			}
+		}
+
+		inputs.forEach((input) => {
+			input.addEventListener('keyup', validateForm);
+			input.addEventListener('blur', validateForm);
+		});
+	}
+
+	// Edit suppliers
+	if (document.querySelector('.section-suppliers') != null) {
+		const suppliersContainer = document.querySelector('.supplier-card-container')
+
+		suppliersContainer.addEventListener('click', (e) => {
+			if (e.target.classList.contains('supplier-card__icon-edit')) {
+				const forms = e.target.parentElement.parentElement.parentElement.querySelectorAll('article form')
+
+				forms.forEach((form) => {
+					const inputs = form.querySelectorAll('.add-supplier-form__input');
+
+					const fields = {
+						company_name: true,
+						phone_number: true,
+						email: true,
+						town: true,
+						address: true,
+						status: true,
+					}
+
+					const allowSubmit = () => {
+						if (fields.company_name && fields.phone_number && fields.email && fields.town && fields.address && fields.status) {
+							form.querySelector('.supplier-form__btn-save').classList.remove('--disabled')
+							form.querySelector('.supplier-form__btn-save').disabled = false
+						} else {
+							form.querySelector('.supplier-form__btn-save').classList.add('--disabled')
+							form.querySelector('.supplier-form__btn-save').disabled = true
+						}
+					}
+
+					const validateForm = (e) => {
+						switch (e.target.name) {
+							case "company_name":
+								validation.validateField(validation.expressionLimitter(1, 50), e.target, 'company_name', fields, allowSubmit, form);
+								break;
+							case "phone_number":
+								validation.validateField(validation.expressionLimitterNumbers(5, 16), e.target, 'phone_number', fields, allowSubmit, form);
+								break;
+							case "email":
+								validation.validateField(validation.expressions.email, e.target, 'email', fields, allowSubmit, form);
+								break;
+							case "town":
+								validation.validateField(validation.expressionLimitter(1, 50), e.target, 'town', fields, allowSubmit, form);
+								break;
+							case "address":
+								validation.validateField(validation.expressionLimitter(1, 50), e.target, 'address', fields, allowSubmit, form);
+								break;
+						}
+					}
+
+					inputs.forEach((input) => {
+						// Validate selects
+						if (input.name === 'status') {
+							return input.addEventListener('change', () => {
+								if (validation.expressionLimitter(1, 50).test(input.value)) {
+									input.classList.add('--correct')
+									input.classList.remove('--error')
+									fields[input.name] = true;
+									allowSubmit();
+								} else {
+									input.classList.add('--error')
+									input.classList.remove('--correct')
+									fields[input.name] = false;
+									allowSubmit();
+								}
+							})
+						}
+						input.addEventListener('keyup', validateForm);
+						input.addEventListener('blur', validateForm);
+					});
+				})
+			}
+		})
+	}
+
+	// Admin products
+	if (document.querySelector('.index-seller-container') != null) {
+		const references = JSON.parse(document.querySelector('.section-index-seller').getAttribute('data-references'))
+
+		// New product
+		if (document.querySelector('#form-new-product') != null) {
+			const inputs = document.querySelectorAll('.add-product-form__input')
+			const textareas = document.querySelectorAll('.add-product-form__input-textarea')
+			const selects = document.querySelectorAll('.add-product-form__input-select')
+
+			const fields = {
+				reference: false,
+				price: false,
+				name: false,
+				picture: false,
+				specs: false,
+				information: false,
+				color: false,
+				stock: false,
+				category: false,
+				supplier: false,
+			}
+
+			const allowSubmit = () => {
+				if (fields.reference && fields.price && fields.name && fields.picture && fields.specs && fields.information && fields.color && fields.stock && fields.category && fields.supplier) {
+					document.querySelector('.add-product-form__btn-save').classList.remove('--disabled')
+					document.querySelector('.add-product-form__btn-save').disabled = false
+				} else {
+					document.querySelector('.add-product-form__btn-save').classList.add('--disabled')
+					document.querySelector('.add-product-form__btn-save').disabled = true
+				}
+			}
+
+			const validateForm = (e) => {
+				switch (e.target.name) {
+					case "reference":
+						// Validate reference
+						for (let obj of references) {
+							if (obj.reference === e.target.value) {
+								e.target.parentElement.classList.add('--error')
+								e.target.parentElement.classList.remove('--correct')
+								e.target.parentElement.querySelector(`.group-input-validate__icon`).classList.add('--error')
+								e.target.parentElement.querySelector(`.group-input-validate__icon`).classList.remove('--correct')
+								e.target.parentElement.querySelector(`.group-input-validate__icon i`).classList.add('bi-x-circle-fill')
+								e.target.parentElement.querySelector(`.group-input-validate__icon i`).classList.remove('bi-check-circle-fill')
+								fields[e.target.name] = false;
+								allowSubmit()
+								return validation.showMessage(e.target.parentElement, '* La referencia debe ser única')
+							}
+						}
+
+						validation.validateField(validation.expressionLimitter(1, 50), e.target, 'reference', fields, allowSubmit);
+						break;
+					case "price":
+						validation.validateField('validatePrice', e.target, 'price', fields, allowSubmit);
+						break;
+					case "name":
+						validation.validateField(validation.expressionLimitter(1, 9999999999), e.target, 'name', fields, allowSubmit);
+						break;
+					case "picture":
+						if (e.target.value.length > 0) {
+							document.querySelector(`#input-picture`).classList.add('--correct')
+							document.querySelector(`#input-picture`).classList.remove('--error')
+							document.querySelector(`#input-picture .group-input-validate__icon`).classList.add('--correct')
+							document.querySelector(`#input-picture .group-input-validate__icon`).classList.remove('--error')
+							document.querySelector(`#input-picture .group-input-validate__icon i`).classList.add('bi-check-circle-fill')
+							document.querySelector(`#input-picture .group-input-validate__icon i`).classList.remove('bi-x-circle-fill')
+							fields[e.target.name] = true;
+							allowSubmit();
+						} else {
+							document.querySelector(`#input-picture`).classList.add('--error')
+							document.querySelector(`#input-picture`).classList.remove('--correct')
+							document.querySelector(`#input-picture .group-input-validate__icon`).classList.add('--error')
+							document.querySelector(`#input-picture .group-input-validate__icon`).classList.remove('--correct')
+							document.querySelector(`#input-picture .group-input-validate__icon i`).classList.add('bi-x-circle-fill')
+							document.querySelector(`#input-picture .group-input-validate__icon i`).classList.remove('bi-check-circle-fill')
+							fields[e.target.name] = false;
+							allowSubmit();
+						}
+						break;
+					case "specs":
+						if (e.target.value.length > 0) {
+							document.querySelector(`#input-specs`).classList.add('--correct')
+							document.querySelector(`#input-specs`).classList.remove('--error')
+							document.querySelector(`#input-specs .group-input-validate__icon`).classList.add('--correct')
+							document.querySelector(`#input-specs .group-input-validate__icon`).classList.remove('--error')
+							document.querySelector(`#input-specs .group-input-validate__icon i`).classList.add('bi-check-circle-fill')
+							document.querySelector(`#input-specs .group-input-validate__icon i`).classList.remove('bi-x-circle-fill')
+							fields[e.target.name] = true;
+							allowSubmit();
+						} else {
+							document.querySelector(`#input-specs`).classList.add('--error')
+							document.querySelector(`#input-specs`).classList.remove('--correct')
+							document.querySelector(`#input-specs .group-input-validate__icon`).classList.add('--error')
+							document.querySelector(`#input-specs .group-input-validate__icon`).classList.remove('--correct')
+							document.querySelector(`#input-specs .group-input-validate__icon i`).classList.add('bi-x-circle-fill')
+							document.querySelector(`#input-specs .group-input-validate__icon i`).classList.remove('bi-check-circle-fill')
+							fields[e.target.name] = false;
+							allowSubmit();
+						}
+						break;
+					case "information":
+						if (e.target.value.length > 0) {
+							document.querySelector(`#input-information`).classList.add('--correct')
+							document.querySelector(`#input-information`).classList.remove('--error')
+							document.querySelector(`#input-information .group-input-validate__icon`).classList.add('--correct')
+							document.querySelector(`#input-information .group-input-validate__icon`).classList.remove('--error')
+							document.querySelector(`#input-information .group-input-validate__icon i`).classList.add('bi-check-circle-fill')
+							document.querySelector(`#input-information .group-input-validate__icon i`).classList.remove('bi-x-circle-fill')
+							fields[e.target.name] = true;
+							allowSubmit();
+						} else {
+							document.querySelector(`#input-information`).classList.add('--error')
+							document.querySelector(`#input-information`).classList.remove('--correct')
+							document.querySelector(`#input-information .group-input-validate__icon`).classList.add('--error')
+							document.querySelector(`#input-information .group-input-validate__icon`).classList.remove('--correct')
+							document.querySelector(`#input-information .group-input-validate__icon i`).classList.add('bi-x-circle-fill')
+							document.querySelector(`#input-information .group-input-validate__icon i`).classList.remove('bi-check-circle-fill')
+							fields[e.target.name] = false;
+							allowSubmit();
+						}
+						break;
+					case "color":
+						validation.validateField(validation.expressions.textCommas, e.target, 'color', fields, allowSubmit);
+						break;
+					case "stock":
+						validation.validateField(validation.expressionLimitterNumbers(1, 10), e.target, 'stock', fields, allowSubmit);
+						break;
+				}
+			}
+
+			inputs.forEach((input) => {
+				input.addEventListener('keyup', validateForm);
+				input.addEventListener('blur', validateForm);
+			});
+
+			textareas.forEach((textarea) => {
+				textarea.addEventListener('keyup', validateForm);
+				textarea.addEventListener('blur', validateForm);
+			});
+
+			selects.forEach((select) => {
+				select.addEventListener('change', () => {
+					if (validation.expressionLimitterNumbers(1, 10).test(select.value)) {
+						select.classList.add('--correct')
+						select.classList.remove('--error')
+						fields[select.name] = true;
+						allowSubmit();
+					} else {
+						select.classList.add('--error')
+						select.classList.remove('--correct')
+						fields[select.name] = false;
+						allowSubmit();
+					}
+				});
+			})
+		}
+
+		// Modify products
+		if (document.querySelector('.seller-products-container') != null) {
+			const productsContainer = document.querySelector('.seller-products-container')
+
+			productsContainer.addEventListener('click', (e) => {
+				if (e.target.classList.contains('seller-product-icon')) {
+					const forms = e.target.parentElement.parentElement.parentElement.parentElement.querySelectorAll('article form')
+
+					forms.forEach((form) => {
+						const inputs = form.querySelectorAll('.edit-product-form-input')
+						const textareas = form.querySelectorAll('.edit-product-form-input-textarea')
+						const selects = form.querySelectorAll('.edit-product-form-input-select')
+
+						const fields = {
+							reference: true,
+							price: true,
+							name: true,
+							picture: true,
+							specs: true,
+							information: true,
+							color: true,
+							stock: true,
+							category: true,
+							supplier: true,
+						}
+
+						const allowSubmit = () => {
+							if (fields.reference && fields.price && fields.name && fields.picture && fields.specs && fields.information && fields.color && fields.stock && fields.category && fields.supplier) {
+								document.querySelector('.edit-product-form-btn').classList.remove('--disabled')
+								document.querySelector('.edit-product-form-btn').disabled = false
+							} else {
+								document.querySelector('.edit-product-form-btn').classList.add('--disabled')
+								document.querySelector('.edit-product-form-btn').disabled = true
+							}
+						}
+
+						const validateForm = (e) => {
+							switch (e.target.name) {
+								case "reference":
+									// Get current reference product
+									const currentReference = e.target.parentElement.parentElement.parentElement.querySelector('.seller-product-card .seller-product-card__info').getAttribute('data-ref')
+
+									// Validate reference
+									for (let obj of references) {
+										if (obj.reference === e.target.value) {
+											if (currentReference !== obj.reference) {
+												e.target.parentElement.classList.add('--error')
+												e.target.parentElement.classList.remove('--correct')
+												e.target.parentElement.querySelector(`.group-input-validate-2__icon-2`).classList.add('--error')
+												e.target.parentElement.querySelector(`.group-input-validate-2__icon-2`).classList.remove('--correct')
+												e.target.parentElement.querySelector(`.group-input-validate-2__icon-2 i`).classList.add('bi-x-circle-fill')
+												e.target.parentElement.querySelector(`.group-input-validate-2__icon-2 i`).classList.remove('bi-check-circle-fill')
+												fields[e.target.name] = false;
+												allowSubmit()
+												return validation.showMessage(e.target.parentElement, '* La referencia debe ser única')
+											}
+										}
+									}
+
+									validateField(validation.expressionLimitter(1, 50), e.target, 'reference');
+									break;
+								case "price":
+									validateField('validatePrice', e.target, 'price');
+									break;
+								case "name":
+									validateField(validation.expressionLimitter(1, 9999999999), e.target, 'name');
+									break;
+								case "picture":
+									if (e.target.value.length > 0) {
+										document.querySelector(`#input-picture-2`).classList.add('--correct')
+										document.querySelector(`#input-picture-2`).classList.remove('--error')
+										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2`).classList.add('--correct')
+										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2`).classList.remove('--error')
+										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2 i`).classList.add('bi-check-circle-fill')
+										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2 i`).classList.remove('bi-x-circle-fill')
+										fields[e.target.name] = true;
+										allowSubmit();
+									} else {
+										document.querySelector(`#input-picture-2`).classList.add('--error')
+										document.querySelector(`#input-picture-2`).classList.remove('--correct')
+										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2`).classList.add('--error')
+										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2`).classList.remove('--correct')
+										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2 i`).classList.add('bi-x-circle-fill')
+										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2 i`).classList.remove('bi-check-circle-fill')
+										fields[e.target.name] = false;
+										allowSubmit();
+									}
+									break;
+								case "specs":
+									if (e.target.value.length > 0) {
+										document.querySelector(`#input-specs-2`).classList.add('--correct')
+										document.querySelector(`#input-specs-2`).classList.remove('--error')
+										document.querySelector(`#input-specs-2 .group-input-validate-2__icon-2`).classList.add('--correct')
+										document.querySelector(`#input-specs-2 .group-input-validate-2__icon-2`).classList.remove('--error')
+										document.querySelector(`#input-specs-2 .group-input-validate-2__icon-2 i`).classList.add('bi-check-circle-fill')
+										document.querySelector(`#input-specs-2 .group-input-validate-2__icon-2 i`).classList.remove('bi-x-circle-fill')
+										fields[e.target.name] = true;
+										allowSubmit();
+									} else {
+										document.querySelector(`#input-specs-2`).classList.add('--error')
+										document.querySelector(`#input-specs-2`).classList.remove('--correct')
+										document.querySelector(`#input-specs-2 .group-input-validate-2__icon-2`).classList.add('--error')
+										document.querySelector(`#input-specs-2 .group-input-validate-2__icon-2`).classList.remove('--correct')
+										document.querySelector(`#input-specs-2 .group-input-validate-2__icon-2 i`).classList.add('bi-x-circle-fill')
+										document.querySelector(`#input-specs-2 .group-input-validate-2__icon-2 i`).classList.remove('bi-check-circle-fill')
+										fields[e.target.name] = false;
+										allowSubmit();
+									}
+									break;
+								case "information":
+									if (e.target.value.length > 0) {
+										document.querySelector(`#input-information-2`).classList.add('--correct')
+										document.querySelector(`#input-information-2`).classList.remove('--error')
+										document.querySelector(`#input-information-2 .group-input-validate-2__icon-2`).classList.add('--correct')
+										document.querySelector(`#input-information-2 .group-input-validate-2__icon-2`).classList.remove('--error')
+										document.querySelector(`#input-information-2 .group-input-validate-2__icon-2 i`).classList.add('bi-check-circle-fill')
+										document.querySelector(`#input-information-2 .group-input-validate-2__icon-2 i`).classList.remove('bi-x-circle-fill')
+										fields[e.target.name] = true;
+										allowSubmit();
+									} else {
+										document.querySelector(`#input-information-2`).classList.add('--error')
+										document.querySelector(`#input-information-2`).classList.remove('--correct')
+										document.querySelector(`#input-information-2 .group-input-validate-2__icon-2`).classList.add('--error')
+										document.querySelector(`#input-information-2 .group-input-validate-2__icon-2`).classList.remove('--correct')
+										document.querySelector(`#input-information-2 .group-input-validate-2__icon-2 i`).classList.add('bi-x-circle-fill')
+										document.querySelector(`#input-information-2 .group-input-validate-2__icon-2 i`).classList.remove('bi-check-circle-fill')
+										fields[e.target.name] = false;
+										allowSubmit();
+									}
+									break;
+								case "color":
+									validateField(validation.expressions.textCommas, e.target, 'color');
+									break;
+								case "stock":
+									validateField(validation.expressionLimitterNumbers(1, 10), e.target, 'stock');
+									break;
+							}
+						}
+
+						const validateField = (expression, input, field) => {
+							// Validate price
+							if (expression === 'validatePrice') {
+								const response = validation.validatePrice(input.value)
+
+								if (response) {
+									document.querySelector(`#input-${field}-2`).classList.add('--correct')
+									document.querySelector(`#input-${field}-2`).classList.remove('--error')
+									document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2`).classList.add('--correct')
+									document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2`).classList.remove('--error')
+									document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2 i`).classList.add('bi-check-circle-fill')
+									document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2 i`).classList.remove('bi-x-circle-fill')
+									fields[field] = true;
+									allowSubmit();
+								} else {
+									document.querySelector(`#input-${field}-2`).classList.add('--error')
+									document.querySelector(`#input-${field}-2`).classList.remove('--correct')
+									document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2`).classList.add('--error')
+									document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2`).classList.remove('--correct')
+									document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2 i`).classList.add('bi-x-circle-fill')
+									document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2 i`).classList.remove('bi-check-circle-fill')
+									fields[field] = false;
+									allowSubmit();
+								}
+
+								return;
+							}
+
+							if (expression.test(input.value)) {
+								document.querySelector(`#input-${field}-2`).classList.add('--correct')
+								document.querySelector(`#input-${field}-2`).classList.remove('--error')
+								document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2`).classList.add('--correct')
+								document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2`).classList.remove('--error')
+								document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2 i`).classList.add('bi-check-circle-fill')
+								document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2 i`).classList.remove('bi-x-circle-fill')
+								fields[field] = true;
+								allowSubmit();
+							} else {
+								document.querySelector(`#input-${field}-2`).classList.add('--error')
+								document.querySelector(`#input-${field}-2`).classList.remove('--correct')
+								document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2`).classList.add('--error')
+								document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2`).classList.remove('--correct')
+								document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2 i`).classList.add('bi-x-circle-fill')
+								document.querySelector(`#input-${field}-2 .group-input-validate-2__icon-2 i`).classList.remove('bi-check-circle-fill')
+								fields[field] = false;
+								allowSubmit();
+							}
+						}
+
+						inputs.forEach((input) => {
+							input.addEventListener('keyup', validateForm);
+							input.addEventListener('blur', validateForm);
+						});
+
+						textareas.forEach((textarea) => {
+							textarea.addEventListener('keyup', validateForm);
+							textarea.addEventListener('blur', validateForm);
+						});
+
+						selects.forEach((select) => {
+							select.addEventListener('change', () => {
+								if (validation.expressionLimitterNumbers(1, 10).test(select.value)) {
+									select.classList.add('--correct')
+									select.classList.remove('--error')
+									fields[select.name] = true;
+									allowSubmit();
+								} else {
+									select.classList.add('--error')
+									select.classList.remove('--correct')
+									fields[select.name] = false;
+									allowSubmit();
+								}
+							});
+						})
+					})
+				}
+			})
+		}
+	}
+})()
 
 // /history
 function moreInfoHistory() {
@@ -122,7 +848,7 @@ function moreInfoHistory() {
 					productCard.style.height = '243px';
 
 					// Change style button
-					btnInfo.classList.add('product-history__show-less')
+					btnInfo.classList.add('--less')
 					btnInfo.querySelector('i').className = "bi bi-dash-lg"
 
 					// Insert info
@@ -132,7 +858,7 @@ function moreInfoHistory() {
 					}, 100)
 				} else {
 					productCard.style = null;
-					btnInfo.classList.remove('product-history__show-less')
+					btnInfo.classList.remove('--less')
 					btnInfo.querySelector('i').className = "bi bi-plus-lg"
 					// Hidden info
 					productCard.querySelector('.product-history__second-section').style.opacity = 0;
@@ -298,7 +1024,7 @@ function moreInfoHistory() {
 			document.querySelector('.shopping-cart-container').appendChild(container)
 
 			// Create title
-			const title =  document.createElement('p')
+			const title = document.createElement('p')
 			title.className = 'total-value-cart__title'
 			title.textContent = 'Valor total'
 			container.appendChild(title)
@@ -349,7 +1075,7 @@ function moreInfoHistory() {
 			// Create button pay
 			const btnPay = document.createElement('button')
 			btnPay.className = 'total-value-cart__btn-pay'
-			btnPay.setAttribute('form','pay-products-cart')
+			btnPay.setAttribute('form', 'pay-products-cart')
 			btnPay.innerHTML = 'Ir a pagar<i class="bi bi-cash-coin total-value-cart__btn-pay-icon"></i>'
 			container.appendChild(btnPay)
 
@@ -375,7 +1101,7 @@ function moreInfoHistory() {
 			productsCart = productsCart.filter(product => product.user !== document.querySelector('#header__btn-menu').getAttribute('data-user'))
 			ls.syncProducts()
 			this.showProducts()
-			if(showMsg) this.showMessage('Tu carrito se ha vaciado', 'error')
+			if (showMsg) this.showMessage('Tu carrito se ha vaciado', 'error')
 		}
 	}
 
@@ -406,7 +1132,7 @@ function moreInfoHistory() {
 		}
 
 		// Clear cart if user already paid
-		if(document.querySelector('#modal-pay-complete') != null) {
+		if (document.querySelector('#modal-pay-complete') != null) {
 			ui.clearCart(false)
 		}
 	})
@@ -511,7 +1237,7 @@ function showFormAddProduct() {
 				// Rotate btn
 				btn.parentElement.style.transform = 'rotate(180deg)';
 				// Size box
-				box.style.height = '1055px';
+				box.style.height = '1063px';
 			} else {
 				btn.parentElement.style.transform = 'rotate(0deg)';
 				box.style.height = '100px';
@@ -587,7 +1313,7 @@ function editProduct() {
 
 					const idProduct = info.getAttribute('data-id');
 					const reference = info.getAttribute('data-ref');
-					const name = info.querySelector('.name').textContent;
+					const name = info.querySelector('.name').textContent.trim();
 					const price = info.querySelector('.price').textContent.slice(2);
 					const pictures = info.getAttribute('data-img');
 					const specs = info.getAttribute('data-specs');
@@ -617,23 +1343,47 @@ function editProduct() {
 					<i class="bi bi-caret-down-fill seller-product-form__arrow"></i>
 						<p class="seller-product-form__title">Modificar producto</p>
 						<input id="method-input" type="hidden" name="_m" value="">
-						<input class="add-product-form__input first" type="text" name="reference" placeholder="Referencia"
+						<div class="first-products group-input-validate-2 --correct" id="input-reference-2">
+						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>
+						<input class="edit-product-form-input add-product-form__input first" type="text" name="reference" placeholder="Referencia"
 							title="Referencia del producto" value="${reference}" required />
-						<input class="add-product-form__input price" type="text" name="price" placeholder="Precio"
+							</div>
+							<div class="price-products group-input-validate-2 --correct" id="input-price-2">
+						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>
+						<input class="edit-product-form-input add-product-form__input price" type="text" name="price" placeholder="Precio"
 							title="Introduzca el precio del producto" value="${price}" required />
-						<input class="add-product-form__input" type="text" name="name" placeholder="Nombre"
+							</div>
+							<div class="group-input-validate-2 --correct" id="input-name-2">
+						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>
+						<input class="edit-product-form-input add-product-form__input" type="text" name="name" placeholder="Nombre"
 							title="Nombre del producto" value='${name}' required />
-						<textarea class="add-product-form__input-textarea" name="picture" placeholder="Imágenes"
+							</div>
+							<div class="group-input-validate-2 --correct" id="input-picture-2">
+						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>
+						<textarea class="edit-product-form-input-textarea add-product-form__input-textarea" name="picture" placeholder="Imágenes"
 							title="Hipervínculo de las imágenes" required>${pictures}</textarea>
-						<textarea class="add-product-form__input-textarea" name="specs" placeholder="Especificaciones"
+							</div>
+							<div class="group-input-validate-2 --correct" id="input-specs-2">
+						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>
+						<textarea class="edit-product-form-input-textarea add-product-form__input-textarea" name="specs" placeholder="Especificaciones"
 							title="Especificaciones del producto" required>${specs}</textarea>
-						<textarea class="add-product-form__input-textarea" name="information" placeholder="Información"
+							</div>
+							<div class="group-input-validate-2 --correct" id="input-information-2">
+						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>
+						<textarea class="edit-product-form-input-textarea add-product-form__input-textarea" name="information" placeholder="Información"
 							title="Información del producto" required>${information}</textarea>
-						<input class="add-product-form__input colors" type="text" name="color" placeholder="Colores disponibles"
+							</div>
+							<div class="colors-products group-input-validate-2 --correct" id="input-color-2">
+						<label class="group-input-validate-2__icon-2 --correct" style="inset-block-start: calc( 50% - 10px);"><i class="bi bi-check-circle-fill"></i></label>
+						<input class="edit-product-form-input add-product-form__input colors" type="text" name="color" placeholder="Colores disponibles"
 							title="Introduzca los colores separados por ','" value="${colors}" required />
-						<input class="add-product-form__input stock" type="number" name="stock" placeholder="Existencias"
+							</div>
+							<div class="stock-products group-input-validate-2 --correct" id="input-stock-2">
+						<label class="group-input-validate-2__icon-2 --correct" style="display:none"><i class="bi bi-check-circle-fill"></i></label>
+						<input class="edit-product-form-input add-product-form__input stock" type="number" name="stock" placeholder="Existencias"
 							title="Existencias del producto" value="${stock}" required />
-						<input id="modify-product-update" class="add-product-form__btn-save" type="submit" value="Guardar">
+							</div>
+						<input id="modify-product-update" class="edit-product-form-btn add-product-form__btn-save" type="submit" value="Guardar">
 						<button id="modify-product-status" class="seller-product-form__btn-hidden">${status}</button>
 						<button id="modify-product-delete" class="seller-product-form__btn-delete"><i class="bi bi-x-lg"></i> Eliminar</button>
 					`;
@@ -645,7 +1395,7 @@ function editProduct() {
 
 					// Select categories
 					const categories = document.createElement('select');
-					categories.className = 'add-product-form__input-select category';
+					categories.className = 'edit-product-form-input-select add-product-form__input-select category --correct';
 					categories.name = 'category';
 					categories.required = true;
 					categories.innerHTML =
@@ -661,7 +1411,7 @@ function editProduct() {
 
 					// Select suppliers
 					const suppliers = document.createElement('select');
-					suppliers.className = 'add-product-form__input-select supplier';
+					suppliers.className = 'edit-product-form-input-select add-product-form__input-select supplier --correct';
 					suppliers.name = 'supplier';
 					suppliers.required = true;
 
@@ -763,12 +1513,27 @@ function editSupplier() {
 						<p class="supplier-form__title">Editar proveedor</p>
 						<input name="id" type="hidden" value="${idSupplier}">
 						<input name="company_name_current" type="hidden" value="${name}">
+						<div class="group-input-validate --correct" id="input-company_name">
+						<label for="" class="group-input-validate__icon --correct"><i class="bi bi-check-circle-fill"></i></label>
 						<input class="add-supplier-form__input" type="text" name="company_name" placeholder="Nombre" title="Introduzca el nombre del proveedor" value="${name}" required>
-						<input class="add-supplier-form__input" type="number" name="phone_number" placeholder="Teléfono" title="Introduzca el número de teléfono" value="${phone}" required>
+						</div>
+						<div class="group-input-validate --correct" id="input-phone_number">
+				<label for="" class="group-input-validate__icon --correct"><i class="bi bi-check-circle-fill"></i></label>
+						<input class="add-supplier-form__input" type="number" name="phone_number" placeholder="Teléfono" title="Introduzca el número de teléfono, 5 a 16 dígitos" value="${phone}" required>
+						</div>
+						<div class="group-input-validate --correct" id="input-email">
+				<label for="" class="group-input-validate__icon --correct" style="inset-block-start: calc( 50% - 10px);"><i class="bi bi-check-circle-fill"></i></label>
 						<input class="add-supplier-form__input" type="email" name="email" placeholder="Email" title="Introduzca el email" value="${email}" required>
+						</div>
+						<div class="group-input-validate --correct" id="input-town">
+				<label for="" class="group-input-validate__icon --correct" style="inset-block-start: calc( 50% - 10px);"><i class="bi bi-check-circle-fill"></i></label>
 						<input class="add-supplier-form__input" type="text" name="town" placeholder="Ciudad" title="Introduzca la ciudad" value="${city}" required>
+						</div>
+						<div class="group-input-validate --correct" id="input-address">
+				<label for="" class="group-input-validate__icon --correct"><i class="bi bi-check-circle-fill"></i></label>
 						<input class="add-supplier-form__input" type="text" name="address" placeholder="Dirección" title="Introduzca la dirección" value="${address}" required>
-						<select class="supplier-form__select" name="status" required>
+						</div>
+						<select class="supplier-form__select --correct add-supplier-form__input" name="status" required style="padding: 0 10px;">
 							<option value="${statusCurrent}" default>${statusCurrent}</option>
 							<option value="${statusAlternate}">${statusAlternate}</option>
 						</select>
@@ -807,5 +1572,94 @@ function editSupplier() {
 				}
 			}
 		});
+	}
+}
+
+// Shopping list more into
+function moreInfoShoppingList() {
+	const cardsContainer = document.querySelector('.section-shopping-list');
+	// Validate if exist cards in correct page
+	if (cardsContainer !== null) {
+		cardsContainer.addEventListener('click', (e) => {
+			// Validate click button
+			if (e.target.getAttribute('id') === 'shopping-list-info-parent' || e.target.getAttribute('id') === 'shopping-list-info') {
+				const btnInfo = e.target.getAttribute('id') === 'shopping-list-info-parent' ? e.target : e.target.parentElement;
+				const productCard = e.target.getAttribute('id') === 'shopping-list-info-parent' ? e.target.parentElement : e.target.parentElement.parentElement;
+
+				// Change styles
+				if (productCard.style.blockSize == '') {
+					// Get data
+					const amount = productCard.getAttribute('data-amount');
+					const methodPayment = productCard.getAttribute('data-payment');
+					const supplier = productCard.getAttribute('data-supplier');
+					const idClient = productCard.getAttribute('data-id');
+					const address = productCard.getAttribute('data-address');
+					const city = productCard.getAttribute('data-city');
+					const shippingCompany = productCard.getAttribute('data-company');
+					const shippingDate = productCard.getAttribute('data-shipping');
+					const deliveryDate = productCard.getAttribute('data-delivery');
+
+					// Create boxes
+					const sectionProduct = document.createElement('section');
+					sectionProduct.setAttribute('id', 'section-product');
+					sectionProduct.innerHTML = `
+					<p class="purchase-card__text">Cantidad: ${amount}</p>
+					<p class="purchase-card__title">M&eacutetodo de pago</p>
+					<p class="purchase-card__text">${methodPayment}</p>
+					<p class="purchase-card__title">Proveedor</p>
+					<p class="purchase-card__text">${supplier}</p>
+					`;
+
+					const sectionClient = document.createElement('section');
+					sectionClient.setAttribute('id', 'section-client');
+					sectionClient.innerHTML = `
+					<p class="purchase-card__title">ID de cliente</p>
+					<p class="purchase-card__text">${idClient}</p>
+					<p class="purchase-card__title">Direcci&oacuten</p>
+					<p class="purchase-card__text">${address}</p>
+					<p class="purchase-card__text">${city}</p>
+					`
+
+					const sectionTotal = document.createElement('section');
+					sectionTotal.setAttribute('id', 'section-total');
+					sectionTotal.innerHTML = `
+					<p class="purchase-card__title">Env&iacuteo</p>
+					<p class="purchase-card__text">Empresa: ${shippingCompany}</p>
+					<p class="purchase-card__text">Fecha de env&iacuteo: ${shippingDate}</p>
+					<p class="purchase-card__text">Fecha de entrega: ${deliveryDate}</p>
+					`
+
+					// Insert info
+					productCard.querySelector('.purchase-card__section-product').appendChild(sectionProduct)
+					productCard.querySelector('.purchase-card__section-client').appendChild(sectionClient)
+					productCard.querySelector('.purchase-card__section-total').appendChild(sectionTotal)
+
+					productCard.style.blockSize = '225px';
+
+					// Change style button
+					btnInfo.classList.add('--less')
+					btnInfo.querySelector('i').className = "bi bi-dash-lg"
+
+					setTimeout(() => {
+						sectionProduct.style.opacity = 1;
+						sectionClient.style.opacity = 1;
+						sectionTotal.style.opacity = 1;
+					}, 100)
+				} else {
+					productCard.style = null;
+					btnInfo.classList.remove('--less')
+					btnInfo.querySelector('i').className = "bi bi-plus-lg"
+					// Hidden info
+					productCard.querySelector('#section-product').style.opacity = 0;
+					productCard.querySelector('#section-client').style.opacity = 0;
+					productCard.querySelector('#section-total').style.opacity = 0;
+					setTimeout(() => {
+						productCard.querySelector('#section-product').remove()
+						productCard.querySelector('#section-client').remove()
+						productCard.querySelector('#section-total').remove()
+					}, 200)
+				}
+			}
+		})
 	}
 }

@@ -64,6 +64,7 @@ const sellerQuerys = {};
 sellerQuerys.renderProducts = [
 	`select id, company_name, status from ${process.env.DB_SCHEMA}.supplier;`,
 	`select * from ${process.env.DB_SCHEMA}.product order by name asc;`,
+	`select reference from ${process.env.DB_SCHEMA}.product`,
 ];
 
 sellerQuerys.addProduct = [
@@ -106,6 +107,21 @@ sellerQuerys.addSupplier = [
 	`select company_name from ${process.env.DB_SCHEMA}.supplier where company_name = $1;`,
 	`insert into ${process.env.DB_SCHEMA}.supplier (company_name,phone_number,town,address,email,status) values ($1,$2,$3,$4,$5,'Activo');`,
 ];
+
+sellerQuerys.renderShoppingList = `
+	select o.id, o.id_client, o.order_date, o.status, od.total_value, od.amount, od.color, p.reference, p.name as p_name, p.price, s.company_name, c.document_number, c.name as c_name, c.last_name, dt.initials, u.email, u.phone_number, u.town, u.address, mp.method_payment, sg.shipping_company_name, sg.shipping_date, sg.delivery_date from ${process.env.DB_SCHEMA}.order_ o
+		inner join ${process.env.DB_SCHEMA}.order_details od on od.id_order = o.id
+		inner join ${process.env.DB_SCHEMA}.product p on od.id_product = p.id
+		inner join ${process.env.DB_SCHEMA}.supplier s on p.id_supplier = s.id
+		inner join ${process.env.DB_SCHEMA}.client c on o.id_client = c.id
+		inner join ${process.env.DB_SCHEMA}.document_type dt on dt.id = c.id_document_type
+		inner join ${process.env.DB_SCHEMA}.user_ u on c.id_user = u.id
+		inner join ${process.env.DB_SCHEMA}.payment pt on pt.id_order = o.id
+		inner join ${process.env.DB_SCHEMA}.method_payment mp on pt.id_method_payment = mp.id
+		inner join ${process.env.DB_SCHEMA}.shipping sg on sg.id_order = o.id
+	order by o.id DESC
+	;
+`;
 
 module.exports = {
 	indexQuerys,

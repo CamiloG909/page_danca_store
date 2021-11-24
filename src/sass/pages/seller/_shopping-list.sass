@@ -1,0 +1,68 @@
+.section-shopping-list
+	margin: 88px auto 70px
+	inline-size: 95%
+	max-inline-size: 750px
+
+.purchase-card
+	position: relative
+	margin-block-end: 10px
+	padding: 15px
+	inline-size: 100%
+	block-size: 131px
+	// block-size: 217px
+	border: 1px solid $dark-gray
+	background-color: $gray
+	overflow: hidden
+	transition: all 0.2s ease
+	&__section
+		display: grid
+		grid-template-columns: 25.5% 29% 29% 16.5%
+		block-size: 100%
+		&-product
+			@include flex-center(center, flex-start)
+			flex-direction: column
+			padding-inline-end: 10px
+			border-inline-end: 1px solid $dark-gray
+			section
+				transition: all .2s ease
+				opacity: 0
+		&-client
+			@include flex-center(center, flex-start)
+			flex-direction: column
+			padding: 0 10px
+			border-inline-end: 1px solid $dark-gray
+			section
+				transition: all .2s ease
+				opacity: 0
+		&-total
+			@include flex-center(center, flex-start)
+			flex-direction: column
+			padding-inline-start: 10px
+			section
+				transition: all .2s ease
+				opacity: 0
+		&-status
+			@include flex-center
+			max-inline-size: 115px
+	&__title
+		@include font(bold,1.6rem, 2rem)
+	&__text
+		@include font(normal,1.4rem,normal,$text-gray)
+	&__subtitle
+		@include font(normal,1.5rem,normal,$black)
+	&__assistant
+		font-size: 1.6rem
+		font-family: $second-font
+	&__select-status
+		inline-size: 100%
+		block-size: 21px
+		@include font(500,1.4rem)
+		border-radius: 5px
+		border: 1px solid $dark-gray
+		background-color: $white
+		outline: none
+		cursor: pointer
+		transition: all .3s ease
+		user-select: none
+		&:hover
+			border-color: #afafaf

@@ -59,3 +59,108 @@ body
 	font-size: 2rem
 	font-weight: bold
 	text-align: center
+
+.show-more-btn
+	position: absolute
+	inset-block-end: -20px
+	inset-inline-start: -20px
+	@include flex-center (center,flex-start)
+	padding: 2px
+	block-size: 40px
+	inline-size: 40px
+	font-size: 1rem
+	color: white
+	border: 1px solid $dark-gray
+	background-color: $green
+	transform: rotate(45deg)
+	cursor: pointer
+	transition: all 0.3s ease
+	&:hover
+		background-color: $dark-green
+	&:active
+		border-color: $green
+	i::before
+		transform: rotate(-45deg)
+	&.--less
+		@extend .show-more-btn
+		background-color: $blue
+		&:hover
+			background-color: $dark-blue
+		&:active
+			border-color: $blue
+
+.group-input-validate
+	position: relative
+	&.--correct
+		input
+			border-color: $green
+			background-color: $soft-green
+		textarea
+			border-color: $green
+			background-color: $soft-green
+	&.--error
+		input
+			border-color: $red
+			background-color: $soft-red
+		textarea
+			border-color: $red
+			background-color: $soft-red
+	&__icon
+		position: absolute
+		inset-inline-end: 13px
+		inset-block-start: calc( 50% - 9px)
+		font-size: 2rem
+		transition: all .3s ease
+		opacity: 0
+		&.--correct
+			color: $green
+			opacity: 1
+		&.--error
+			color: $red
+			opacity: 1
+	&__text
+		position: absolute
+		inset-inline-start: 0
+		inset-block-start: -10px
+		@include font(500, 1.4rem, normal, $red)
+		&-success
+			@extend .group-input-validate__text
+			color: $green
+
+.group-input-validate-2
+	position: relative
+	&.--correct
+		input
+			border-color: $green
+			background-color: $soft-green
+		textarea
+			border-color: $green
+			background-color: $soft-green
+	&.--error
+		input
+			border-color: $red
+			background-color: $soft-red
+		textarea
+			border-color: $red
+			background-color: $soft-red
+	&__icon-2
+		position: absolute
+		inset-inline-end: 13px
+		inset-block-start: calc( 50% - 9px)
+		font-size: 2rem
+		transition: all .3s ease
+		opacity: 0
+		&.--correct
+			color: $green
+			opacity: 1
+		&.--error
+			color: $red
+			opacity: 1
+	&__text-2
+		position: absolute
+		inset-inline-start: 0
+		inset-block-start: -10px
+		@include font(500, 1.4rem, normal, $red)
+		&-success
+			@extend .group-input-validate__text
+			color: $green

@@ -19,6 +19,7 @@ indexController.renderIndex = (req, res) => {
 indexController.signin = passport.authenticate('local', {
 	failureRedirect: '/',
 	successRedirect: '/authority',
+	badRequestMessage: 'Email o contraseña incorrecta',
 	failureFlash: true,
 });
 

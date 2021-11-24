@@ -10,7 +10,6 @@ passport.use(
 			passwordField: 'password',
 		},
 		async (email, password, done) => {
-			try {
 				const response = await db.query(
 					`select id, email, password from ${process.env.DB_SCHEMA}.user_ where email = $1;`,
 					[email]
@@ -33,9 +32,6 @@ passport.use(
 						});
 					}
 				}
-			} catch {
-				res.redirect('/error');
-			}
 		}
 	)
 );

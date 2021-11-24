@@ -3,35 +3,7 @@ const { db } = require('../database/connection');
 const bcrypt = require('bcryptjs');
 const { sellerQuerys } = require('../database/querys');
 const { validationResult } = require('express-validator');
-
-// Price formatter function
-const formatterPrice = (object) => {
-	for (let i = 0; i < object.length; i++) {
-		const priceFormat = new Intl.NumberFormat('de-DE');
-		const priceFormatted = priceFormat.format(object[i].price);
-		const newResponse = object[i];
-		newResponse.priceFormatted = priceFormatted;
-	}
-};
-// First image function
-const imageCardProduct = (object) => {
-	for (let i = 0; i < object.length; i++) {
-		const images = [];
-		const resImages = object[i].picture;
-		const arrImages = resImages.split(',');
-		for (let i in arrImages) {
-			let image = arrImages[i].trim();
-			image = {
-				image,
-			};
-			images.push(image);
-		}
-
-		const imageProduct = images[0].image;
-		const newResponse = object[i];
-		newResponse.image = imageProduct;
-	}
-};
+const { formatterPrice, imageCardProduct } = require('../helpers/functions');
 
 sellerController.renderHome = (req, res) => {
 	try {
@@ -72,6 +44,11 @@ sellerController.renderProducts = async (req, res) => {
 		// Price formatter
 		formatterPrice(prodRows);
 
+		// Get references of products for validation
+		let references = await db.query(sellerQuerys.renderProducts[2]);
+		references = references.rows;
+		references = JSON.stringify(references);
+
 		res.render('seller/products', {
 			headerSeller: true,
 			menuSeller: true,
@@ -79,6 +56,7 @@ sellerController.renderProducts = async (req, res) => {
 			allSuppRows,
 			activeSuppliers,
 			prodRows,
+			references,
 			footerSeller: true,
 		});
 	} catch {
@@ -589,12 +567,26 @@ sellerController.addSupplier = async (req, res) => {
 	}
 };
 
-sellerController.renderShoppingList = (req, res) => {
+sellerController.renderShoppingList = async (req, res) => {
 	try {
+		let response = await db.query(sellerQuerys.renderShoppingList);
+		response = response.rows;
+
+		// Format price
+		for (let i = 0; i < response.length; i++) {
+			const priceFormat = new Intl.NumberFormat('de-DE');
+			const priceFormatted = priceFormat.format(response[i].total_value);
+			const newResponse = response[i];
+			newResponse.totalValueFormatted = priceFormatted;
+		}
+
+		formatterPrice(response);
 		res.render('seller/shopping-list', {
 			headerSeller: true,
 			title: 'Lista de compras | Danca Store',
+			category: 'Lista de compras',
 			menuSeller: true,
+			response,
 			footerSeller: true,
 		});
 	} catch {

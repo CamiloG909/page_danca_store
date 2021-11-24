@@ -4,35 +4,56 @@
 	</figure>
 	<section class="signup__form-container">
 		<div class="signup-form">
-			<form action="/signup" method="POST">
+			<form action="/signup" method="POST" id="form-signup">
 				<h1 class="signup-form__title">Crear cuenta</h1>
+				<div class="group-input-validate" id="input-name">
+				<label class="group-input-validate__icon" for=""><i class="bi"></i></label>
 				<input class="signup-form__input" type="text" name="name" placeholder="Nombre" autocomplete="name"
 					value="{{name}}" title="Digite su nombre" required />
+				</div>
+				<div class="group-input-validate" id="input-last_name">
+					<label class="group-input-validate__icon" for=""><i class="bi"></i></label>
 				<input class="signup-form__input" type="text" name="last_name" placeholder="Apellido"
 					autocomplete="additional-name" value="{{last_name}}" title="Digite su apellido" required /><br />
-				<select class="signup-form__input signup-form__input--select" name="document_type"
+				</div>
+				<select class="signup-form__input signup-form__input--select --correct" name="document_type"
 					title="Selecciona el tipo de documento" required>
 					<option value="CC">C.C</option>
 					<option value="CE">C.E</option>
 				</select>
-				<label>
+				<div class="group-input-validate signup-form-w78" id="input-document_number">
+				<label class="group-input-validate__icon" for="" style="inset-block-start: calc( 50% - 12px);"><i class="bi"></i></label>
 					<input class="signup-form__input signup-form__input--short" type="number" name="document_number"
 						placeholder="Número de documento" maxlength="12" autocomplete="cc-number" value="{{document_number}}"
-						title="Digite su número de documento" required />
-					<p class="signup-form__only-numbers">*Solo n&uacutemeros</p>
-				</label>
+						title="Digite su número de documento, solo números entre 7 y 12 dígitos" required />
+				</div>
+				<div class="group-input-validate" id="input-email">
+				<label class="group-input-validate__icon" for=""><i class="bi"></i></label>
 				<input class="signup-form__input" type="email" name="email" placeholder="Email" autocomplete="email"
 					value="{{email}}" title="Digite su correo electrónico" required />
+				</div>
+				<div class="group-input-validate" id="input-phone_number">
+				<label class="group-input-validate__icon" for="" style="inset-block-start: calc( 50% - 10px);"><i class="bi"></i></label>
 				<input class="signup-form__input" type="number" name="phone_number" placeholder="Teléfono" maxlength="14"
-					autocomplete="mobile" value="{{phone_number}}" title="Digite su número de teléfono" required />
+					autocomplete="mobile" value="{{phone_number}}" title="Digite su número de teléfono, solo números entre 7 y 14 dígitos" required />
+				</div>
+				<div class="group-input-validate" id="input-town">
+				<label class="group-input-validate__icon" for="" style="inset-block-start: calc( 50% - 10px);"><i class="bi"></i></label>
 				<input class="signup-form__input" type="text" name="town" placeholder="Ciudad" autocomplete="country-name"
 					value="{{town}}" title="Es importante su ciudad para realizar los envíos" required />
+				</div>
+				<div class="group-input-validate" id="input-address">
+				<label class="group-input-validate__icon" for=""><i class="bi"></i></label>
 				<input class="signup-form__input" type="text" name="address" placeholder="Dirección (Casa, apartamento, etc...)"
 					autocomplete="street-address" value="{{address}}" title="Es importante su dirección para realizar los envíos"
 					required />
+				</div>
+				<div class="group-input-validate" id="input-password">
+				<label class="group-input-validate__icon" for=""><i class="bi"></i></label>
 				<input class="signup-form__input" type="password" name="password" placeholder="Contraseña"
-					autocomplete="current-password" value="{{password}}" title="Digite una contraseña segura" required />
-				<input class="signup-form__btn" type="submit" value="Registrarse" />
+					autocomplete="current-password" value="{{password}}" title="Digite una contraseña segura con mínimo 6 caracteres" required />
+				</div>
+				<input class="signup-form__btn --disabled" type="submit" value="Registrarse" disabled/>
 			</form>
 			<p class="signup-form__redirection">
 				¿Ya tienes una cuenta?
