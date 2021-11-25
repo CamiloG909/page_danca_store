@@ -74,18 +74,16 @@ sellerController.addProduct = async (req, res) => {
 			return res.redirect('/seller/products');
 		}
 
-		const {
-			reference,
-			name,
-			picture,
-			specs,
-			information,
-			color,
-			stock,
-			category,
-			supplier,
-		} = req.body;
+		const { reference, name, picture, color, stock, category, supplier } =
+			req.body;
 		const price = req.body.price.replace(/\./g, '');
+		const specs = JSON.stringify(Object.values(req.body).slice(4, -5)).slice(
+			2,
+			-2
+		);
+		const information = JSON.stringify(
+			Object.values(req.body).slice(5, -4)
+		).slice(2, -2);
 
 		// Validate if reference is unique
 		const resReference = await db.query(sellerQuerys.addProduct[1], [
@@ -152,18 +150,16 @@ sellerController.updateProduct = async (req, res) => {
 			return res.redirect('/seller/products');
 		}
 
-		const {
-			reference,
-			name,
-			picture,
-			specs,
-			information,
-			color,
-			stock,
-			category,
-			supplier,
-		} = req.body;
+		const { reference, name, picture, color, stock, category, supplier } =
+			req.body;
 		const price = req.body.price.replace(/\./g, '');
+		const specs = JSON.stringify(Object.values(req.body).slice(5, -5)).slice(
+			2,
+			-2
+		);
+		const information = JSON.stringify(
+			Object.values(req.body).slice(6, -4)
+		).slice(2, -2);
 
 		// Validate reference
 		const resReference = await db.query(sellerQuerys.addProduct[1], [

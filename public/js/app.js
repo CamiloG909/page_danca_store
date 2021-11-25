@@ -9,6 +9,7 @@ eventListeners();
 function eventListeners() {
 	eventRefresh();
 	hiddenMsg();
+	lineBreaksDetailProduct();
 	moreInfoHistory();
 	showFormAddProduct();
 	showProducts();
@@ -794,6 +795,19 @@ function hiddenErrorIndex() {
 	}
 })()
 
+// Detail product
+function lineBreaksDetailProduct() {
+	if(document.querySelector('.information-product') != null) {
+		const specs = document.querySelector('.product-specs')
+		const information = document.querySelector('.product-description')
+		const textSpecs = specs.getAttribute('data-text').replace(/\\n/g, "<br />").replace(/\\r/g, "").replace(/\\"/g, '"');
+		const textInformation = information.getAttribute('data-text').replace(/\\n/g, "<br />").replace(/\\r/g, "").replace(/\\"/g, '"');
+
+		specs.querySelector('.product-specs__text').innerHTML = textSpecs;
+		information.querySelector('.product-description__text').innerHTML = textInformation;
+	}
+}
+
 // /history
 function moreInfoHistory() {
 	const cardsContainer = document.querySelector('.shopping-history-container');
@@ -1316,8 +1330,8 @@ function editProduct() {
 					const name = info.querySelector('.name').textContent.trim();
 					const price = info.querySelector('.price').textContent.slice(2);
 					const pictures = info.getAttribute('data-img');
-					const specs = info.getAttribute('data-specs');
-					const information = info.getAttribute('data-info');
+					const specs = info.getAttribute('data-specs').replace(/\\n/g, "\\\n").replace(/\\r/g, "").replace(/\\/g, '');
+					const information = info.getAttribute('data-info').replace(/\\n/g, "\\\n").replace(/\\r/g, "").replace(/\\/g, '');
 					const colors = info.getAttribute('data-colors');
 					const supplier = info.getAttribute('data-supplier');
 					const stock = info.querySelector('.stock').textContent.slice(13);
@@ -1334,6 +1348,7 @@ function editProduct() {
 							info.querySelector('.supplier').textContent = `Proveedor: ${suppliersArray[i]}`
 						}
 					}
+
 					// Create form
 					const form = document.createElement('form');
 					form.className = 'seller-product-form';
@@ -1346,42 +1361,42 @@ function editProduct() {
 						<div class="first-products group-input-validate-2 --correct" id="input-reference-2">
 						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>
 						<input class="edit-product-form-input add-product-form__input first" type="text" name="reference" placeholder="Referencia"
-							title="Referencia del producto" value="${reference}" required />
+							title="Referencia del producto" value="${reference}"  />
 							</div>
 							<div class="price-products group-input-validate-2 --correct" id="input-price-2">
 						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>
 						<input class="edit-product-form-input add-product-form__input price" type="text" name="price" placeholder="Precio"
-							title="Introduzca el precio del producto" value="${price}" required />
+							title="Introduzca el precio del producto" value="${price}"  />
 							</div>
 							<div class="group-input-validate-2 --correct" id="input-name-2">
 						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>
 						<input class="edit-product-form-input add-product-form__input" type="text" name="name" placeholder="Nombre"
-							title="Nombre del producto" value='${name}' required />
+							title="Nombre del producto" value='${name}'  />
 							</div>
 							<div class="group-input-validate-2 --correct" id="input-picture-2">
 						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>
 						<textarea class="edit-product-form-input-textarea add-product-form__input-textarea" name="picture" placeholder="Imágenes"
-							title="Hipervínculo de las imágenes" required>${pictures}</textarea>
+							title="Hipervínculo de las imágenes" >${pictures}</textarea>
 							</div>
 							<div class="group-input-validate-2 --correct" id="input-specs-2">
 						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>
 						<textarea class="edit-product-form-input-textarea add-product-form__input-textarea" name="specs" placeholder="Especificaciones"
-							title="Especificaciones del producto" required>${specs}</textarea>
+							title="Especificaciones del producto" >${specs}</textarea>
 							</div>
 							<div class="group-input-validate-2 --correct" id="input-information-2">
 						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>
 						<textarea class="edit-product-form-input-textarea add-product-form__input-textarea" name="information" placeholder="Información"
-							title="Información del producto" required>${information}</textarea>
+							title="Información del producto" >${information}</textarea>
 							</div>
 							<div class="colors-products group-input-validate-2 --correct" id="input-color-2">
 						<label class="group-input-validate-2__icon-2 --correct" style="inset-block-start: calc( 50% - 10px);"><i class="bi bi-check-circle-fill"></i></label>
 						<input class="edit-product-form-input add-product-form__input colors" type="text" name="color" placeholder="Colores disponibles"
-							title="Introduzca los colores separados por ','" value="${colors}" required />
+							title="Introduzca los colores separados por ','" value="${colors}"  />
 							</div>
 							<div class="stock-products group-input-validate-2 --correct" id="input-stock-2">
 						<label class="group-input-validate-2__icon-2 --correct" style="display:none"><i class="bi bi-check-circle-fill"></i></label>
 						<input class="edit-product-form-input add-product-form__input stock" type="number" name="stock" placeholder="Existencias"
-							title="Existencias del producto" value="${stock}" required />
+							title="Existencias del producto" value="${stock}"  />
 							</div>
 						<input id="modify-product-update" class="edit-product-form-btn add-product-form__btn-save" type="submit" value="Guardar">
 						<button id="modify-product-status" class="seller-product-form__btn-hidden">${status}</button>
