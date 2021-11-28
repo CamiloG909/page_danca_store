@@ -1,25 +1,11 @@
 {{>menu}}
 
 <section class="information-product">
-	<section class="product-imgs">
-		<div class="product-imgs__left">
-					{{#each images}}
-			<figure class="product-imgs__left-img">
-				<label for="img-btn-{{idImage}}">
-					<img src="{{image}}"
-						alt="Imágenes del producto" /></label>
-			</figure>
-						{{/each}}
-		</div>
+	<section class="product-imgs" data-imgs="{{resRows.picture}}">
+		<section class="product-imgs__left">
+		</section>
 		<figure class="product-imgs__right">
-				{{#each images}}
-			<figure class="product-imgs__right-container">
-				<label for="img-btn-{{idImage}}">
-					<input type="radio" name="image-product-btn" id="img-btn-{{idImage}}" />
-					<img src="{{image}}"
-						alt="Primer imagen del producto" /></label>
-			</figure>
-						{{/each}}
+			<img src="" alt="Imagen del producto">
 		</figure>
 	</section>
 
@@ -39,7 +25,7 @@
 			<input type="hidden" name="reference" value="{{resRows.reference}}">
 			<input type="hidden" name="product" value="{{resRows.id}}">
 			<input type="hidden" name="name" value="{{resRows.name}}">
-			<input type="hidden" name="picture" value="{{sendImage.image}}">
+			<input type="hidden" name="picture" value="insertar">
 			<input type="hidden" name="price" value="{{resRows.priceFormatted}}">
 			<p class="product-abstract__amount">
 				<b>Cantidad: </b>

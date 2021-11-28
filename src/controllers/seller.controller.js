@@ -4,6 +4,15 @@ const bcrypt = require('bcryptjs');
 const { sellerQuerys } = require('../database/querys');
 const { validationResult } = require('express-validator');
 const { formatterPrice, imageCardProduct } = require('../helpers/functions');
+const cloudinary = require('cloudinary');
+
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_NAME,
+	api_key: process.env.CLOUDINARY_KEY,
+	api_secret: process.env.CLOUDINARY_SECRET,
+});
+
+const fs = require('fs-extra');
 
 sellerController.renderHome = (req, res) => {
 	try {
@@ -74,15 +83,14 @@ sellerController.addProduct = async (req, res) => {
 			return res.redirect('/seller/products');
 		}
 
-		const { reference, name, picture, color, stock, category, supplier } =
-			req.body;
+		const { reference, name, color, stock, category, supplier } = req.body;
 		const price = req.body.price.replace(/\./g, '');
-		const specs = JSON.stringify(Object.values(req.body).slice(4, -5)).slice(
+		const specs = JSON.stringify(Object.values(req.body).slice(3, -5)).slice(
 			2,
 			-2
 		);
 		const information = JSON.stringify(
-			Object.values(req.body).slice(5, -4)
+			Object.values(req.body).slice(4, -4)
 		).slice(2, -2);
 
 		// Validate if reference is unique
@@ -113,12 +121,65 @@ sellerController.addProduct = async (req, res) => {
 			return res.redirect('/seller/products');
 		}
 
+		// Validate images
+		if (req.files.length != 6) {
+			req.flash('error_msg', `Por favor verifique las imágenes`);
+			return res.redirect('/seller/products');
+		}
+
+		// Validate files format
+		const validationFiles = [];
+		for (let file of req.files) {
+			if (file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png') {
+				validationFiles.push(false);
+			} else {
+				validationFiles.push(true);
+			}
+		}
+		if (validationFiles.includes(false)) {
+			// Delete the files from local server
+			for (let file of req.files) {
+				const { path } = file;
+				await fs.unlink(path);
+			}
+
+			req.flash('error_msg', `Por favor verifique las imágenes`);
+			return res.redirect('/seller/products');
+		}
+
+		// Save images
+		let imgURLs = [];
+		let imgIDs = [];
+		for (let image of req.files) {
+			const { path } = image;
+
+			// Save image to Cloudinary
+			const result = await cloudinary.v2.uploader.upload(path, {
+				width: 359,
+				height: 359,
+				gravity: 'faces',
+				crop: 'fill',
+			});
+
+			const { public_id, url } = result;
+
+			imgURLs.push(url);
+			imgIDs.push(public_id);
+
+			// Delete the file image from local server
+			await fs.unlink(path);
+		}
+
+		imgURLs = JSON.stringify(imgURLs).slice(2, -2).replace(/\"/g, '');
+		imgIDs = JSON.stringify(imgIDs).slice(2, -2).replace(/\"/g, '');
+
 		// Save in db
 		await db.query(sellerQuerys.addProduct[2], [
 			reference,
 			name,
 			price,
-			picture,
+			imgURLs,
+			imgIDs,
 			specs,
 			information,
 			color,
@@ -150,15 +211,14 @@ sellerController.updateProduct = async (req, res) => {
 			return res.redirect('/seller/products');
 		}
 
-		const { reference, name, picture, color, stock, category, supplier } =
-			req.body;
+		const { reference, name, color, stock, category, supplier } = req.body;
 		const price = req.body.price.replace(/\./g, '');
-		const specs = JSON.stringify(Object.values(req.body).slice(5, -5)).slice(
+		const specs = JSON.stringify(Object.values(req.body).slice(4, -5)).slice(
 			2,
 			-2
 		);
 		const information = JSON.stringify(
-			Object.values(req.body).slice(6, -4)
+			Object.values(req.body).slice(5, -4)
 		).slice(2, -2);
 
 		// Validate reference
@@ -191,7 +251,6 @@ sellerController.updateProduct = async (req, res) => {
 			reference,
 			name,
 			price,
-			picture,
 			specs,
 			information,
 			color,
@@ -234,15 +293,24 @@ sellerController.deleteProduct = async (req, res) => {
 			return res.redirect('/seller/products');
 		}
 
+		// Delete images from Cloudinary
+		let imgIDs = await db.query(sellerQuerys.deleteProduct[0], [req.query.id]);
+		imgIDs = imgIDs.rows[0].picture_id;
+		imgIDs = imgIDs.split(',');
+		for (let imgID of imgIDs) {
+			await cloudinary.v2.uploader.destroy(imgID);
+		}
+
+		// Delete product from DB
 		try {
-			await db.query(sellerQuerys.deleteProduct, [req.query.id]);
+			await db.query(sellerQuerys.deleteProduct[1], [req.query.id]);
 			req.flash(
 				'success_msg',
 				`${req.query.product} eliminado satisfactoriamente`
 			);
 			res.redirect('/seller/products');
 		} catch {
-			req.flash('error_msg', 'Producto vendido, no lo puede eliminar');
+			req.flash('error_msg', 'No puede eliminar este producto');
 			res.redirect('/seller/products');
 		}
 	} catch {
@@ -394,18 +462,35 @@ sellerController.updateUserImage = async (req, res) => {
 	try {
 		const idUser = req.user.rows[0].id;
 
-		// Validate errors
-		const errors = validationResult(req);
-		if (!errors.isEmpty()) {
-			res.status(400);
-			req.flash('error_msg', errors.errors[0].msg);
+		// Validate images
+		if (req.files.length != 1) {
+			req.flash('error_msg', `Por favor agregue una imagen`);
 			return res.redirect(`/seller/user/update/${idUser}`);
 		}
 
-		const { image_url } = req.body;
+		const { path } = req.files[0];
+
+		// Save image to Cloudinary
+		const result = await cloudinary.v2.uploader.upload(path, {
+			width: 198,
+			height: 198,
+			gravity: 'faces',
+			crop: 'fill',
+		});
+
+		const { public_id, url } = result;
+
+		// Delete image from cloudinary
+		let imageId = await db.query(sellerQuerys.updateUserImage[0], [idUser]);
+		if (imageId.rows[0].image_id) {
+			await cloudinary.v2.uploader.destroy(imageId.rows[0].image_id);
+		}
 
 		// Update user image in db
-		await db.query(sellerQuerys.updateUserImage, [image_url, idUser]);
+		await db.query(sellerQuerys.updateUserImage[1], [url, public_id, idUser]);
+
+		// Delete the file image from local server
+		await fs.unlink(path);
 		req.flash('success_msg', 'Imagen actualizada');
 		res.redirect(`/seller/user/${idUser}`);
 	} catch {

@@ -10,57 +10,43 @@
 	background-color: $gray
 
 .product-imgs
+	display: flex
+	gap: 25px
 	padding: 0 15px 15px 0
-	display: grid
-	grid-template: 1fr / 290px 361px
-	grid-gap: 30px
-	min-inline-size: 696px
-	max-inline-size: 696px
-	block-size: 376px
-	max-block-size: 376px
 	border-inline-end: 1px solid $dark-gray
-	user-select: none
-	overflow: hidden
 	&__left
-		display: grid
-		grid-gap: 5px 30px
-		grid-template: repeat(3, minmax(53px, 117px)) / repeat(2, minmax(53px, 130px))
-		&-img
-			@include flex-center
-			block-size: 117px
-			max-inline-size: 130px
-			img
-				max-block-size: 113px
-				inline-size: auto
-				max-inline-size: 128px
-				cursor: pointer
-				border: 1px solid $dark-gray
-				background-color: $white
-				&:hover
-					border-radius: 3px
-					border: 1px solid $purple
-					transition: all 0.5s ease
+		display: flex
+		justify-content: center
+		flex-wrap: wrap
+		gap: 5px 40px
+		inline-size: 303px
+	&__img-min
+		@include flex-center
+		inline-size: 117px
+		block-size: 117px
+		border: 1px solid $dark-gray
+		border-radius: 2px
+		background-color: $white
+		transition: all .3s ease
+		cursor: pointer
+		user-select: none
+		&:hover
+			border-color: $purple
+		img
+			inline-size: 100%
+			max-inline-size: 115px
 	&__right
-		position: relative
-		padding: 0
+		@include flex-center
+		min-inline-size: 361px
+		min-block-size: 361px
 		max-inline-size: 361px
 		max-block-size: 361px
+		border-radius: 2px
 		border: 1px solid $dark-gray
 		background-color: $white
-		overflow: hidden
+		user-select: none
 		img
-			position: absolute
-			margin: auto
-			inset-block-start: 0
-			inset-block-end: 0
-			inset-inline-start: 0
-			inset-inline-end: 0
-			max-inline-size: 359px
-			max-block-size: 359px
-		input[type="radio"]
-			display: none
-			&:checked~img
-				z-index: 1
+			inline-size: 100%
 
 .product-abstract
 	block-size: 376px

@@ -9,6 +9,7 @@ eventListeners();
 function eventListeners() {
 	eventRefresh();
 	hiddenMsg();
+	imagesProduct()
 	lineBreaksDetailProduct();
 	moreInfoHistory();
 	showFormAddProduct();
@@ -431,7 +432,7 @@ function hiddenErrorIndex() {
 				reference: false,
 				price: false,
 				name: false,
-				picture: false,
+				image: false,
 				specs: false,
 				information: false,
 				color: false,
@@ -441,7 +442,7 @@ function hiddenErrorIndex() {
 			}
 
 			const allowSubmit = () => {
-				if (fields.reference && fields.price && fields.name && fields.picture && fields.specs && fields.information && fields.color && fields.stock && fields.category && fields.supplier) {
+				if (fields.reference && fields.price && fields.name && fields.image && fields.specs && fields.information && fields.color && fields.stock && fields.category && fields.supplier) {
 					document.querySelector('.add-product-form__btn-save').classList.remove('--disabled')
 					document.querySelector('.add-product-form__btn-save').disabled = false
 				} else {
@@ -475,27 +476,6 @@ function hiddenErrorIndex() {
 						break;
 					case "name":
 						validation.validateField(validation.expressionLimitter(1, 9999999999), e.target, 'name', fields, allowSubmit);
-						break;
-					case "picture":
-						if (e.target.value.length > 0) {
-							document.querySelector(`#input-picture`).classList.add('--correct')
-							document.querySelector(`#input-picture`).classList.remove('--error')
-							document.querySelector(`#input-picture .group-input-validate__icon`).classList.add('--correct')
-							document.querySelector(`#input-picture .group-input-validate__icon`).classList.remove('--error')
-							document.querySelector(`#input-picture .group-input-validate__icon i`).classList.add('bi-check-circle-fill')
-							document.querySelector(`#input-picture .group-input-validate__icon i`).classList.remove('bi-x-circle-fill')
-							fields[e.target.name] = true;
-							allowSubmit();
-						} else {
-							document.querySelector(`#input-picture`).classList.add('--error')
-							document.querySelector(`#input-picture`).classList.remove('--correct')
-							document.querySelector(`#input-picture .group-input-validate__icon`).classList.add('--error')
-							document.querySelector(`#input-picture .group-input-validate__icon`).classList.remove('--correct')
-							document.querySelector(`#input-picture .group-input-validate__icon i`).classList.add('bi-x-circle-fill')
-							document.querySelector(`#input-picture .group-input-validate__icon i`).classList.remove('bi-check-circle-fill')
-							fields[e.target.name] = false;
-							allowSubmit();
-						}
 						break;
 					case "specs":
 						if (e.target.value.length > 0) {
@@ -573,6 +553,48 @@ function hiddenErrorIndex() {
 					}
 				});
 			})
+
+			// UI and validate input file
+			const inputFile = document.querySelector('#picture');
+
+			inputFile.addEventListener('change', () => {
+				const box = inputFile.parentElement.querySelector('.add-product-form__group-file')
+
+				if (inputFile.files.length !== 6) {
+					box.querySelector('.add-product-form__group-file-content i').className = 'bi bi-send-x-fill'
+					box.classList.remove('--correct')
+					box.classList.add('--error')
+					box.querySelector('.add-product-form__group-file-text').textContent = 'Por favor agregue 6 imágenes (jpg, png, jpeg)'
+					fields['image'] = false;
+					allowSubmit();
+				} else {
+					// Validate format file
+					const validation = []
+					for (let i = 0; i < inputFile.files.length; i++) {
+						if (inputFile.files[i].type !== 'image/jpeg' && inputFile.files[i].type !== 'image/png') {
+							validation.push(false)
+						} else {
+							validation.push(true)
+						}
+					}
+
+					if (validation.includes(false)) {
+						box.querySelector('.add-product-form__group-file-content i').className = 'bi bi-send-x-fill'
+						box.classList.remove('--correct')
+						box.classList.add('--error')
+						box.querySelector('.add-product-form__group-file-text').textContent = 'Por favor agregue 6 imágenes (jpg, png, jpeg)'
+						fields['image'] = false;
+						allowSubmit();
+					} else {
+						box.querySelector('.add-product-form__group-file-content i').className = 'bi bi-send-check-fill'
+						box.classList.remove('--error')
+						box.classList.add('--correct')
+						box.querySelector('.add-product-form__group-file-text').textContent = 'Imágenes agregadas satisfactoriamente'
+						fields['image'] = true;
+						allowSubmit();
+					}
+				}
+			})
 		}
 
 		// Modify products
@@ -592,7 +614,6 @@ function hiddenErrorIndex() {
 							reference: true,
 							price: true,
 							name: true,
-							picture: true,
 							specs: true,
 							information: true,
 							color: true,
@@ -602,7 +623,7 @@ function hiddenErrorIndex() {
 						}
 
 						const allowSubmit = () => {
-							if (fields.reference && fields.price && fields.name && fields.picture && fields.specs && fields.information && fields.color && fields.stock && fields.category && fields.supplier) {
+							if (fields.reference && fields.price && fields.name && fields.specs && fields.information && fields.color && fields.stock && fields.category && fields.supplier) {
 								document.querySelector('.edit-product-form-btn').classList.remove('--disabled')
 								document.querySelector('.edit-product-form-btn').disabled = false
 							} else {
@@ -641,27 +662,6 @@ function hiddenErrorIndex() {
 									break;
 								case "name":
 									validateField(validation.expressionLimitter(1, 9999999999), e.target, 'name');
-									break;
-								case "picture":
-									if (e.target.value.length > 0) {
-										document.querySelector(`#input-picture-2`).classList.add('--correct')
-										document.querySelector(`#input-picture-2`).classList.remove('--error')
-										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2`).classList.add('--correct')
-										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2`).classList.remove('--error')
-										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2 i`).classList.add('bi-check-circle-fill')
-										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2 i`).classList.remove('bi-x-circle-fill')
-										fields[e.target.name] = true;
-										allowSubmit();
-									} else {
-										document.querySelector(`#input-picture-2`).classList.add('--error')
-										document.querySelector(`#input-picture-2`).classList.remove('--correct')
-										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2`).classList.add('--error')
-										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2`).classList.remove('--correct')
-										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2 i`).classList.add('bi-x-circle-fill')
-										document.querySelector(`#input-picture-2 .group-input-validate-2__icon-2 i`).classList.remove('bi-check-circle-fill')
-										fields[e.target.name] = false;
-										allowSubmit();
-									}
 									break;
 								case "specs":
 									if (e.target.value.length > 0) {
@@ -796,8 +796,32 @@ function hiddenErrorIndex() {
 })()
 
 // Detail product
+function imagesProduct() {
+	if(document.querySelector('.product-imgs') != null) {
+		const images = document.querySelector('.product-imgs').getAttribute('data-imgs').split(',');
+		const bigImage = document.querySelector('.product-imgs .product-imgs__right img')
+
+		bigImage.src = images[0]
+
+		const containerImages = document.querySelector('.product-imgs .product-imgs__left')
+
+		images.forEach((image) => {
+			const figure = document.createElement('figure')
+			figure.className = 'product-imgs__img-min'
+			figure.innerHTML = `<img src="${image}" alt="Imagen del producto">`
+
+			containerImages.appendChild(figure)
+		})
+
+		containerImages.addEventListener('click', (e) => {
+			if(e.target.parentElement.classList.contains('product-imgs__img-min')) {
+				bigImage.src = e.target.src
+			}
+		})
+	}
+}
 function lineBreaksDetailProduct() {
-	if(document.querySelector('.information-product') != null) {
+	if (document.querySelector('.information-product') != null) {
 		const specs = document.querySelector('.product-specs')
 		const information = document.querySelector('.product-description')
 		const textSpecs = specs.getAttribute('data-text').replace(/\\n/g, "<br />").replace(/\\r/g, "").replace(/\\"/g, '"');
@@ -1208,12 +1232,33 @@ function choiceMenuProfile(direction, id) {
 		section.innerHTML = `<div class="choice-image-profile">
 			<i class="bi bi-x-circle choice-image-profile__icon-close" onclick="closeChoiceMenuProfile()"></i>
 			<p class="choice-image-profile__title">IMAGEN DE PERFIL</p>
-			<form action="${direction}/update/image/${id}?_m=PUT" method="POST">
+			<form action="${direction}/update/image/${id}?_m=PUT" method="POST" enctype="multipart/form-data">
 			<input type="hidden" name="_m" value="PUT">
-			<input class="choice-image-profile__input" type="text" name="image_url" placeholder="Enlace" title="Introduzca el hipervínculo de su imagen" required>
-			<input class="choice-image-profile__btn" type="submit" value="Actualizar">
+			<div class="choice-image-profile__group-file">
+			<p class="choice-image-profile__group-file-text"></p>
+			<label for="image"><i class="bi bi-cloud-arrow-up-fill"></i> Eliga una imagen de su dispositivo * jpg, png, jpeg.</label>
+			<input class="choice-image-profile__input-file" type="file" name="image" id="image" required>
+			</div>
+			<input class="choice-image-profile__btn --disabled" type="submit" value="Actualizar" disabled>
 			</form>
 		</div>`;
+
+		const inputFile = document.querySelector('#image');
+		inputFile.addEventListener('change', () => {
+			if(inputFile.files[0].type !== 'image/jpeg' && inputFile.files[0].type !== 'image/png') {
+				document.querySelector('.choice-image-profile__group-file').classList.remove('--correct');
+				document.querySelector('.choice-image-profile__group-file').classList.add('--error');
+				document.querySelector('.choice-image-profile__group-file-text').textContent = ''
+				document.querySelector('.choice-image-profile__btn').classList.add('--disabled');
+				document.querySelector('.choice-image-profile__btn').disabled = true
+			} else {
+				document.querySelector('.choice-image-profile__group-file').classList.remove('--error');
+				document.querySelector('.choice-image-profile__group-file').classList.add('--correct');
+				document.querySelector('.choice-image-profile__group-file-text').textContent = inputFile.files[0].name
+				document.querySelector('.choice-image-profile__btn').classList.remove('--disabled');
+				document.querySelector('.choice-image-profile__btn').disabled = false
+			}
+		})
 		section.style.opacity = 1;
 	}, 100);
 
@@ -1251,7 +1296,7 @@ function showFormAddProduct() {
 				// Rotate btn
 				btn.parentElement.style.transform = 'rotate(180deg)';
 				// Size box
-				box.style.height = '1063px';
+				box.style.height = '1001px';
 			} else {
 				btn.parentElement.style.transform = 'rotate(0deg)';
 				box.style.height = '100px';
@@ -1316,7 +1361,7 @@ function editProduct() {
 
 				if (productCard.style.height === '134px') {
 					// Expand card
-					productCard.style.height = '1160px';
+					productCard.style.height = '938px';
 					e.target.style.transform = 'rotate(90deg)';
 					e.target.className = 'bi bi-x-lg seller-product-icon';
 					// Show form
@@ -1329,7 +1374,6 @@ function editProduct() {
 					const reference = info.getAttribute('data-ref');
 					const name = info.querySelector('.name').textContent.trim();
 					const price = info.querySelector('.price').textContent.slice(2);
-					const pictures = info.getAttribute('data-img');
 					const specs = info.getAttribute('data-specs').replace(/\\n/g, "\\\n").replace(/\\r/g, "").replace(/\\/g, '');
 					const information = info.getAttribute('data-info').replace(/\\n/g, "\\\n").replace(/\\r/g, "").replace(/\\/g, '');
 					const colors = info.getAttribute('data-colors');
@@ -1372,11 +1416,6 @@ function editProduct() {
 						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>
 						<input class="edit-product-form-input add-product-form__input" type="text" name="name" placeholder="Nombre"
 							title="Nombre del producto" value='${name}'  />
-							</div>
-							<div class="group-input-validate-2 --correct" id="input-picture-2">
-						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>
-						<textarea class="edit-product-form-input-textarea add-product-form__input-textarea" name="picture" placeholder="Imágenes"
-							title="Hipervínculo de las imágenes" >${pictures}</textarea>
 							</div>
 							<div class="group-input-validate-2 --correct" id="input-specs-2">
 						<label class="group-input-validate-2__icon-2 --correct"><i class="bi bi-check-circle-fill"></i></label>

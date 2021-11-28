@@ -36,7 +36,6 @@ router.post(
 				'reference',
 				'price',
 				'name',
-				'picture',
 				'specs',
 				'information',
 				'color',
@@ -65,7 +64,6 @@ router.put(
 				'reference',
 				'price',
 				'name',
-				'picture',
 				'specs',
 				'information',
 				'color',
@@ -133,15 +131,6 @@ router
 router.put(
 	'/seller/user/update/image/:id',
 	isAuthenticatedSeller,
-	[
-		body('image_url')
-			.not()
-			.isEmpty()
-			.trim()
-			.withMessage('Por favor completa el campo')
-			.isURL()
-			.withMessage('Por favor ingresa una URL válida'),
-	],
 	updateUserImage
 );
 

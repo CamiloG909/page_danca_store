@@ -73,19 +73,6 @@ router
 		updateUserInformation
 	);
 
-router.put(
-	'/user/update/image/:id',
-	isAuthenticated,
-	[
-		body('image_url')
-			.not()
-			.isEmpty()
-			.trim()
-			.withMessage('Por favor completa el campo')
-			.isURL()
-			.withMessage('Por favor ingresa una URL válida'),
-	],
-	updateUserImage
-);
+router.put('/user/update/image/:id', isAuthenticated, updateUserImage);
 
 module.exports = router;

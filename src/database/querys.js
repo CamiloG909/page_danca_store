@@ -57,27 +57,33 @@ clientQuerys.updateUserInformation = [
 	`update ${process.env.DB_SCHEMA}.client set name=$1,last_name=$2 where id_user = $3;`,
 ];
 
-clientQuerys.updateUserImage = `update ${process.env.DB_SCHEMA}.user_ set image_url = $1 where id = $2;`;
+clientQuerys.updateUserImage = [
+	`select image_id from ${process.env.DB_SCHEMA}.user_ where id=$1;`,
+	`update ${process.env.DB_SCHEMA}.user_ set image_url = $1, image_id = $2 where id = $3;`,
+];
 
 const sellerQuerys = {};
 
 sellerQuerys.renderProducts = [
 	`select id, company_name, status from ${process.env.DB_SCHEMA}.supplier;`,
 	`select * from ${process.env.DB_SCHEMA}.product order by name asc;`,
-	`select reference from ${process.env.DB_SCHEMA}.product`,
+	`select reference from ${process.env.DB_SCHEMA}.product;`,
 ];
 
 sellerQuerys.addProduct = [
 	`select id from ${process.env.DB_SCHEMA}.supplier where id = $1 and status = 'Activo';`,
 	`select id, reference from ${process.env.DB_SCHEMA}.product where reference = $1`,
-	`insert into ${process.env.DB_SCHEMA}.product (reference,name,price,picture,specs,information,color,stock,id_category,id_supplier,status) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'Disponible');`,
+	`insert into ${process.env.DB_SCHEMA}.product (reference,name,price,picture,picture_id,specs,information,color,stock,id_category,id_supplier,status) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,'Disponible');`,
 ];
 
-sellerQuerys.updateProduct = `update ${process.env.DB_SCHEMA}.product set reference= $1, name= $2, price= $3, picture= $4, specs= $5, information= $6, color= $7, stock= $8, id_category= $9, id_supplier= $10 where id = $11;`;
+sellerQuerys.updateProduct = `update ${process.env.DB_SCHEMA}.product set reference= $1, name= $2, price= $3, specs= $4, information= $5, color= $6, stock= $7, id_category= $8, id_supplier= $9 where id = $10;`;
 
 sellerQuerys.updateStatusProduct = `update ${process.env.DB_SCHEMA}.product set status = $1 where id = $2;`;
 
-sellerQuerys.deleteProduct = `delete from ${process.env.DB_SCHEMA}.product where id = $1;`;
+sellerQuerys.deleteProduct = [
+	`select picture_id from ${process.env.DB_SCHEMA}.product where id = $1;`,
+	`delete from ${process.env.DB_SCHEMA}.product where id = $1;`,
+];
 
 sellerQuerys.renderProfile = `select u.id, c.name, c.last_name, u.email, u.phone_number, c.document_number, u.town, u.address, u.image_url from ${process.env.DB_SCHEMA}.client c inner join ${process.env.DB_SCHEMA}.user_ u on c.id_user = u.id where u.id = $1;`;
 
@@ -92,7 +98,10 @@ sellerQuerys.updateUserInformation = [
 	`update ${process.env.DB_SCHEMA}.client set name=$1,last_name=$2 where id_user = $3;`,
 ];
 
-sellerQuerys.updateUserImage = `update ${process.env.DB_SCHEMA}.user_ set image_url = $1 where id = $2;`;
+sellerQuerys.updateUserImage = [
+	`select image_id from ${process.env.DB_SCHEMA}.user_ where id=$1;`,
+	`update ${process.env.DB_SCHEMA}.user_ set image_url = $1, image_id = $2 where id = $3;`,
+];
 
 sellerQuerys.renderSuppliers = `select id, company_name, phone_number, email, town, address, status from ${process.env.DB_SCHEMA}.supplier order by id DESC;`;
 

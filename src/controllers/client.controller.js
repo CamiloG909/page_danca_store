@@ -10,6 +10,15 @@ const {
 	statusChoose,
 	numberRandom,
 } = require('../helpers/functions');
+const cloudinary = require('cloudinary');
+
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_NAME,
+	api_key: process.env.CLOUDINARY_KEY,
+	api_secret: process.env.CLOUDINARY_SECRET,
+});
+
+const fs = require('fs-extra');
 
 let rolUser;
 
@@ -106,32 +115,6 @@ clientController.renderProductDetail = async (req, res) => {
 			colors.push(color);
 		}
 
-		const images = [];
-		const resImages = response.rows[0].picture;
-		if (resImages === null) {
-			return (images = []);
-		} else {
-			const arrImages = resImages.split(',');
-			// for (let image of arrImages) {
-			// 	image = image.trim()
-			// 	image = {
-			// 		image
-			// 	}
-			// 	images.push(image)
-			// }
-			// Delete when fix images with js
-			for (let i in arrImages) {
-				let idImage = i;
-				let image = arrImages[i].trim();
-				let objImage = {
-					idImage,
-					image,
-				};
-				images.push(objImage);
-			}
-		}
-
-		const sendImage = images[0];
 		formatterPrice(response.rows);
 		const title = response.rows[0].name;
 		const resRows = response.rows[0];
@@ -141,9 +124,7 @@ clientController.renderProductDetail = async (req, res) => {
 			rolUser,
 			resRows,
 			idUser,
-			images,
 			colors,
-			sendImage,
 			footer: true,
 		});
 	} catch {
@@ -467,18 +448,35 @@ clientController.updateUserImage = async (req, res) => {
 	try {
 		const idUser = req.user.rows[0].id;
 
-		// Validate errors
-		const errors = validationResult(req);
-		if (!errors.isEmpty()) {
-			res.status(400);
-			req.flash('error_msg', errors.errors[0].msg);
+		// Validate images
+		if (req.files.length != 1) {
+			req.flash('error_msg', `Por favor agregue una imagen`);
 			return res.redirect(`/user/update/${idUser}`);
 		}
 
-		const { image_url } = req.body;
+		const { path } = req.files[0];
 
-		// Update user image in DB
-		await db.query(clientQuerys.updateUserImage, [image_url, idUser]);
+		// Save image to Cloudinary
+		const result = await cloudinary.v2.uploader.upload(path, {
+			width: 198,
+			height: 198,
+			gravity: 'faces',
+			crop: 'fill',
+		});
+
+		const { public_id, url } = result;
+
+		// Delete image from cloudinary
+		let imageId = await db.query(clientQuerys.updateUserImage[0], [idUser]);
+		if (imageId.rows[0].image_id) {
+			await cloudinary.v2.uploader.destroy(imageId.rows[0].image_id);
+		}
+
+		// Update user image in db
+		await db.query(clientQuerys.updateUserImage[1], [url, public_id, idUser]);
+
+		// Delete the file image from local server
+		await fs.unlink(path);
 		req.flash('success_msg', 'Imagen actualizada');
 		res.redirect(`/user/${idUser}`);
 	} catch {

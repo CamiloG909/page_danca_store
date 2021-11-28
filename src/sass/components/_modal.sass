@@ -85,10 +85,11 @@
 
 .choice-image-profile
 	position: absolute
-	inset-inline-start: calc( 50% - 172.5px )
+	inset-inline-start: calc( 50% - 150px )
 	inset-block-start: 145px
 	padding: 20px
-	inline-size: 345px
+	inline-size: 95%
+	max-inline-size: 300px
 	text-align: center
 	border-radius: 15px
 	background-color: $white
@@ -108,18 +109,35 @@
 		&:active
 			background-color: #0000002d
 	&__title
+		margin-block-end: 10px
 		@include font(bold,2rem,1.5rem,$text-gray)
-	&__input
-		margin: 15px 0
-		padding: 5px 4%
-		inline-size: 100%
-		@include font(bold,1.9rem,normal,$purple)
-		border: 1px solid $dark-gray
-		border-radius: 15px
-		outline: none
-		transition: all 0.3s ease
-		&:focus
-			border: 1px solid $purple
+	&__group-file
+		label
+			display: block
+			inline-size: 100%
+			margin: 10px 0
+			padding: 8px 7px
+			@include font(500, 1.4rem, normal, $purple)
+			border: 1px solid $dark-gray
+			border-radius: 5px
+			background-color: $gray
+			cursor: pointer
+			&:hover
+				background-color: #eeeeee
+				transition: all 0.3s ease
+		&.--correct
+			label
+				border-color: $green
+				color: $green
+		&.--error
+			label
+				border-color: $red
+				color: $red
+		&-text
+			@include font(bold, 1.8rem, normal, $green)
+			transition: all .3s ease
+	&__input-file
+		display: none
 	&__btn
 		padding: 5px 15px
 		@include font(bold,1.8rem,normal,$white)
@@ -130,4 +148,6 @@
 		transition: all 0.3s ease
 		&:hover
 			background-color: $dark-purple
-
+		&.--disabled
+			opacity: 0.7
+			cursor: not-allowed

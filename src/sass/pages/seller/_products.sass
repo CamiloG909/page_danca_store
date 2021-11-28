@@ -48,6 +48,43 @@
 .add-product-form
 	text-align: center
 	transition: all 0.3s ease
+	&__group-file
+		display: flex
+		flex-direction: column
+		align-items: center
+		justify-content: space-between
+		inline-size: 100%
+		block-size: 136px
+		margin: 10px 0
+		padding: 15px 7px
+		border: 2px solid $soft-purple
+		border-radius: 10px
+		background-color: $soft-purple
+		cursor: pointer
+		transition: all 0.3s ease
+		&:hover
+			border-color: #f2eaff
+			background-color: #f2eaff
+		&-content
+			i
+				font-size: 7rem
+				color: $purple
+		&.--correct
+				border-color: $green
+				background-color: $soft-green
+				color: $green
+				i, p
+					color: $green
+		&.--error
+				border-color: $red
+				background-color: $soft-red
+				color: $red
+				i, p
+					color: $red
+		&-text
+			@include font(500, 1.7rem, normal, $purple)
+	&__input-file
+		display: none
 	&__input
 		@include input-form
 		max-inline-size: 100%
@@ -197,7 +234,7 @@
 			text-align: start
 		&__status
 			position: relative
-			inset-block-end: 1px
+			inset-block-end: 2px
 			margin: 0 10px
 			font-size: 1rem
 			&.--active
