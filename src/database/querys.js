@@ -132,6 +132,12 @@ sellerQuerys.renderShoppingList = `
 	;
 `;
 
+sellerQuerys.updateOrder = [
+	`update ${process.env.DB_SCHEMA}.order_ set status=$1 where id = $2;`,
+	`update ${process.env.DB_SCHEMA}.shipping set shipping_company_name=$1, shipping_date=$2, delivery_date=$3, status=$4 where id = $5;`,
+	`update ${process.env.DB_SCHEMA}.shipping set status=$1 where id = $2;`,
+];
+
 module.exports = {
 	indexQuerys,
 	clientQuerys,

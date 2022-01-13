@@ -16,6 +16,7 @@ const {
 	renderSuppliersForm,
 	addSupplier,
 	renderShoppingList,
+	updateOrder,
 } = require('../controllers/seller.controller');
 
 const { isAuthenticatedSeller } = require('../helpers/auth');
@@ -194,6 +195,20 @@ router
 		addSupplier
 	);
 
-router.get('/seller/list', isAuthenticatedSeller, renderShoppingList);
+router
+	.route('/seller/list')
+	.get(isAuthenticatedSeller, renderShoppingList)
+	.put(
+		isAuthenticatedSeller,
+		[
+			body('id', 'Es necesario el ID de la orden')
+				.not()
+				.isEmpty()
+				.trim()
+				.isInt(),
+			body('type', 'Por favor especifique la acción').not().isEmpty().trim(),
+		],
+		updateOrder
+	);
 
 module.exports = router;

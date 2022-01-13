@@ -9,7 +9,6 @@
 	padding: 15px
 	inline-size: 100%
 	block-size: 131px
-	// block-size: 217px
 	border: 1px solid $dark-gray
 	background-color: $gray
 	overflow: hidden
@@ -43,6 +42,8 @@
 				opacity: 0
 		&-status
 			@include flex-center
+			flex-direction: column
+			gap: 5px 0
 			max-inline-size: 115px
 	&__title
 		@include font(bold,1.6rem, 2rem)
@@ -53,6 +54,45 @@
 	&__assistant
 		font-size: 1.6rem
 		font-family: $second-font
+	&__group-text
+		@include flex-center(start, center)
+		block-size: 21.59px
+		max-inline-size: 179px
+		border-radius: 5px
+		border: 1px solid $dark-gray
+		background-color: $white
+		transition: all .3s ease
+		&:hover
+			border: 1px solid #a3a3a3
+		i
+			margin: 0 5px
+			font-size: 1.3rem
+		&-input
+			inline-size: 85%
+			font-size: 1.3rem
+			border: none
+			background-color: transparent
+			outline: none
+	&__group-date
+		margin: 2px 0
+		max-inline-size: 179px
+		border-radius: 5px
+		border: 1px solid $dark-gray
+		background-color: $white
+		transition: all .3s ease
+		cursor: pointer
+		user-select: none
+		&:hover
+			border: 1px solid #a3a3a3
+		i
+			margin: 0 5px
+			font-size: 1.3rem
+		&-input
+			font-size: 1.3rem
+			border: none
+			background-color: transparent
+			outline: none
+			cursor: pointer
 	&__select-status
 		inline-size: 100%
 		block-size: 21px
@@ -66,3 +106,12 @@
 		user-select: none
 		&:hover
 			border-color: #afafaf
+	&__save-status
+		@include btn-input()
+		inline-size: 100%
+		block-size: auto
+		font-size: 1.4rem
+		border-radius: 5px
+
+#form-save-status
+	display: none

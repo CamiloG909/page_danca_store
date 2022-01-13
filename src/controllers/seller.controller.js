@@ -131,12 +131,10 @@ sellerController.addProduct = async (req, res) => {
 		const validationFiles = [];
 		for (let file of req.files) {
 			if (file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png') {
-				validationFiles.push(false);
-			} else {
 				validationFiles.push(true);
 			}
 		}
-		if (validationFiles.includes(false)) {
+		if (validationFiles.length > 0) {
 			// Delete the files from local server
 			for (let file of req.files) {
 				const { path } = file;
@@ -165,9 +163,6 @@ sellerController.addProduct = async (req, res) => {
 
 			imgURLs.push(url);
 			imgIDs.push(public_id);
-
-			// Delete the file image from local server
-			await fs.unlink(path);
 		}
 
 		imgURLs = JSON.stringify(imgURLs).slice(2, -2).replace(/\"/g, '');
@@ -187,6 +182,11 @@ sellerController.addProduct = async (req, res) => {
 			category,
 			supplier,
 		]);
+
+		// Delete the images from local server
+		for (let image of req.files) {
+			await fs.unlink(image.path);
+		}
 
 		req.flash('success_msg', `${name} agregado satisfactoriamente`);
 		res.redirect('/seller/products');
@@ -661,6 +661,20 @@ sellerController.renderShoppingList = async (req, res) => {
 			newResponse.totalValueFormatted = priceFormatted;
 		}
 
+		// Current status
+		for (let i = 0; i < response.length; i++) {
+			if (response[i].status === 'Completado') {
+				const newResponse = response[i];
+				newResponse.statusDelivered = true;
+			} else if (response[i].status === 'En camino') {
+				const newResponse = response[i];
+				newResponse.statusWay = true;
+			} else if (response[i].status === 'Pendiente') {
+				const newResponse = response[i];
+				newResponse.statusPending = true;
+			}
+		}
+
 		formatterPrice(response);
 		res.render('seller/shopping-list', {
 			headerSeller: true,
@@ -672,6 +686,67 @@ sellerController.renderShoppingList = async (req, res) => {
 		});
 	} catch {
 		res.redirect('/error');
+	}
+};
+
+sellerController.updateOrder = async (req, res) => {
+	try {
+		// Validate errors
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({
+				message: errors.errors[0].msg,
+			});
+		}
+
+		const { id, type } = req.body;
+
+		if (type === '1') {
+			await db.query(sellerQuerys.updateOrder[0], ['Pendiente', id]);
+			await db.query(sellerQuerys.updateOrder[2], ['Pendiente', id]);
+
+			return res.status(201).json({
+				message: `Se actualizó el pedido ${id}`,
+			});
+		}
+
+		if (type === '2') {
+			const { company, shipping, delivery } = req.body;
+
+			if (!company || !shipping || !delivery) {
+				return res.status(400).json({
+					message: 'Por favor complete todos los campos',
+					empty: true,
+				});
+			}
+
+			await db.query(sellerQuerys.updateOrder[0], ['En camino', id]);
+			await db.query(sellerQuerys.updateOrder[1], [
+				company,
+				shipping,
+				delivery,
+				'Pendiente',
+				id,
+			]);
+
+			return res.status(201).json({
+				message: `Se actualizó el pedido ${id}`,
+				data: { company, shipping, delivery },
+			});
+		}
+
+		if (type === '3') {
+			await db.query(sellerQuerys.updateOrder[0], ['Completado', id]);
+			await db.query(sellerQuerys.updateOrder[2], ['Entregado', id]);
+
+			return res.status(201).json({
+				message: `Se actualizó el pedido ${id}`,
+			});
+		}
+	} catch {
+		res.status(500).json({
+			message: 'Ha ocurrido un error',
+		});
 	}
 };
 

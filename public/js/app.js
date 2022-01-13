@@ -17,6 +17,7 @@ function eventListeners() {
 	editProduct();
 	editSupplier();
 	moreInfoShoppingList();
+	statusOrderForm()
 }
 
 // Refresh navigator for login
@@ -797,11 +798,12 @@ function hiddenErrorIndex() {
 
 // Detail product
 function imagesProduct() {
-	if(document.querySelector('.product-imgs') != null) {
+	if (document.querySelector('.product-imgs') != null) {
 		const images = document.querySelector('.product-imgs').getAttribute('data-imgs').split(',');
 		const bigImage = document.querySelector('.product-imgs .product-imgs__right img')
 
 		bigImage.src = images[0]
+		document.querySelector('#local-picture').value = images[0]
 
 		const containerImages = document.querySelector('.product-imgs .product-imgs__left')
 
@@ -814,12 +816,13 @@ function imagesProduct() {
 		})
 
 		containerImages.addEventListener('click', (e) => {
-			if(e.target.parentElement.classList.contains('product-imgs__img-min')) {
+			if (e.target.parentElement.classList.contains('product-imgs__img-min')) {
 				bigImage.src = e.target.src
 			}
 		})
 	}
 }
+
 function lineBreaksDetailProduct() {
 	if (document.querySelector('.information-product') != null) {
 		const specs = document.querySelector('.product-specs')
@@ -1245,7 +1248,7 @@ function choiceMenuProfile(direction, id) {
 
 		const inputFile = document.querySelector('#image');
 		inputFile.addEventListener('change', () => {
-			if(inputFile.files[0].type !== 'image/jpeg' && inputFile.files[0].type !== 'image/png') {
+			if (inputFile.files[0].type !== 'image/jpeg' && inputFile.files[0].type !== 'image/png') {
 				document.querySelector('.choice-image-profile__group-file').classList.remove('--correct');
 				document.querySelector('.choice-image-profile__group-file').classList.add('--error');
 				document.querySelector('.choice-image-profile__group-file-text').textContent = ''
@@ -1678,9 +1681,9 @@ function moreInfoShoppingList() {
 					sectionTotal.setAttribute('id', 'section-total');
 					sectionTotal.innerHTML = `
 					<p class="purchase-card__title">Env&iacuteo</p>
-					<p class="purchase-card__text">Empresa: ${shippingCompany}</p>
-					<p class="purchase-card__text">Fecha de env&iacuteo: ${shippingDate}</p>
-					<p class="purchase-card__text">Fecha de entrega: ${deliveryDate}</p>
+					<p class="purchase-card__text"><i class="bi bi-building" title="Transportadora"></i> ${shippingCompany}</p>
+					<p class="purchase-card__text"><i class="bi bi-box-seam" title="Fecha de envío"></i> ${shippingDate}</p>
+					<p class="purchase-card__text"><i class="bi bi-truck" title="Fecha de entrega"></i> ${deliveryDate}</p>
 					`
 
 					// Insert info
@@ -1715,5 +1718,163 @@ function moreInfoShoppingList() {
 				}
 			}
 		})
+	}
+}
+
+function statusOrderForm() {
+	if (document.querySelector('.section-shopping-list') != null) {
+		document.querySelector('.section-shopping-list').addEventListener('change', (e) => {
+			if (e.target.classList.contains('purchase-card__select-status')) {
+				const orderCard = e.target.parentElement.parentElement;
+
+				// Create save button
+				if (!e.target.parentElement.querySelector('.purchase-card__save-status')) {
+					const saveButton = document.createElement('button');
+					saveButton.className = 'purchase-card__save-status'
+					saveButton.textContent = 'Guardar';
+					saveButton.setAttribute('form', `form-save-status-${orderCard.parentElement.getAttribute('data-id-order')}`)
+
+					e.target.parentElement.appendChild(saveButton);
+				}
+
+				if (e.target.value === '1') {
+					const container = orderCard.querySelector('.purchase-card__section-total section')
+					if (container != null) {
+						container.innerHTML = `<p class="purchase-card__title">Envío</p>
+							<p class="purchase-card__text"><i class="bi bi-building" title="Transportadora"></i> ${orderCard.parentElement.getAttribute('data-company')}</p>
+							<p class="purchase-card__text"><i class="bi bi-box-seam" title="Fecha de envío"></i> ${orderCard.parentElement.getAttribute('data-shipping')}</p>
+							<p class="purchase-card__text"><i class="bi bi-truck" title="Fecha de entrega"></i> ${orderCard.parentElement.getAttribute('data-delivery')}</p>
+						`
+					}
+
+					// Change type of query
+					e.target.parentElement.querySelector('form input[name="type"]').value = '1';
+				}
+
+				// Create inputs
+				if (e.target.value === '2') {
+					// Resize order card
+					if (orderCard.parentElement.style.blockSize == '') {
+						orderCard.parentElement.querySelector('#shopping-list-info-parent').click()
+					}
+
+					const formatterDate = (date) => {
+						const day = date.substr(0,2)
+						const month = date.substr(3,2)
+						const year = date.substr(-4)
+
+						return `${year}-${month}-${day}`
+					}
+
+					const container = orderCard.querySelector('.purchase-card__section-total section')
+					if (container != null) {
+						container.innerHTML = `<p class="purchase-card__title">Envío</p>
+								<div class="purchase-card__group-text" title="Transportadora"><i class="bi bi-building"></i><input class="purchase-card__group-text-input" name="company" type="text" form="form-save-status-${orderCard.parentElement.getAttribute('data-id-order')}" value="${orderCard.parentElement.getAttribute('data-company')}" required></div>
+								<div class="purchase-card__group-date" title="Fecha de envío"><i class="bi bi-box-seam"></i><input class="purchase-card__group-date-input" name="shipping" type="date" form="form-save-status-${orderCard.parentElement.getAttribute('data-id-order')}" value="${formatterDate(orderCard.parentElement.getAttribute('data-shipping'))}" required></div>
+								<div class="purchase-card__group-date" title="Fecha de entrega"><i class="bi bi-truck"></i><input class="purchase-card__group-date-input" name="delivery" type="date" form="form-save-status-${orderCard.parentElement.getAttribute('data-id-order')}" value="${formatterDate(orderCard.parentElement.getAttribute('data-delivery'))}" required></div>
+							`
+					}
+
+					// Change type of query
+					e.target.parentElement.querySelector('form input[name="type"]').value = '2';
+				}
+
+				if (e.target.value === '3') {
+					const container = orderCard.querySelector('.purchase-card__section-total section')
+					if (container != null) {
+						container.innerHTML = `<p class="purchase-card__title">Envío</p>
+							<p class="purchase-card__text"><i class="bi bi-building" title="Transportadora"></i> ${orderCard.parentElement.getAttribute('data-company')}</p>
+							<p class="purchase-card__text"><i class="bi bi-box-seam" title="Fecha de envío"></i> ${orderCard.parentElement.getAttribute('data-shipping')}</p>
+							<p class="purchase-card__text"><i class="bi bi-truck" title="Fecha de entrega"></i> ${orderCard.parentElement.getAttribute('data-delivery')}</p>
+							`
+					}
+
+					// Change type of query
+					e.target.parentElement.querySelector('form input[name="type"]').value = '3';
+				}
+			}
+		})
+
+		// Send data
+		for (form of document.querySelectorAll('.purchase-card form')) {
+			form.addEventListener('submit', (e) => {
+				const showMessage = (message, type = "succesfully") => {
+					const divContainer = document.createElement('div')
+					divContainer.className = 'message-container'
+					divContainer.setAttribute('id', 'message-container')
+
+					const div = document.createElement('div')
+					div.className = `message message--${type}`
+					div.setAttribute('id', 'message')
+					div.innerHTML = `<i class="bi bi-caret-up-fill message--${type}-icon"></i>
+				<p class="message__text">${message}</p>`
+
+					divContainer.appendChild(div)
+					transitionMsg(divContainer)
+				}
+
+				const formatterDate = (date) => {
+					const day = date.substr(-2)
+					const month = date.substr(-5,2)
+					const year = date.substr(0,4)
+
+					return `${day}/${month}/${year}`
+				}
+
+				e.preventDefault()
+
+				// Get id and type of query
+				const id = e.target.querySelector('input[name="id"]').value;
+				const type = e.target.querySelector('input[name="type"]').value;
+				let company = null
+				let shipping = null
+				let delivery = null
+
+				// If type is 2 (Update info) need get more data
+				if (type === '2') {
+					const sectionInfo = e.target.parentElement.parentElement.querySelector('.purchase-card__section-total #section-total')
+
+					company = sectionInfo.querySelector('div input[name="company"]').value
+					shipping = formatterDate(sectionInfo.querySelector('div input[name="shipping"]').value)
+					delivery = formatterDate(sectionInfo.querySelector('div input[name="delivery"]').value)
+				}
+
+				fetch('/seller/list', {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							id,
+							type,
+							company,
+							shipping,
+							delivery
+						})
+					})
+					.then(res => res.json())
+					.then(({
+						message,
+						empty,
+						data
+					}) => {
+						// Show message
+						if (empty) {
+							return showMessage(message, 'error')
+						}
+						// Update data of the page
+						if (data) {
+							const dataCard = e.target.parentElement.parentElement.parentElement
+							dataCard.setAttribute('data-company', data.company)
+							dataCard.setAttribute('data-shipping', data.shipping)
+							dataCard.setAttribute('data-delivery', data.delivery)
+						}
+
+						e.target.parentElement.parentElement.parentElement.querySelector('.purchase-card__save-status').remove()
+						return showMessage(message)
+					})
+					.catch(() => showMessage('Ha ocurrido un error', 'error'))
+			})
+		}
 	}
 }
