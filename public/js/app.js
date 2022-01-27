@@ -1823,7 +1823,7 @@ function statusOrderForm() {
 
 				e.preventDefault()
 
-				// Get id and type of query
+				// Get id and type to query
 				const id = e.target.querySelector('input[name="id"]').value;
 				const type = e.target.querySelector('input[name="type"]').value;
 				let company = null
