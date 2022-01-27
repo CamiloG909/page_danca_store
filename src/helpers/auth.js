@@ -1,5 +1,5 @@
 const auth = {};
-const { db } = require('../database');
+const { db } = require('../database/connection');
 
 auth.isAuthenticated = (req, res, next) => {
 	if (req.isAuthenticated()) {

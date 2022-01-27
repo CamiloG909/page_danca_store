@@ -3,7 +3,7 @@
 	-webkit-appearance: none
 
 ::-webkit-scrollbar:vertical
-	inline-size: 8px
+	inline-size: 7px
 
 ::-webkit-scrollbar-button:increment,
 .contenedor::-webkit-scrollbar-button
@@ -21,6 +21,7 @@
 	background-color: #979797
 
 ::-webkit-scrollbar-track
+	margin: 0 3px
 	border-radius: 10px
 /* END SCROLL */
 
@@ -46,10 +47,119 @@ input[type="number"]
 html
 		font-size: 10px
 
+body
+	display: flex
+	flex-direction: column
+	min-block-size: 100vh
+
 .title-page
-	margin-block-start: 4px
+	margin-block-start: 62px
 	position: absolute
 	inline-size: 100%
 	font-size: 2rem
 	font-weight: bold
 	text-align: center
+
+.show-more-btn
+	position: absolute
+	inset-block-end: -20px
+	inset-inline-start: -20px
+	@include flex-center (center,flex-start)
+	block-size: 40px
+	inline-size: 40px
+	font-size: 1.7rem
+	color: white
+	border: 1px solid $dark-gray
+	background-color: $green
+	transform: rotate(45deg)
+	cursor: pointer
+	transition: all 0.3s ease
+	&:hover
+		background-color: $dark-green
+	&:active
+		border-color: $green
+	i::before
+		transform: rotate(-45deg)
+	&.--less
+		@extend .show-more-btn
+		background-color: $blue
+		&:hover
+			background-color: $dark-blue
+		&:active
+			border-color: $blue
+
+.group-input-validate
+	position: relative
+	&.--correct
+		input
+			border-color: $green
+			background-color: $soft-green
+		textarea
+			border-color: $green
+			background-color: $soft-green
+	&.--error
+		input
+			border-color: $red
+			background-color: $soft-red
+		textarea
+			border-color: $red
+			background-color: $soft-red
+	&__icon
+		position: absolute
+		inset-inline-end: 13px
+		inset-block-start: calc( 50% - 9px)
+		font-size: 2rem
+		transition: all .3s ease
+		opacity: 0
+		&.--correct
+			color: $green
+			opacity: 1
+		&.--error
+			color: $red
+			opacity: 1
+	&__text
+		position: absolute
+		inset-inline-start: 0
+		inset-block-start: -10px
+		@include font(500, 1.4rem, normal, $red)
+		&-success
+			@extend .group-input-validate__text
+			color: $green
+
+.group-input-validate-2
+	position: relative
+	&.--correct
+		input
+			border-color: $green
+			background-color: $soft-green
+		textarea
+			border-color: $green
+			background-color: $soft-green
+	&.--error
+		input
+			border-color: $red
+			background-color: $soft-red
+		textarea
+			border-color: $red
+			background-color: $soft-red
+	&__icon-2
+		position: absolute
+		inset-inline-end: 13px
+		inset-block-start: calc( 50% - 9px)
+		font-size: 2rem
+		transition: all .3s ease
+		opacity: 0
+		&.--correct
+			color: $green
+			opacity: 1
+		&.--error
+			color: $red
+			opacity: 1
+	&__text-2
+		position: absolute
+		inset-inline-start: 0
+		inset-block-start: -10px
+		@include font(500, 1.4rem, normal, $red)
+		&-success
+			@extend .group-input-validate__text
+			color: $green

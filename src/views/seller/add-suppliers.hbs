@@ -1,0 +1,31 @@
+{{>menu}}
+
+<section class="section-add-suppliers">
+	<div class="add-supplier-form">
+		<h1 class="add-supplier-form__title">Añadir proveedor</h1>
+		<form action="/seller/suppliers/add" method="POST" id="form-add-suppliers">
+			<div class="group-input-validate" id="input-company_name">
+				<label class="group-input-validate__icon"><i class="bi"></i></label>
+				<input class="add-supplier-form__input" type="text" name="company_name" placeholder="Nombre" title="Introduzca el nombre del proveedor" required>
+			</div>
+			<div class="group-input-validate" id="input-phone_number">
+				<label class="group-input-validate__icon"><i class="bi"></i></label>
+			<input class="add-supplier-form__input" type="number" name="phone_number" placeholder="Teléfono" title="Introduzca el número de teléfono, 5 a 16 dígitos" required>
+			</div>
+			<div class="group-input-validate" id="input-email">
+				<label class="group-input-validate__icon"><i class="bi"></i></label>
+			<input class="add-supplier-form__input" type="email" name="email" placeholder="Email" title="Introduzca el email" required>
+			</div>
+			<div class="group-input-validate" id="input-town">
+				<label class="group-input-validate__icon"><i class="bi"></i></label>
+			<input class="add-supplier-form__input" type="text" name="town" placeholder="Ciudad" title="Introduzca la ciudad" required>
+			</div>
+			<div class="group-input-validate" id="input-address">
+				<label class="group-input-validate__icon"><i class="bi"></i></label>
+			<input class="add-supplier-form__input" type="text" name="address" placeholder="Dirección" title="Introduzca la dirección" required>
+			</div>
+			<input class="add-supplier-form__btn-save --disabled" type="submit" value="Guardar" disabled>
+			<a class="add-supplier-form__redirection" href="/seller/suppliers">Ver proveedores</a>
+		</form>
+	</div>
+</section>

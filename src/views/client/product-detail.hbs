@@ -1,104 +1,11 @@
 {{>menu}}
 
 <section class="information-product">
-	<section class="product-imgs">
-		<div class="product-imgs__left">
-			<figure class="product-imgs__left-img">
-				<label for="img-btn-1">
-					<img
-						src="{{#if resRows.picture}}{{resRows.picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}"
-						alt="Primer imagen del producto"
-				/></label>
-			</figure>
-			<figure class="product-imgs__left-img">
-				<label for="img-btn-2">
-					<img
-						src="{{#if resRows.picture}}{{resRows.picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}"
-						alt="Segunda imagen del producto"
-				/></label>
-			</figure>
-			<figure class="product-imgs__left-img">
-				<label for="img-btn-3">
-					<img
-						src="{{#if resRows.picture}}{{resRows.picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}"
-						alt="Tercer imagen del producto"
-				/></label>
-			</figure>
-			<figure class="product-imgs__left-img">
-				<label for="img-btn-4">
-					<img
-						src="{{#if resRows.picture}}{{resRows.picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}"
-						alt="Cuarta imagen del producto"
-				/></label>
-			</figure>
-			<figure class="product-imgs__left-img">
-				<label for="img-btn-5">
-					<img
-						src="{{#if resRows.picture}}{{resRows.picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}"
-						alt="Quinta imagen del producto"
-				/></label>
-			</figure>
-			<figure class="product-imgs__left-img">
-				<label for="img-btn-6">
-					<img
-						src="{{#if resRows.picture}}{{resRows.picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}"
-						alt="Sexta imagen del producto"
-				/></label>
-			</figure>
-		</div>
+	<section class="product-imgs" data-imgs="{{resRows.picture}}">
+		<section class="product-imgs__left">
+		</section>
 		<figure class="product-imgs__right">
-			<figure class="product-imgs__right-container">
-				<label for="img-btn-1">
-					<input
-						type="radio"
-						name="image-product-btn"
-						id="img-btn-1"
-						checked />
-					<img
-						src="{{#if resRows.picture}}{{resRows.picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}"
-						alt="Primer imagen del producto"
-				/></label>
-			</figure>
-			<figure class="product-imgs__right-container">
-				<label for="img-btn-2">
-					<input type="radio" name="image-product-btn" id="img-btn-2" />
-					<img
-						src="{{#if resRows.picture}}{{resRows.picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}"
-						alt="Segunda imagen del producto"
-				/></label>
-			</figure>
-			<figure class="product-imgs__right-container">
-				<label for="img-btn-3">
-					<input type="radio" name="image-product-btn" id="img-btn-3" />
-					<img
-						src="{{#if resRows.picture}}{{resRows.picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}"
-						alt="Tercer imagen del producto"
-				/></label>
-			</figure>
-			<figure class="product-imgs__right-container">
-				<label for="img-btn-4">
-					<input type="radio" name="image-product-btn" id="img-btn-4" />
-					<img
-						src="{{#if resRows.picture}}{{resRows.picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}"
-						alt="Cuarta imagen del producto"
-				/></label>
-			</figure>
-			<figure class="product-imgs__right-container">
-				<label for="img-btn-5">
-					<input type="radio" name="image-product-btn" id="img-btn-5" />
-					<img
-						src="{{#if resRows.picture}}{{resRows.picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}"
-						alt="Quinta imagen del producto"
-				/></label>
-			</figure>
-			<figure class="product-imgs__right-container">
-				<label for="img-btn-6">
-					<input type="radio" name="image-product-btn" id="img-btn-6" />
-					<img
-						src="{{#if resRows.picture}}{{resRows.picture}}{{else}}/assets/img/defaultCP.jpg{{/if}}"
-						alt="Sexta imagen del producto"
-				/></label>
-			</figure>
+			<img src="" alt="Imagen del producto">
 		</figure>
 	</section>
 
@@ -112,58 +19,51 @@
 			Env&iacuteo gratis
 		</p>
 		<p class="product-abstract__stock"><b>Stock disponible: </b>{{resRows.stock}}</p>
-		<p class="product-abstract__amount">
-			<b>Cantidad: </b>
-			<select
-				name="select-amount"
-				id="product-abstract__select-amount"
-				class="product-abstract__select"
-			>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-			</select>
-		</p>
-		{{#if colors}}
-		<p class="product-abstract__colour">
-			<b
-				>Color:
-				<select
-					name="select-amount"
-					id="product-abstract__select-colour"
-					class="product-abstract__select"
-				>
-					{{#each colors}}
-					<option value="{{color}}">{{color}}</option>
-					{{/each}}
+
+		<form id="add-cart-product-form">
+			<input type="hidden" name="user" value="{{idUser.id}}">
+			<input type="hidden" name="reference" value="{{resRows.reference}}">
+			<input type="hidden" name="product" value="{{resRows.id}}">
+			<input type="hidden" name="name" value="{{resRows.name}}">
+			<input type="hidden" name="picture" value="" id="local-picture">
+			<input type="hidden" name="price" value="{{resRows.priceFormatted}}">
+			<p class="product-abstract__amount">
+				<b>Cantidad: </b>
+				<select name="amount" id="amount" class="product-abstract__select">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
 				</select>
-			</b>
-		</p>
-		{{/if}}
-		<p class="product-abstract__supplier">
-			<b>Distribuidor: </b>{{resRows.company_name}}
-		</p>
-		<input
-			type="submit"
-			value="Agregar al carrito"
-			class="product-abstract__btn-cart"
-		/>
+			</p>
+			{{#if colors}}
+			<p class="product-abstract__colour">
+				<b>Color:
+					<select name="color" id="color" class="product-abstract__select">
+						{{#each colors}}
+						<option value="{{color}}">{{color}}</option>
+						{{/each}}
+					</select>
+				</b>
+			</p>
+			{{/if}}
+			<p class="product-abstract__supplier">
+				<b>Distribuidor: </b>{{resRows.company_name}}
+			</p>
+			<input type="submit" value="Agregar al carrito" class="product-abstract__btn-cart" />
+		</form>
 	</section>
 
-	<section class="product-specs">
+	<section class="product-specs" data-text="{{resRows.specs}}">
 		<p class="product-specs__title">Especificaciones</p>
 		<p class="product-specs__text">
-			{{resRows.specs}}
+
 		</p>
 	</section>
 
 	<section class="product-payment">
 		<p class="product-payment__title">Medios de pago</p>
 		<figure class="product-payment__img-container">
-			<img
-				src="/assets/img/method-payments.png"
-				alt="Imagen de los medios de pago"
-			/>
+			<img src="/assets/img/method-payments.png" alt="Imagen de los medios de pago" />
 		</figure>
 		<p class="product-payment__title">Garant&iacutea</p>
 		<p class="product-payment__text">
@@ -176,10 +76,10 @@
 		</p>
 	</section>
 
-	<section class="product-description">
+	<section class="product-description" data-text="{{resRows.information}}">
 		<p class="product-description__title">Descripci&oacuten</p>
 		<p class="product-description__text">
-			{{resRows.information}}
+
 		</p>
 	</section>
 </section>

@@ -1,0 +1,97 @@
+.shopping-history-container
+	display: grid
+	grid-template-columns: 1fr
+	grid-gap: 15px 0
+	margin: 58px auto 80px
+	padding-block-start: 30px
+	inline-size: 98%
+	max-inline-size: 750px
+
+.shopping-history-fail
+	padding-block-start: 15px
+	text-align: center
+	&__text
+		@include font(bold, 2rem, normal, $text-gray)
+	&__face
+		font-size: 30rem
+		color: $text-gray
+		user-select: none
+
+.product-history
+	position: relative
+	padding: 20px 20px 5px
+	height: 152px
+	max-inline-size: 750px
+	border: 1px solid $dark-gray
+	background-color: $gray
+	transition: all 0.2s ease
+	overflow: hidden
+	&__first-section
+		display: grid
+		grid-template-columns: 130px 407px 170px
+	&__img-container
+		@include flex-center
+		inline-size: 110px
+		block-size: 110px
+		border: 1px solid $dark-gray
+		background: $white
+		user-select: none
+		img
+			inline-size: 108px
+			block-size: auto
+	&__info
+		display: flex
+		align-items: center
+		padding-inline-end: 20px
+		line-height: 2.5rem
+	&__name
+		font-size: 1.9rem
+	&__text
+		@extend .product-history__name
+		color: $text-gray
+	&__price
+		@extend .product-history__text
+		font-family: $second-font
+	&__status
+		@include flex-center
+		text-align: center
+		line-height: 2rem
+		color: $purple
+		&-title
+			font-size: 1.8rem
+			font-weight: bold
+		&-subtitle
+			font-size: 1.8rem
+		&-icons
+			font-size: 1.9rem
+		&--orange
+			@extend .product-history__status
+			color: $orange
+		&--green
+			@extend .product-history__status
+			color: $green
+	&__second-section
+		display: grid
+		grid-template-columns: 23% 22% 27% 28%
+		block-size: 105px
+		transition: all .2s ease
+		opacity: 0
+		section
+			@include flex-center (center, flex-start)
+			flex-direction: column
+		&-container
+			padding-inline-end: 7px
+			&.last
+				padding: 0
+	&__more
+		&-assistant
+			font-family: $second-font
+			color: $text-gray
+		&-title
+			@include font (bold, 1.6rem)
+		&-text
+			@include font (400, 1.6rem)
+		&-text-gray
+			@include font (400, 1.6rem, normal, $text-gray)
+	&__no-padding
+		padding: 0

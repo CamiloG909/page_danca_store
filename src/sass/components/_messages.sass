@@ -1,11 +1,13 @@
 .message-container
 	@include flex-center (center, flex-end)
-	position: absolute
+	position: fixed
 	inset-block-start: 0
-	inset-inline-start: 0
-	inline-size: 100%
-	block-size: 120px
-	transition: all 0.5s ease
+	inset-inline-start: calc( 50% - 20% )
+	inline-size: 40%
+	text-align: center
+	transition: all 0.3s ease
+	z-index: 8
+
 
 .message
 	position: relative
@@ -14,25 +16,26 @@
 	@include font(bold, 1.6rem, normal, $white)
 	border-radius: 15px
 	box-shadow: $shadow-header
-	transition: all 0.5s ease
 	user-select: none
 	z-index: 9
-	&::after
-		display: block
-		content: ''
-		position: absolute
-		inset-inline-start: calc( 50% - 10px )
-		inset-block-start: -20px
-		border-block-start: 10px solid $white
-		border-inline-start: 10px solid $white
-		border-inline-end: 10px solid $white
 	&--succesfully
 		background-color: $transparent-purple
-		&::after
-			border-block-end: 10px solid $transparent-purple
-			background-color: $transparent-purple
+		&-icon
+			position: absolute
+			inset-block-start: -20px
+			inset-inline-start: calc( 50% - 12.5px )
+			font-size: 2.5rem
+			color: $transparent-purple
 	&--error
 		background-color: $transparent-red
-		&::after
-			border-block-end: 10px solid $transparent-red
-			background-color: $transparent-red
+		&-icon
+			position: absolute
+			inset-block-start: -20px
+			inset-inline-start: calc( 50% - 12.5px )
+			font-size: 2.5rem
+			color: $transparent-red
+
+.message-signin
+	text-align: center
+	font-size: 1.8rem
+	color: $error-red

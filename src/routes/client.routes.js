@@ -5,14 +5,20 @@ const {
 	renderComputers,
 	renderPhones,
 	renderProductDetail,
+	addCartProduct,
 	renderShoppingCart,
+	clearProductsCart,
+	productsPay,
 	renderShoppingHistory,
+	redirectionShoppingHistory,
 	renderProfile,
 	renderUpdateUserInformation,
 	updateUserInformation,
+	updateUserImage,
 } = require('../controllers/client.controller');
 
 const { isAuthenticated } = require('../helpers/auth');
+const { body, check } = require('express-validator');
 
 const router = Router();
 
@@ -22,15 +28,51 @@ router.get('/home', isAuthenticated, renderHome);
 router.get('/category/computers', isAuthenticated, renderComputers);
 router.get('/category/phones', isAuthenticated, renderPhones);
 
-router.get('/product/:id', isAuthenticated, renderProductDetail);
+router.route('/product/:id').get(isAuthenticated, renderProductDetail);
 
 router.get('/cart', isAuthenticated, renderShoppingCart);
 
-router.get('/history/:id', isAuthenticated, renderShoppingHistory);
+router.post('/cart/pay', isAuthenticated, productsPay);
+
+router.get('/history', isAuthenticated, renderShoppingHistory);
 
 router.get('/user/:id', isAuthenticated, renderProfile);
 
-router.get('/user/update/:id', isAuthenticated, renderUpdateUserInformation);
-router.put('/user/update/:id', isAuthenticated, updateUserInformation);
+router
+	.route('/user/update/:id')
+	.get(isAuthenticated, renderUpdateUserInformation)
+	.put(
+		isAuthenticated,
+		[
+			body(
+				[
+					'name',
+					'last_name',
+					'email',
+					'phone_number',
+					'town',
+					'address',
+					'confirm_password',
+				],
+				'Por favor completa todos los campos'
+			)
+				.not()
+				.isEmpty()
+				.trim(),
+			body('email', 'Digite un correo válido').isEmail(),
+			body('phone_number')
+				.isInt()
+				.withMessage('Por favor corrija el número de teléfono')
+				.isLength({ min: 7 })
+				.withMessage('El número de teléfono debe tener mínimo 7 caracteres')
+				.isLength({ max: 14 })
+				.withMessage(
+					'El número de teléfono no debe tener más de 14 caracteres'
+				),
+		],
+		updateUserInformation
+	);
+
+router.put('/user/update/image/:id', isAuthenticated, updateUserImage);
 
 module.exports = router;

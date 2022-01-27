@@ -18,13 +18,14 @@
 			<img loading="lazy" src="assets/img/signin-index.png" alt="Imagen de la segunda sección" />
 		</section>
 		<section class="signin-index__form-container">
-			<div class="signin-form">
+			<div class="signin-form" id="signin-form">
 				<p class="signin-form__title">Iniciar sesi&oacuten</p>
+				{{>errors}}
 				<form action="/login" method="POST">
-					<input type="email" name="email" class="signin-form__input" id="email" placeholder="Email" autocomplete="email"
+					<input type="email" name="email" class="signin-form__input" id="email-index" placeholder="Email" autocomplete="email" onclick="hiddenErrorIndex()"
 						required />
-					<input type="password" name="password" class="signin-form__input" id="password" placeholder="Contraseña"
-						autocomplete="current-password" required />
+					<input type="password" name="password" class="signin-form__input" id="password-index" placeholder="Contraseña"
+						autocomplete="current-password" onclick="hiddenErrorIndex()" required />
 					<input type="submit" value="Ingresar" class="signin-form__btn" />
 				</form>
 				<p class="signin-form__redirection">

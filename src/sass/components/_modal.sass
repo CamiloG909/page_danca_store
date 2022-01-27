@@ -1,0 +1,153 @@
+// Shopping cart
+.container-modal-cart
+	@include flex-center
+	position: fixed
+	inset-block-start: 0
+	inset-inline-start: 0
+	inline-size: 100%
+	block-size: 100vh
+	background-color: rgba(0, 0, 0, 0.25)
+	transition: all .3s ease
+	z-index: 9888
+
+.pay-complete
+	position: relative
+	padding: 20px
+	inline-size: 345px
+	block-size: 225px
+	text-align: center
+	border-radius: 15px
+	background-color: $white
+	box-shadow: $strong-shadow
+	&__icon-close
+		position: absolute
+		padding: 4px 3px 3px 4px
+		inset-block-start: 12px
+		inset-inline-end: 12px
+		font-size: 2.2rem
+		color: $text-gray
+		border-radius: 10px
+		cursor: pointer
+		transition: all 0.3s ease
+		&:hover
+			background-color: $bg-icons
+		&:active
+			background-color: #0000002d
+	&__title
+		@include font(bold,2rem,1.5rem,$text-gray)
+	&__icon-check
+		position: absolute
+		inset-block-start: 40px
+		inset-inline-start: calc( 50% - 44px )
+		font-size: 8.8rem
+		color: $purple
+	&__text
+		margin-block-start: 100px
+		font-size: 1.8rem
+	&__line
+		margin: 11px 0
+		border: 1px solid $dark-gray
+	&__redirection
+		@include flex-center (start)
+		inline-size: 100%
+	&__goto
+		@include font(bold,1.8rem,normal,$text-gray)
+		margin-inline-end: 7px
+	&__btn-redirection
+		padding: 0 17px
+		@include font(bold,2rem,normal,$white)
+		text-decoration: none
+		border-radius: 15px
+		cursor: pointer
+		transition: all 0.3s ease
+		user-select: none
+		&.--home
+			margin: 0 11px
+			background-color: $purple
+			&:hover
+				background-color: $dark-purple
+		&.--history
+			background-color: $green
+			&:hover
+				background-color: $dark-green
+
+// Profile
+.container-choice-image-profile
+	position: fixed
+	inset-block-start: 0
+	inset-inline-start: 0
+	inline-size: 100%
+	block-size: 100vh
+	background-color: rgba(0, 0, 0, 0.25)
+	transition: all .3s ease
+	opacity: 0
+	z-index: 9888
+
+.choice-image-profile
+	position: absolute
+	inset-inline-start: calc( 50% - 150px )
+	inset-block-start: 145px
+	padding: 20px
+	inline-size: 95%
+	max-inline-size: 300px
+	text-align: center
+	border-radius: 15px
+	background-color: $white
+	box-shadow: $strong-shadow
+	&__icon-close
+		position: absolute
+		padding: 4px 3px 3px 4px
+		inset-block-start: 12px
+		inset-inline-end: 12px
+		font-size: 2.2rem
+		color: $text-gray
+		border-radius: 10px
+		cursor: pointer
+		transition: all 0.3s ease
+		&:hover
+			background-color: $bg-icons
+		&:active
+			background-color: #0000002d
+	&__title
+		margin-block-end: 10px
+		@include font(bold,2rem,1.5rem,$text-gray)
+	&__group-file
+		label
+			display: block
+			inline-size: 100%
+			margin: 10px 0
+			padding: 8px 7px
+			@include font(500, 1.4rem, normal, $purple)
+			border: 1px solid $dark-gray
+			border-radius: 5px
+			background-color: $gray
+			cursor: pointer
+			&:hover
+				background-color: #eeeeee
+				transition: all 0.3s ease
+		&.--correct
+			label
+				border-color: $green
+				color: $green
+		&.--error
+			label
+				border-color: $red
+				color: $red
+		&-text
+			@include font(bold, 1.8rem, normal, $green)
+			transition: all .3s ease
+	&__input-file
+		display: none
+	&__btn
+		padding: 5px 15px
+		@include font(bold,1.8rem,normal,$white)
+		border: none
+		border-radius: 15px
+		background-color: $purple
+		cursor: pointer
+		transition: all 0.3s ease
+		&:hover
+			background-color: $dark-purple
+		&.--disabled
+			opacity: 0.7
+			cursor: not-allowed

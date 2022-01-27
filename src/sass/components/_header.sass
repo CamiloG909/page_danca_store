@@ -62,7 +62,20 @@
 		@include flex-center (flex-end)
 		padding-inline-end: 6%
 	&__a
+		position: relative
 		cursor: default
+	&__circle-count
+		position: absolute
+		inset-block-start: -5px
+		inset-inline-end: 0
+		padding: 1px 5px
+		min-block-size: 18px
+		min-inline-size: 18px
+		@include font(bold, 1.2rem, normal, $white)
+		text-align: center
+		border-radius: 20px
+		background-color: $purple
+		user-select: none
 	&__icon
 		margin: 0 6px
 		padding: 0 4.5px

@@ -1,1 +1,0 @@
-"use strict";const messageContainer=document.getElementById("message-container"),hiddenMsg=()=>{setTimeout((()=>{document.body.removeChild(messageContainer)}),2e3)},eventRefresh=()=>{2==performance.navigation.type&&location.reload(!0)};2==performance.navigation.type&&location.reload(!0),setTimeout((()=>{document.body.removeChild(messageContainer)}),2e3);

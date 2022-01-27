@@ -1,0 +1,265 @@
+.body-seller-products
+	background-image: $gradient-purple-light
+	background-size: 100%
+
+.section-index-seller
+	margin: 58px 0 0
+
+.index-seller-container
+	display: flex
+	flex-wrap: wrap
+	justify-content: center
+	gap: 11px
+	margin: 0 auto
+	padding: 30px 0
+	inline-size: 95%
+	max-inline-size: 1115px
+
+.seller-index-box
+	position: relative
+	padding: 20px
+	inline-size: 552px
+	text-align: center
+	border-radius: 10px
+	background-color: $white
+	box-shadow: $shadow
+	transition: 0.3s all ease
+	user-select: none
+	overflow: hidden
+	z-index: 2
+	div
+		transition: all .3s ease
+	&__icon
+		display: inline
+		font-size: 3.5rem
+		&-arrow
+			font-size: 4rem
+			border-radius: 10px
+			cursor: pointer
+	&__text
+		@include font(bold,2.5rem)
+		display: inline
+		margin-inline-start: 10px
+		vertical-align: super
+		transition: all 0.3s ease
+	&-purple
+		color: $purple
+
+.add-product-form
+	text-align: center
+	transition: all 0.3s ease
+	&__group-file
+		display: flex
+		flex-direction: column
+		align-items: center
+		justify-content: space-between
+		inline-size: 100%
+		block-size: 136px
+		margin: 10px 0
+		padding: 15px 7px
+		border: 2px solid $soft-purple
+		border-radius: 10px
+		background-color: $soft-purple
+		cursor: pointer
+		transition: all 0.3s ease
+		&:hover
+			border-color: #f2eaff
+			background-color: #f2eaff
+		&-content
+			i
+				font-size: 7rem
+				color: $purple
+		&.--correct
+				border-color: $green
+				background-color: $soft-green
+				color: $green
+				i, p
+					color: $green
+		&.--error
+				border-color: $red
+				background-color: $soft-red
+				color: $red
+				i, p
+					color: $red
+		&-text
+			@include font(500, 1.7rem, normal, $purple)
+	&__input-file
+		display: none
+	&__input
+		@include input-form
+		max-inline-size: 100%
+		&-textarea
+			@include input-form
+			max-inline-size: none
+			inline-size: 100%
+			block-size: 200px
+			resize: none
+		&-select
+			@include input-form
+			padding: 0 4%
+			max-inline-size: 100%
+			block-size: 45px
+			&.--correct
+				border-color: $green
+				background-color: $soft-green
+			&.--error
+				border-color: $red
+				background-color: $soft-red
+			&.category
+				margin-block-start: 0
+				margin-inline-end: 0.7%
+				inline-size: 49%
+			&.supplier
+				margin-inline-start: 0.7%
+				inline-size: 49%
+	&__btn-save
+		@include btn-input
+		margin-block-start: 15px
+		&.--disabled
+			opacity: 0.7
+			cursor: not-allowed
+
+.group-input-validate
+	&.first-products
+		display: inline-block
+		margin-block-start: 0
+		margin-inline-end: 0.7%
+		inline-size: 49%
+		input
+			padding-inline-start: 15px
+	&.price-products
+		display: inline-block
+		margin-inline-start: 0.7%
+		inline-size: 49%
+		input
+			padding-inline-start: 15px
+	&.colors-products
+		display: inline-block
+		margin-inline-end: 0.7%
+		inline-size: 70%
+	&.stock-products
+		display: inline-block
+		margin-inline-start: 0.7%
+		inline-size: 28%
+		input
+			text-align: center
+
+.group-input-validate-2
+	&.first-products
+		display: inline-block
+		margin-block-start: 0
+		margin-inline-end: 0.7%
+		inline-size: 49%
+		input
+			padding-inline-start: 15px
+	&.price-products
+		display: inline-block
+		margin-inline-start: 0.7%
+		inline-size: 49%
+		input
+			padding-inline-start: 15px
+	&.colors-products
+		display: inline-block
+		margin-inline-end: 0.7%
+		inline-size: 70%
+	&.stock-products
+		display: inline-block
+		margin-inline-start: 0.7%
+		inline-size: 28%
+		input
+			text-align: center
+
+.seller-product
+	&-form
+		position: relative
+		padding-block-start: 15px
+		transition: all 0.2s ease
+		&__arrow
+			position: absolute
+			inset-block-start: -10px
+			inset-inline-start: calc( 50% - 16px )
+			font-size: 3.2rem
+			color: $dark-gray
+		&__title
+			@include font(bold, 2rem, 3rem, $purple)
+		&__btn-hidden
+			@include btn-input($blue,$dark-blue)
+			margin-block-start: 8px
+			margin-inline-end: 0.7%
+			inline-size: 49%
+			block-size: 30px
+			font-weight: 500
+			i
+				font-size: 1.7rem
+		&__btn-delete
+			@include btn-input($red,$dark-red)
+			margin-block-start: 8px
+			margin-inline-start: 0.7%
+			inline-size: 49%
+			block-size: 30px
+			font-weight: 500
+			i
+				font-size: 1.7rem
+	&-card
+		position: relative
+		display: grid
+		grid-template-columns: 132px 1fr
+		block-size: 134px
+		border: 1px solid $dark-gray
+		background-color: $gray
+		user-select: text
+		&-slide
+			margin-block-end: 10px
+			transition: all 0.2s ease
+		&__img
+			@include flex-center
+			margin: 20px
+			inline-size: 92px
+			block-size: 92px
+			text-align: center
+			border: 1px solid $dark-gray
+			background-color: $white
+			overflow: hidden
+			user-select: none
+			img
+				max-block-size: 100%
+				max-inline-size: 100%
+		&__info
+			@include flex-center(center,flex-start)
+			flex-direction: column
+			padding-inline-end: 60px
+		&__name
+			position: relative
+			@include font(normal,1.6rem,normal,$black)
+			text-align: start
+		&__status
+			position: relative
+			inset-block-end: 2px
+			margin: 0 10px
+			font-size: 1rem
+			&.--active
+				color: $green
+			&.--inactive
+				color: $red
+		&__price
+			@include font(normal,1.6rem,normal,$text-gray,$second-font)
+		&__text
+			@include font(normal,1.6rem,normal,$text-gray)
+			text-align: start
+		&__icon-edit
+			position: absolute
+			inset-inline-end: 20px
+			inset-block-start: 0
+			@include flex-center
+			block-size: 100%
+			font-size: 3rem
+			color: $purple
+			i
+				padding: 4.5px 4.5px 1px
+				border-radius: 10px
+				transition: all 0.3s ease
+				cursor: pointer
+				&:hover
+					background-color: $bg-icons
+				&:active
+					background-color: #0000002d

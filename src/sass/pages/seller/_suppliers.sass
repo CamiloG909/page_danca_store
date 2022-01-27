@@ -1,0 +1,107 @@
+.section-suppliers
+	margin-block-start: 58px
+	min-block-size: 100px
+
+.supplier-card-container
+	display: flex
+	flex-wrap: wrap
+	justify-content: center
+	gap: 15px
+	margin: 0 auto
+	padding: 30px 0 100px
+	inline-size: 95%
+	max-inline-size: 750px
+
+.supplier-card
+	position: relative
+	padding: 17px 20px 20px
+	inline-size: 100%
+	border: 1px solid $dark-gray
+	background-color: $gray
+	overflow: hidden
+	&-slide
+		inline-size: 367.5px
+		transition: all 0.2s ease
+	&__name
+		position: relative
+		font-weight: bold
+		font-size: 1.8rem
+	&__icon-status
+		position: absolute
+		inset-block-start: 5px
+		margin: 0 10px
+		font-size: 1rem
+		&.--active
+			color: $green
+		&.--inactive
+			color: $red
+	&__text
+		@include font(normal,1.6rem,normal,$text-gray)
+	&__icon-edit
+		position: absolute
+		inset-block-start: calc( 50% - 14.5px )
+		inset-inline-end: 20px
+		padding: 5px 5px 0
+		font-size: 2.9rem
+		color: $purple
+		border-radius: 10px
+		transition: 0.2s all ease
+		cursor: pointer
+		&:hover
+			background-color: $bg-icons
+		&:active
+			background-color: #0000002d
+
+.supplier-form
+	position: relative
+	padding-block-start: 18px
+	text-align: center
+	transition: all 0.2s ease
+	&__arrow
+		position: absolute
+		inset-block-start: -10px
+		inset-inline-start: calc( 50% - 16px )
+		font-size: 3.2rem
+		color: $dark-gray
+	&__title
+		@include font(bold, 2rem, normal, $purple)
+	&__select
+		margin: 6px 0
+		padding: 0 4%
+		inline-size: 100%
+		block-size: 45px
+		max-inline-size: 430px
+		font-size: 1.9rem
+		user-select: none
+		border-radius: 15px
+		border: 2px solid #f6f0ff
+		background-color: #f6f0ff
+		outline: none
+		transition: .3s all ease
+		cursor: pointer
+		&.--correct
+			border-color: $green
+			background-color: $soft-green
+			&:focus
+				border-color: $green
+		&.--error
+			border-color: $red
+			background-color: $soft-red
+			&:focus
+				border-color: $red
+	&__btn-save
+		@include btn-input
+		margin: 16px 0 8px
+		&.--disabled
+			cursor: not-allowed
+			opacity: .7
+	&__btn-delete
+		@include btn-input
+		block-size: 25px
+		font-size: 1.8rem
+		font-weight: 500
+		background-color: $red
+		&:hover
+			background-color: $dark-red
+		i
+			font-size: 1.6rem

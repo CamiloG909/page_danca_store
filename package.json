@@ -1,12 +1,15 @@
 {
 	"name": "danca_store",
-	"version": "2.0.0",
+	"version": "3.0.0",
 	"description": "Tienda online para la compra de celulares y computadores de forma rápida y segura",
 	"main": "src/index.js",
 	"scripts": {
-		"dev": "nodemon src/index.js",
+		"start": "node src/index.js",
+		"dev": "nodemon --ignore './public/' src/index.js",
+		"test": "jest",
 		"gulp": "gulp",
-		"all": "npm-run-all --parallel dev gulp"
+		"all": "npm-run-all --parallel dev gulp",
+		"cypress:open": "cypress open"
 	},
 	"repository": {
 		"type": "git",
@@ -23,6 +26,7 @@
 		"@babel/core": "^7.15.0",
 		"@babel/preset-env": "^7.15.0",
 		"@babel/register": "^7.15.3",
+		"cypress": "^9.3.1",
 		"dotenv": "^10.0.0",
 		"eslint": "^7.32.0",
 		"eslint-config-airbnb-base": "^14.2.1",
@@ -34,6 +38,8 @@
 		"gulp-sass": "^5.0.0",
 		"gulp-terser": "^2.0.1",
 		"handlebars": "^4.7.7",
+		"jest": "^27.4.7",
+		"morgan": "^1.10.0",
 		"nodemon": "^2.0.12",
 		"npm-run-all": "^4.1.5",
 		"prettier": "^2.3.2",
@@ -41,14 +47,18 @@
 	},
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
+		"cloudinary": "^1.27.1",
 		"connect-flash": "^0.1.1",
 		"express": "^4.17.1",
 		"express-handlebars": "^5.3.3",
 		"express-session": "^1.17.2",
+		"express-validator": "^6.13.0",
+		"fs-extra": "^10.0.0",
 		"method-override": "^3.0.0",
-		"morgan": "^1.10.0",
+		"multer": "^1.4.3",
 		"passport": "^0.4.1",
 		"passport-local": "^1.0.0",
-		"pg": "^8.7.1"
+		"pg": "^8.7.1",
+		"supertest": "^6.2.2"
 	}
 }

@@ -5,91 +5,47 @@
 		<h1 class="update-profile__title">
 			Actualizar informaci&oacuten
 		</h1>
-		<button class="update-profile-form__btn-image">
+		<button class="update-profile-form__btn-image" onclick="choiceMenuProfile('/user',{{resRows.id}})">
 			<i class="bi bi-pencil update-profile-form__btn-image-icon"></i>Cambiar imagen
 		</button>
-		<form action="/user/update/{{resRows.id}}?_m=PUT" method="POST">
-		<input type="hidden" name="_m" value="PUT">
-			<input
-				class="update-profile-form__input"
-				type="text"
-				name="name"
-				placeholder="Nombre"
-				autocomplete="name"
-				value="{{resRows.name}}"
-				required
-			/>
-			<input
-				class="update-profile-form__input"
-				type="text"
-				name="last_name"
-				placeholder="Apellido"
-				autocomplete="additional-name"
-				value="{{resRows.last_name}}"
-				required
-			/>
-			<input
-				class="update-profile-form__input"
-				type="email"
-				name="email"
-				placeholder="Email"
-				autocomplete="email"
-				value="{{resRows.email}}"
-				required
-			/>
-			<input
-				class="update-profile-form__input"
-				type="number"
-				name="phone_number"
-				placeholder="Teléfono"
-				maxlength="14"
-				autocomplete="mobile"
-				value="{{resRows.phone_number}}"
-				required
-			/>
-			<input
-				class="update-profile-form__input"
-				type="text"
-				name="town"
-				placeholder="Ciudad"
-				autocomplete="country-name"
-				value="{{resRows.town}}"
-				required
-			/>
-			<input
-				class="update-profile-form__input"
-				type="text"
-				name="address"
-				placeholder="Dirección (Casa, apartamento, etc...)"
-				autocomplete="street-address"
-				value="{{resRows.address}}"
-				required
-			/>
-			<input
-				class="update-profile-form__input"
-				type="password"
-				name="password"
-				placeholder="Contraseña nueva"
-				autocomplete="current-password"
-				value=""
-			/>
-			<input
-				class="update-profile-form__confirm-password"
-				type="password"
-				name="confirm_password"
-				placeholder="Contraseña actual"
-				title="Debe ingresar su contraseña actual para continuar"
-				autocomplete="current-password"
-				required
-			/>
-			<input
-				class="update-profile-form__btn-save"
-				type="submit"
-				value="Guardar cambios"
-			/>
+		<form action="/user/update/{{resRows.id}}?_m=PUT" method="POST" id="form-update-profile">
+			<input type="hidden" name="_m" value="PUT">
+			<div class="group-input-validate --correct" id="input-name">
+				<label for="" class="group-input-validate__icon --correct"><i class="bi bi-check-circle-fill"></i></label>
+				<input class="update-profile-form__input" type="text" name="name" placeholder="Nombre" autocomplete="name"
+					value="{{resRows.name}}" title="Digite su nombre" required /></div>
+			<div class="group-input-validate --correct" id="input-last_name">
+				<label for="" class="group-input-validate__icon --correct"><i class="bi bi-check-circle-fill"></i></label>
+				<input class="update-profile-form__input" type="text" name="last_name" placeholder="Apellido"
+					autocomplete="additional-name" value="{{resRows.last_name}}" title="Digite su apellido" required />
+			</div>
+			<div class="group-input-validate --correct" id="input-email">
+				<label for="" class="group-input-validate__icon --correct"><i class="bi bi-check-circle-fill"></i></label>
+				<input class="update-profile-form__input" type="email" name="email" placeholder="Email" autocomplete="email"
+					value="{{resRows.email}}" title="Digite su correo electrónico" required /></div>
+			<div class="group-input-validate --correct" id="input-phone_number">
+				<label for="" class="group-input-validate__icon --correct" style="inset-block-start: calc( 50% - 10px);"><i class="bi bi-check-circle-fill"></i></label>
+				<input class="update-profile-form__input" type="number" name="phone_number" placeholder="Teléfono"
+					maxlength="14" autocomplete="mobile" value="{{resRows.phone_number}}"
+					title="Digite su número de teléfono, solo números entre 7 y 14 dígitos" required /></div>
+			<div class="group-input-validate --correct" id="input-town">
+				<label for="" class="group-input-validate__icon --correct"><i class="bi bi-check-circle-fill"></i></label>
+				<input class="update-profile-form__input" type="text" name="town" placeholder="Ciudad"
+					autocomplete="country-name" value="{{resRows.town}}" title="Es importante su ciudad para realizar los envíos"
+					required /></div>
+			<div class="group-input-validate --correct" id="input-address">
+				<label for="" class="group-input-validate__icon --correct"><i class="bi bi-check-circle-fill"></i></label>
+				<input class="update-profile-form__input" type="text" name="address"
+					placeholder="Dirección (Casa, apartamento, etc...)" autocomplete="street-address" value="{{resRows.address}}"
+					title="Es importante su dirección para realizar los envíos" required /></div>
+				<input class="update-profile-form__input" type="password" name="password"
+					placeholder="Contraseña nueva (opcional)" autocomplete="current-password" value=""
+					title="Digite una contraseña segura con mínimo 6 caracteres" />
+			<input class="update-profile-form__confirm-password" type="password" name="confirm_password"
+				placeholder="Contraseña actual" autocomplete="current-password"
+				title="Debe ingresar su contraseña actual para continuar" required />
+			<input class="update-profile-form__btn-save" type="submit" value="Guardar cambios" />
 		</form>
-			<a href="/user/{{resRows.id}}" class="update-profile-form__redirection"
-				>Volver a mi perfil</a
-			>
+		<a href="/user/{{resRows.id}}" class="update-profile-form__redirection">Volver a mi perfil</a>
 	</div>
 </section>

@@ -1,111 +1,63 @@
 <section class="signup">
 	<figure class="signup__img-container">
-		<img
-			src="/assets/img/signup.jpg"
-			alt="Imagen de la página de registro"
-		/>
+		<img src="/assets/img/signup.jpg" alt="Imagen de la página de registro" />
 	</figure>
 	<section class="signup__form-container">
 		<div class="signup-form">
-			<form action="/signup" method="POST">
+			<form action="/signup" method="POST" id="form-signup">
 				<h1 class="signup-form__title">Crear cuenta</h1>
-				<input
-					class="signup-form__input"
-					type="text"
-					name="name"
-					placeholder="Nombre"
-					autocomplete="name"
-					value="{{name}}"
-					required
-				/>
-				<input
-					class="signup-form__input"
-					type="text"
-					name="last_name"
-					placeholder="Apellido"
-					autocomplete="additional-name"
-					value="{{last_name}}"
-					required
-				/><br />
-				<select
-					class="signup-form__input signup-form__input--select"
-					name="document_type"
-					title="Selecciona el tipo de documento"
-					required
-				>
+				<div class="group-input-validate" id="input-name">
+				<label class="group-input-validate__icon" for=""><i class="bi"></i></label>
+				<input class="signup-form__input" type="text" name="name" placeholder="Nombre" autocomplete="name"
+					value="{{name}}" title="Digite su nombre" required />
+				</div>
+				<div class="group-input-validate" id="input-last_name">
+					<label class="group-input-validate__icon" for=""><i class="bi"></i></label>
+				<input class="signup-form__input" type="text" name="last_name" placeholder="Apellido"
+					autocomplete="additional-name" value="{{last_name}}" title="Digite su apellido" required /><br />
+				</div>
+				<select class="signup-form__input signup-form__input--select --correct" name="document_type"
+					title="Selecciona el tipo de documento" required>
 					<option value="CC">C.C</option>
 					<option value="CE">C.E</option>
 				</select>
-				<label>
-					<input
-						class="signup-form__input signup-form__input--short"
-						type="number"
-						name="document_number"
-						placeholder="Número de documento"
-						maxlength="12"
-						autocomplete="cc-number"
-						value="{{document_number}}"
-						required
-					/>
-					<p class="signup-form__only-numbers">*Solo n&uacutemeros</p>
-				</label>
-				<input
-					class="signup-form__input"
-					type="email"
-					name="email"
-					placeholder="Email"
-					autocomplete="email"
-					value="{{email}}"
-					required
-				/>
-				<input
-					class="signup-form__input"
-					type="number"
-					name="phone_number"
-					placeholder="Teléfono"
-					maxlength="14"
-					autocomplete="mobile"
-					value="{{phone_number}}"
-					required
-				/>
-				<input
-					class="signup-form__input"
-					type="text"
-					name="town"
-					placeholder="Ciudad"
-					autocomplete="country-name"
-					value="{{town}}"
-					required
-				/>
-				<input
-					class="signup-form__input"
-					type="text"
-					name="address"
-					placeholder="Dirección (Casa, apartamento, etc...)"
-					autocomplete="street-address"
-					value="{{address}}"
-					required
-				/>
-				<input
-					class="signup-form__input"
-					type="password"
-					name="password"
-					placeholder="Contraseña"
-					autocomplete="current-password"
-					value="{{password}}"
-					required
-				/>
-				<input
-					class="signup-form__btn"
-					type="submit"
-					value="Registrarse"
-				/>
+				<div class="group-input-validate signup-form-w78" id="input-document_number">
+				<label class="group-input-validate__icon" for="" style="inset-block-start: calc( 50% - 12px);"><i class="bi"></i></label>
+					<input class="signup-form__input signup-form__input--short" type="number" name="document_number"
+						placeholder="Número de documento" maxlength="12" autocomplete="cc-number" value="{{document_number}}"
+						title="Digite su número de documento, solo números entre 7 y 12 dígitos" required />
+				</div>
+				<div class="group-input-validate" id="input-email">
+				<label class="group-input-validate__icon" for=""><i class="bi"></i></label>
+				<input class="signup-form__input" type="email" name="email" placeholder="Email" autocomplete="email"
+					value="{{email}}" title="Digite su correo electrónico" required />
+				</div>
+				<div class="group-input-validate" id="input-phone_number">
+				<label class="group-input-validate__icon" for="" style="inset-block-start: calc( 50% - 10px);"><i class="bi"></i></label>
+				<input class="signup-form__input" type="number" name="phone_number" placeholder="Teléfono" maxlength="14"
+					autocomplete="mobile" value="{{phone_number}}" title="Digite su número de teléfono, solo números entre 7 y 14 dígitos" required />
+				</div>
+				<div class="group-input-validate" id="input-town">
+				<label class="group-input-validate__icon" for="" style="inset-block-start: calc( 50% - 10px);"><i class="bi"></i></label>
+				<input class="signup-form__input" type="text" name="town" placeholder="Ciudad" autocomplete="country-name"
+					value="{{town}}" title="Es importante su ciudad para realizar los envíos" required />
+				</div>
+				<div class="group-input-validate" id="input-address">
+				<label class="group-input-validate__icon" for=""><i class="bi"></i></label>
+				<input class="signup-form__input" type="text" name="address" placeholder="Dirección (Casa, apartamento, etc...)"
+					autocomplete="street-address" value="{{address}}" title="Es importante su dirección para realizar los envíos"
+					required />
+				</div>
+				<div class="group-input-validate" id="input-password">
+				<label class="group-input-validate__icon" for=""><i class="bi"></i></label>
+				<input class="signup-form__input" type="password" name="password" placeholder="Contraseña"
+					autocomplete="current-password" value="{{password}}" title="Digite una contraseña segura con mínimo 6 caracteres" required />
+				</div>
+				<input class="signup-form__btn --disabled" type="submit" value="Registrarse" disabled/>
 			</form>
 			<p class="signup-form__redirection">
 				¿Ya tienes una cuenta?
-				<a href="/#signin-index"
-					>Inicia sesi&oacuten</a
-				>
+				<a href="/#signin-index">Inicia sesi&oacuten</a>
 			</p>
 
 		</div>

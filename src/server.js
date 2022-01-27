@@ -1,17 +1,19 @@
 const express = require('express');
+const app = express();
 const exphbs = require('express-handlebars');
 const path = require('path');
-const morgan = require('morgan');
 const methodoverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
+const multer = require('multer');
+const morgan = require('morgan');
 
-const app = express();
+require('./database/connection');
 require('./config/passport');
 
 // Settings
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views'));
 app.engine(
 	'.hbs',
@@ -25,7 +27,7 @@ app.engine(
 app.set('view engine', '.hbs');
 
 // Middlewares
-app.use(morgan('dev'));
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(methodoverride('_m'));
 app.use(
@@ -38,11 +40,23 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+const storage = multer.diskStorage({
+	destination: path.join(__dirname, '../public/uploads'),
+	filename: (req, file, cb) => {
+		cb(null, new Date().getTime() + path.extname(file.originalname));
+	},
+});
+app.use(
+	multer({
+		storage,
+	}).array('image', 6)
+);
 
 // Global variables
 app.use((req, res, next) => {
 	res.locals.success_msg = req.flash('success_msg');
 	res.locals.error_msg = req.flash('error_msg');
+	res.locals.payComplete_msg = req.flash('payComplete_msg');
 	res.locals.error = req.flash('error');
 	res.locals.user = req.user || null;
 	next();
@@ -55,5 +69,14 @@ app.use(require('./routes/seller.routes'));
 
 // Static files
 app.use(express.static(path.resolve(__dirname, '../public')));
+
+//Error 404
+app.use(function (req, res, next) {
+	res.status(404);
+	res.render('404', {
+		title: '404 Página no encontrada | Danca Store',
+		footerCN: true,
+	});
+});
 
 module.exports = app;

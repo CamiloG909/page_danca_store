@@ -1,0 +1,123 @@
+.information-product
+	margin: 88px auto 80px
+	padding: 20px
+	inline-size: 98%
+	max-inline-size: 1008px
+	display: grid
+	grid-template: auto / 72% 28%
+	justify-content: center
+	border: 1px solid $dark-gray
+	background-color: $gray
+
+.product-imgs
+	display: flex
+	gap: 25px
+	padding: 0 15px 15px 0
+	border-inline-end: 1px solid $dark-gray
+	&__left
+		display: flex
+		justify-content: center
+		flex-wrap: wrap
+		gap: 5px 40px
+		inline-size: 303px
+	&__img-min
+		@include flex-center
+		inline-size: 117px
+		block-size: 117px
+		border: 1px solid $dark-gray
+		border-radius: 2px
+		background-color: $white
+		transition: all .3s ease
+		cursor: pointer
+		user-select: none
+		&:hover
+			border-color: $purple
+		img
+			inline-size: 100%
+			max-inline-size: 115px
+	&__right
+		@include flex-center
+		min-inline-size: 361px
+		min-block-size: 361px
+		max-inline-size: 361px
+		max-block-size: 361px
+		border-radius: 2px
+		border: 1px solid $dark-gray
+		background-color: $white
+		user-select: none
+		img
+			inline-size: 100%
+
+.product-abstract
+	block-size: 376px
+	max-inline-size: 271px
+	padding-block-end: 15px
+	text-align: center
+	font-size: 1.9rem
+	line-height: 4rem
+	&__name
+		font-size: 2rem
+		line-height: 2rem
+		&-container
+			display: flex
+			align-items: center
+			justify-content: center
+			inline-size: 100%
+			block-size: 60px
+	&__price
+		font-family: $second-font
+		font-size: 2.1rem
+		font-weight: bold
+		color: $purple
+	&__shipping
+		font-weight: bold
+		color: $text-gray
+		&-icon
+			font-size: 2.3rem
+	&__supplier
+		padding-block-end: 15px
+	&__btn-cart
+		@include btn-input
+		inline-size: 80%
+	&__select
+		@include input-select
+		transition: all 0.5s ease
+		&:hover
+			border-block-end: 2px solid $purple
+
+.product-specs
+	padding: 10px 15px 15px 0
+	text-align: start
+	border-block-start: 1px solid $dark-gray
+	border-inline-end: 1px solid $dark-gray
+	&__title
+		@include title-product
+	&__text
+		@include text-gray
+
+.product-payment
+	padding: 10px 0 15px 15px
+	text-align: center
+	border-block-start: 1px solid $dark-gray
+	&__title
+		@include title-product
+	&__img-container
+		margin: 5px auto
+		inline-size: 100%
+		max-inline-size: 255px
+		user-select: none
+		img
+			inline-size: 100%
+	&__text
+		@include text-gray
+
+.product-description
+	grid-column: 1 / 3
+	padding-block-start: 10px
+	text-align: start
+	border-block-start: 1px solid $dark-gray
+	&__title
+		@include title-product
+	&__text
+		@include text-gray
+		text-align: justify

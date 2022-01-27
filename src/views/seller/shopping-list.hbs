@@ -1,0 +1,51 @@
+{{>menu}}
+
+{{#if category}}
+<section class="title-page">
+	<p>{{category}}</p>
+</section>
+{{/if}}
+
+<section class="section-shopping-list">
+{{#each response}}
+	<article class="purchase-card" data-amount="{{amount}}" data-payment="{{method_payment}}" data-supplier="{{company_name}}" data-id-order='{{id}}' data-id="{{id_client}}" data-address="{{address}}" data-city="{{town}}" data-company="{{shipping_company_name}}" data-shipping="{{shipping_date}}" data-delivery="{{delivery_date}}"" data-status="{{status}}">
+		<div class="show-more-btn" id="shopping-list-info-parent">
+			<i class="bi bi-plus-lg" id="shopping-list-info"></i>
+		</div>
+		<section class="purchase-card__section">
+			<section class="purchase-card__section-product">
+				<p class="purchase-card__title">{{p_name}}</p>
+				<p class="purchase-card__text"><span class="purchase-card__assistant">$ {{priceFormatted}}</span> / Unidad</p>
+				<p class="purchase-card__text">Ref: {{reference}}</p>
+				<p class="purchase-card__text">Color: {{color}}</p>
+			</section>
+			<section class="purchase-card__section-client">
+				<p class="purchase-card__title">{{c_name}} {{last_name}}</p>
+				<p class="purchase-card__text">{{initials}}. {{document_number}}</p>
+				<p class="purchase-card__text">Teléfono: {{phone_number}}</p>
+				<p class="purchase-card__text">Email: {{email}}</p>
+			</section>
+			<section class="purchase-card__section-total">
+				<p class="purchase-card__title">Total a pagar</p>
+				<p class="purchase-card__text"><span class="purchase-card__assistant">$ {{totalValueFormatted}}</span></p>
+				<p class="purchase-card__subtitle"><strong>N° de Orden: </strong>{{id}}</p>
+				<p class="purchase-card__title">Fecha de pedido</p>
+				<p class="purchase-card__text">{{order_date}}</p>
+			</section>
+			<section class="purchase-card__section-status">
+
+				<form id="form-save-status-{{id}}">
+					<input type="hidden" name="id" value="{{id}}">
+					<input type="hidden" name="type" value="">
+				</form>
+				<select class="purchase-card__select-status" name="status" form="form-save-status-{{id}}">
+					<option value="1" {{#if statusPending}}selected{{/if}}>Preparando</option>
+					<option value="2" {{#if statusWay}}selected{{/if}}>En camino</option>
+					<option value="3" {{#if statusDelivered}}selected{{/if}}>Entregado</option>
+				</select>
+			</section>
+		</section>
+	</article>
+	{{/each}}
+
+</section>
