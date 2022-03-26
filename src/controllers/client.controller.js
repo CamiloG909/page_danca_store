@@ -11,6 +11,7 @@ const {
 	numberRandom,
 } = require('../helpers/functions');
 const cloudinary = require('cloudinary');
+const path = require('path');
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_NAME,
@@ -103,6 +104,10 @@ clientController.renderProductDetail = async (req, res) => {
 		const response = await db.query(clientQuerys.renderProductDetail, [
 			req.params.id,
 		]);
+
+		// Validate status
+		if (response.rows[0].status === 'Agotado') return res.redirect('/home');
+
 		const colors = [];
 		const resColors = response.rows[0].color;
 		const arrColors = resColors.split(',');
@@ -128,7 +133,7 @@ clientController.renderProductDetail = async (req, res) => {
 			footer: true,
 		});
 	} catch {
-		res.redirect('/error');
+		res.redirect('/home');
 	}
 };
 
@@ -449,15 +454,21 @@ clientController.updateUserImage = async (req, res) => {
 		const idUser = req.user.rows[0].id;
 
 		// Validate images
-		if (req.files.length != 1) {
+		if (!req.files) {
 			req.flash('error_msg', `Por favor agregue una imagen`);
 			return res.redirect(`/user/update/${idUser}`);
 		}
 
-		const { path } = req.files[0];
+		// Upload image in server
+		const imagePath = path.join(
+			__dirname,
+			`../../public/uploads/${Date.now()}${req.files.image.name}`
+		);
+
+		req.files.image.mv(imagePath);
 
 		// Save image to Cloudinary
-		const result = await cloudinary.v2.uploader.upload(path, {
+		const result = await cloudinary.v2.uploader.upload(imagePath, {
 			width: 198,
 			height: 198,
 			gravity: 'faces',
@@ -476,7 +487,7 @@ clientController.updateUserImage = async (req, res) => {
 		await db.query(clientQuerys.updateUserImage[1], [url, public_id, idUser]);
 
 		// Delete the file image from local server
-		await fs.unlink(path);
+		await fs.unlink(imagePath);
 		req.flash('success_msg', 'Imagen actualizada');
 		res.redirect(`/user/${idUser}`);
 	} catch {

@@ -1,0 +1,29 @@
+.lightbox-product
+	position: fixed
+	inset-block-start: 0
+	inset-inline-start: 0
+	@include flex-center
+	inline-size: 100%
+	block-size: 100vh
+	background-color: #000000a8
+	opacity: 0
+	transition: all .3s ease
+	z-index: 30
+	&__close
+		position: fixed
+		inset-block-start: 25px
+		inset-inline-end: 25px
+		padding: 0 5px
+		font-size: 4rem
+		color: #ffffffa8
+		border-radius: 10px
+		background-color: #0000003f
+		cursor: pointer
+		transition: all .1s ease
+		&:hover
+			color: #ffffffe5
+	img
+		max-block-size: 90vh
+		max-inline-size: 90%
+		object-fit: contain
+		box-shadow: $strong-shadow

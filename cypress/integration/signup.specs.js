@@ -17,7 +17,7 @@ describe('register user', () => {
 		cy.get('#form-signup [name="town"]').type('Bogotá, D.C.');
 		cy.get('#form-signup [name="address"]').type('Calle 9');
 		cy.get('#form-signup [name="password"]').type('123456');
-		// cy.get('#form-signup .signup-form__btn').click();
-		// cy.get('.message-container').should('exist');
+		cy.get('#form-signup .signup-form__btn').click();
+		cy.get('.message-container').should('exist');
 	});
 });

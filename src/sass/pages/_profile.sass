@@ -20,8 +20,10 @@
 		z-index: 1
 	&__img-container
 		@include flex-center
-		inline-size: 200px
-		block-size: 200px
+		min-inline-size: 200px
+		max-inline-size: 200px
+		min-block-size: 200px
+		max-block-size: 200px
 		border: 1px solid $dark-gray
 		background-color: $white
 		overflow: hidden

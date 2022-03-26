@@ -18,7 +18,7 @@ clientQuerys.renderComputers = `select id, picture, name, price from ${process.e
 
 clientQuerys.renderPhones = `select id, picture, name, price from ${process.env.DB_SCHEMA}.product where id_category = 2 and status = 'Disponible' order by id desc;`;
 
-clientQuerys.renderProductDetail = `select p.id, p.reference, p.name, p.price, p.picture, p.specs, p.information, p.color, p.stock, s.company_name from ${process.env.DB_SCHEMA}.product p inner join ${process.env.DB_SCHEMA}.supplier s on p.id_supplier = s.id where p.id = $1;`;
+clientQuerys.renderProductDetail = `select p.id, p.reference, p.name, p.price, p.picture, p.specs, p.information, p.color, p.stock, s.company_name, p.status from ${process.env.DB_SCHEMA}.product p inner join ${process.env.DB_SCHEMA}.supplier s on p.id_supplier = s.id where p.id = $1;`;
 
 clientQuerys.productsPay = [
 	`insert into ${process.env.DB_SCHEMA}.order_ (id_client,order_date,status) values ($1,$2,'Pendiente');`,
