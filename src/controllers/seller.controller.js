@@ -5,6 +5,7 @@ const { sellerQuerys } = require('../database/querys');
 const { validationResult } = require('express-validator');
 const { formatterPrice, imageCardProduct } = require('../helpers/functions');
 const cloudinary = require('cloudinary');
+const path = require('path');
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_NAME,
@@ -122,25 +123,19 @@ sellerController.addProduct = async (req, res) => {
 		}
 
 		// Validate images
-		if (req.files.length != 6) {
+		if (req.files.image.length != 6) {
 			req.flash('error_msg', `Por favor verifique las imágenes`);
 			return res.redirect('/seller/products');
 		}
 
 		// Validate files format
 		const validationFiles = [];
-		for (let file of req.files) {
-			if (file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png') {
+		for (let image of req.files.image) {
+			if (image.mimetype !== 'image/jpeg' && image.mimetype !== 'image/png') {
 				validationFiles.push(true);
 			}
 		}
 		if (validationFiles.length > 0) {
-			// Delete the files from local server
-			for (let file of req.files) {
-				const { path } = file;
-				await fs.unlink(path);
-			}
-
 			req.flash('error_msg', `Por favor verifique las imágenes`);
 			return res.redirect('/seller/products');
 		}
@@ -148,13 +143,24 @@ sellerController.addProduct = async (req, res) => {
 		// Save images
 		let imgURLs = [];
 		let imgIDs = [];
-		for (let image of req.files) {
-			const { path } = image;
+		let imgPaths = [];
 
-			// Save image to Cloudinary
-			const result = await cloudinary.v2.uploader.upload(path, {
-				width: 359,
-				height: 359,
+		for (let image of req.files.image) {
+			const imagePath = path.join(
+				__dirname,
+				`../../public/uploads/${Date.now()}${image.name}`
+			);
+
+			// Upload image in server
+			image.mv(imagePath);
+			imgPaths.push(imagePath);
+		}
+
+		// Save images in Cloudinary
+		for (let i = 0; i < imgPaths.length; i++) {
+			const result = await cloudinary.v2.uploader.upload(imgPaths[i], {
+				width: 590,
+				height: 590,
 				gravity: 'faces',
 				crop: 'fill',
 			});
@@ -163,6 +169,8 @@ sellerController.addProduct = async (req, res) => {
 
 			imgURLs.push(url);
 			imgIDs.push(public_id);
+
+			fs.unlink(imgPaths[i]);
 		}
 
 		imgURLs = JSON.stringify(imgURLs).slice(2, -2).replace(/\"/g, '');
@@ -183,15 +191,10 @@ sellerController.addProduct = async (req, res) => {
 			supplier,
 		]);
 
-		// Delete the images from local server
-		for (let image of req.files) {
-			await fs.unlink(image.path);
-		}
-
 		req.flash('success_msg', `${name} agregado satisfactoriamente`);
 		res.redirect('/seller/products');
 	} catch {
-		res.redirect('/error');
+		res.redirect('/seller/products');
 	}
 };
 
@@ -304,10 +307,7 @@ sellerController.deleteProduct = async (req, res) => {
 		// Delete product from DB
 		try {
 			await db.query(sellerQuerys.deleteProduct[1], [req.query.id]);
-			req.flash(
-				'success_msg',
-				`${req.query.product} eliminado satisfactoriamente`
-			);
+			req.flash('error_msg', `Se ha eliminado el producto`);
 			res.redirect('/seller/products');
 		} catch {
 			req.flash('error_msg', 'No puede eliminar este producto');
@@ -463,15 +463,21 @@ sellerController.updateUserImage = async (req, res) => {
 		const idUser = req.user.rows[0].id;
 
 		// Validate images
-		if (req.files.length != 1) {
+		if (!req.files.image) {
 			req.flash('error_msg', `Por favor agregue una imagen`);
 			return res.redirect(`/seller/user/update/${idUser}`);
 		}
 
-		const { path } = req.files[0];
+		// Upload image in server
+		const imagePath = path.join(
+			__dirname,
+			`../../public/uploads/${Date.now()}${req.files.image.name}`
+		);
+
+		req.files.image.mv(imagePath);
 
 		// Save image to Cloudinary
-		const result = await cloudinary.v2.uploader.upload(path, {
+		const result = await cloudinary.v2.uploader.upload(imagePath, {
 			width: 198,
 			height: 198,
 			gravity: 'faces',
@@ -490,7 +496,7 @@ sellerController.updateUserImage = async (req, res) => {
 		await db.query(sellerQuerys.updateUserImage[1], [url, public_id, idUser]);
 
 		// Delete the file image from local server
-		await fs.unlink(path);
+		await fs.unlink(imagePath);
 		req.flash('success_msg', 'Imagen actualizada');
 		res.redirect(`/seller/user/${idUser}`);
 	} catch {

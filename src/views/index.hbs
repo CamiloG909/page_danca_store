@@ -1,53 +1,52 @@
-	<section class="header-index">
-		<img src="assets/img/isologo-black.png" alt="Isologo de Danca Store" />
-		<div class="header-index__container">
-			<h1 class="header-index__h1">
-				La tienda online m&aacutes segura y confiable para realizar tus
-				compras
-			</h1>
-			<p class="header-index__p">
-				Compra ahora en Danca Store, tenemos los mejores precios en
-				computadores y celulares.
+<section class="header-index">
+	<img src="assets/img/isologo-black.png" alt="Isologo de Danca Store" />
+	<div class="header-index__container">
+		<h1 class="header-index__h1">
+			La tienda online m&aacutes segura y confiable para realizar tus
+			compras
+		</h1>
+		<p class="header-index__p">
+			Compra ahora en Danca Store, tenemos los mejores precios en
+			computadores y celulares.
+		</p>
+	</div>
+	<a href="#signup-index" class="header-index-btn" title="Clic para registrarte">Reg&iacutestrate gratis<i
+			class="bi bi-caret-down-fill header-index-btn__icon"></i></a>
+</section>
+<section id="signin-index" class="signin-index">
+	<section class="signin-index__img-container">
+		<img loading="lazy" src="assets/img/signin-index.png" alt="Imagen de la segunda sección" />
+	</section>
+	<section class="signin-index__form-container">
+		<div class="signin-form" id="signin-form">
+			<p class="signin-form__title">Iniciar sesi&oacuten</p>
+			{{>errors}}
+			<form action="/login" method="POST">
+				<input type="email" name="email" class="signin-form__input" id="email-index" placeholder="Email" autocomplete="email" onclick="hiddenErrorIndex()"
+					required />
+				<input type="password" name="password" class="signin-form__input" id="password-index" placeholder="Contraseña"
+					autocomplete="current-password" onclick="hiddenErrorIndex()" required />
+				<input type="submit" value="Ingresar" class="signin-form__btn" />
+			</form>
+			<p class="signin-form__redirection">
+				¿A&uacuten no tienes una cuenta?
+				<a href="/signup">Registrate ahora</a>
 			</p>
 		</div>
-		<a href="#signup-index" class="header-index-btn" title="Clic para registrarte">Reg&iacutestrate gratis<i
-				class="bi bi-caret-down-fill header-index-btn__icon"></i></a>
 	</section>
-	<section id="signin-index" class="signin-index">
-		<section class="signin-index__img-container">
-			<img loading="lazy" src="assets/img/signin-index.png" alt="Imagen de la segunda sección" />
-		</section>
-		<section class="signin-index__form-container">
-			<div class="signin-form" id="signin-form">
-				<p class="signin-form__title">Iniciar sesi&oacuten</p>
-				{{>errors}}
-				<form action="/login" method="POST">
-					<input type="email" name="email" class="signin-form__input" id="email-index" placeholder="Email" autocomplete="email" onclick="hiddenErrorIndex()"
-						required />
-					<input type="password" name="password" class="signin-form__input" id="password-index" placeholder="Contraseña"
-						autocomplete="current-password" onclick="hiddenErrorIndex()" required />
-					<input type="submit" value="Ingresar" class="signin-form__btn" />
-				</form>
-				<p class="signin-form__redirection">
-					¿A&uacuten no tienes una cuenta?
-					<a href="/signup">Registrate ahora</a>
-				</p>
-			</div>
-		</section>
+</section>
+<section class="signup-index">
+	<section class="signup-index__text-container">
+		<div class="signup-index__box-limiting">
+			<p class="signup-index__title">
+				Tenemos env&iacuteos gratis para ti, crea tu cuenta ahora y
+				empieza a comprar
+			</p>
+			<a href="/signup" title="Regístrate gratis" class="signup-index__btn">Registrarse<i
+					class="bi bi-arrow-right-short signup-index__btn-icon"></i></a>
+		</div>
 	</section>
-	<section class="signup-index">
-		<section class="signup-index__text-container">
-			<div class="signup-index__box-limiting">
-				<p class="signup-index__title">
-					Tenemos env&iacuteos gratis para ti, crea tu cuenta ahora y
-					empieza a comprar
-				</p>
-				<a href="/signup" title="Regístrate gratis" class="signup-index__btn">Registrarse<i
-						class="bi bi-arrow-right-short signup-index__btn-icon"></i></a>
-			</div>
-		</section>
-		<section id="signup-index" class="signup-index__img-container">
-			<img loading="lazy" loading="lazy" src="assets/img/signup-index.png" alt="Imagen de la tercera sección" />
-		</section>
+	<section id="signup-index" class="signup-index__img-container">
+		<img loading="lazy" loading="lazy" src="assets/img/signup-index.png" alt="Imagen de la tercera sección" />
 	</section>
-	</main>
+</section>

@@ -820,6 +820,31 @@ function imagesProduct() {
 				bigImage.src = e.target.src
 			}
 		})
+
+		// Lightbox image
+		bigImage.addEventListener('click', () => {
+			const box = document.createElement('div');
+			box.className = 'lightbox-product';
+			box.innerHTML += `<div class="lightbox-product__close"><i class="bi bi-x-lg"></i></div><img src="${bigImage.src}" alt="Imagen del producto" />`
+
+			document.body.appendChild(box);
+			setTimeout(() => {
+				box.style.opacity = 1;
+			}, 100);
+
+			// Close lightbox
+			document.querySelector('.lightbox-product__close').addEventListener('click', () => {
+					document.querySelector('.lightbox-product').remove();
+			});
+
+				window.addEventListener('keyup', (e) => {
+					if(document.querySelector('.lightbox-product') != null) {
+						if(e.keyCode === 27) {
+							document.querySelector('.lightbox-product').remove();
+						}
+					}
+				});
+		});
 	}
 }
 

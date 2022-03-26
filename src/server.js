@@ -6,7 +6,7 @@ const methodoverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
-const multer = require('multer');
+const fileUpload = require('express-fileupload');
 const morgan = require('morgan');
 
 require('./database/connection');
@@ -39,18 +39,8 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(fileUpload());
 app.use(flash());
-const storage = multer.diskStorage({
-	destination: path.join(__dirname, '../public/uploads'),
-	filename: (req, file, cb) => {
-		cb(null, new Date().getTime() + path.extname(file.originalname));
-	},
-});
-app.use(
-	multer({
-		storage,
-	}).array('image', 6)
-);
 
 // Global variables
 app.use((req, res, next) => {
