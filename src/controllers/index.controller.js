@@ -11,7 +11,8 @@ indexController.renderIndex = (req, res) => {
 			title: 'Danca Store',
 			footer: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -29,7 +30,8 @@ indexController.renderHelp = (req, res) => {
 			title: 'Ayuda | Danca Store',
 			footerCN: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -40,7 +42,8 @@ indexController.renderSignup = (req, res) => {
 			headerHelp: true,
 			title: 'Registrarse | Danca Store',
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -100,7 +103,8 @@ indexController.signup = async (req, res) => {
 			'Registro completado, vuelve al inicio para loguearte'
 		);
 		res.redirect('/signup');
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -109,7 +113,8 @@ indexController.logout = (req, res) => {
 	try {
 		req.logout();
 		res.redirect('/');
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };

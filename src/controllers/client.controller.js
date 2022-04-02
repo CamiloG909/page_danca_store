@@ -37,7 +37,8 @@ clientController.renderRol = async (req, res) => {
 			rolUser = 'Vendedor';
 			res.redirect('/seller/home');
 		}
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -54,7 +55,8 @@ clientController.renderHome = async (req, res) => {
 			response,
 			footer: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -72,7 +74,8 @@ clientController.renderComputers = async (req, res) => {
 			response,
 			footer: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -90,7 +93,8 @@ clientController.renderPhones = async (req, res) => {
 			response,
 			footer: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -132,8 +136,9 @@ clientController.renderProductDetail = async (req, res) => {
 			colors,
 			footer: true,
 		});
-	} catch {
-		res.redirect('/home');
+	} catch (e) {
+		console.log(e)
+		res.redirect('/error');
 	}
 };
 
@@ -146,7 +151,8 @@ clientController.renderShoppingCart = (req, res) => {
 			rolUser,
 			footer: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -278,7 +284,8 @@ clientController.productsPay = async (req, res) => {
 
 		req.flash('payComplete_msg', 'Pago completo');
 		res.redirect('/cart');
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -310,7 +317,8 @@ clientController.renderShoppingHistory = async (req, res) => {
 			response,
 			footer: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -333,7 +341,8 @@ clientController.renderProfile = async (req, res) => {
 			resRows,
 			footer: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -355,7 +364,8 @@ clientController.renderUpdateUserInformation = async (req, res) => {
 			resRows,
 			footer: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -444,7 +454,8 @@ clientController.updateUserInformation = async (req, res) => {
 		]);
 		req.flash('success_msg', 'Datos actualizados');
 		res.redirect(`/user/${idUser}`);
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -490,7 +501,8 @@ clientController.updateUserImage = async (req, res) => {
 		await fs.unlink(imagePath);
 		req.flash('success_msg', 'Imagen actualizada');
 		res.redirect(`/user/${idUser}`);
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };

@@ -21,7 +21,8 @@ sellerController.renderHome = (req, res) => {
 			menuSeller: true,
 			title: 'Inicio | Danca Store',
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -69,7 +70,8 @@ sellerController.renderProducts = async (req, res) => {
 			references,
 			footerSeller: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -193,7 +195,8 @@ sellerController.addProduct = async (req, res) => {
 
 		req.flash('success_msg', `${name} agregado satisfactoriamente`);
 		res.redirect('/seller/products');
-	} catch {
+	}	catch (e) {
+		console.log(e)
 		res.redirect('/seller/products');
 	}
 };
@@ -264,7 +267,8 @@ sellerController.updateProduct = async (req, res) => {
 		]);
 		req.flash('success_msg', `${name} actualizado satisfactoriamente`);
 		res.redirect('/seller/products');
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -283,7 +287,8 @@ sellerController.updateStatusProduct = async (req, res) => {
 
 		req.flash('success_msg', `${req.query.product} actualizado a: ${status}`);
 		res.redirect('/seller/products');
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -313,7 +318,8 @@ sellerController.deleteProduct = async (req, res) => {
 			req.flash('error_msg', 'No puede eliminar este producto');
 			res.redirect('/seller/products');
 		}
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -342,7 +348,8 @@ sellerController.renderProfile = async (req, res) => {
 			resRows,
 			footerSeller: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -364,7 +371,8 @@ sellerController.renderUpdateUserInformation = async (req, res) => {
 			resRows,
 			footerSeller: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -453,7 +461,8 @@ sellerController.updateUserInformation = async (req, res) => {
 		]);
 		req.flash('success_msg', 'Datos actualizados');
 		res.redirect(`/seller/user/${idUser}`);
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -499,7 +508,8 @@ sellerController.updateUserImage = async (req, res) => {
 		await fs.unlink(imagePath);
 		req.flash('success_msg', 'Imagen actualizada');
 		res.redirect(`/seller/user/${idUser}`);
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -524,7 +534,8 @@ sellerController.renderSuppliers = async (req, res) => {
 			resRows,
 			footerSeller: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -574,7 +585,8 @@ sellerController.updateSupplier = async (req, res) => {
 		]);
 		req.flash('success_msg', `${company_name} actualizado satisfactoriamente`);
 		res.redirect('/seller/suppliers');
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -600,7 +612,8 @@ sellerController.deleteSupplier = async (req, res) => {
 			req.flash('error_msg', `Aún hay productos activos de ${company_name}`);
 			res.redirect('/seller/suppliers');
 		}
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -649,7 +662,8 @@ sellerController.addSupplier = async (req, res) => {
 		]);
 		req.flash('success_msg', `${company_name} agregado satisfactoriamente`);
 		res.redirect('/seller/suppliers');
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -690,7 +704,8 @@ sellerController.renderShoppingList = async (req, res) => {
 			response,
 			footerSeller: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -769,7 +784,8 @@ sellerController.renderNewSeller = async (req, res) => {
 			response,
 			footerSeller: true,
 		});
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
@@ -781,7 +797,8 @@ sellerController.newSeller = async (req, res) => {
 		await db.query(sellerQuerys.newSeller, [user]);
 
 		res.redirect('/seller/newseller');
-	} catch {
+	} catch (e) {
+		console.log(e)
 		res.redirect('/error');
 	}
 };
