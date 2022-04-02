@@ -138,6 +138,14 @@ sellerQuerys.updateOrder = [
 	`update ${process.env.DB_SCHEMA}.shipping set status=$1 where id = $2;`,
 ];
 
+sellerQuerys.renderNewSeller = `
+select c.id_user, c.document_number from ${process.env.DB_SCHEMA}.client c order by c.document_number ASC;
+`;
+
+sellerQuerys.newSeller = `
+update ${process.env.DB_SCHEMA}.user_rol set rol_name='Vendedor' where id_user = $1;
+`;
+
 module.exports = {
 	indexQuerys,
 	clientQuerys,

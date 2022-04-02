@@ -17,6 +17,8 @@ const {
 	addSupplier,
 	renderShoppingList,
 	updateOrder,
+	renderNewSeller,
+	newSeller,
 } = require('../controllers/seller.controller');
 
 const { isAuthenticatedSeller } = require('../helpers/auth');
@@ -210,5 +212,10 @@ router
 		],
 		updateOrder
 	);
+
+router
+	.route('/seller/newseller')
+	.get(isAuthenticatedSeller, renderNewSeller)
+	.post(isAuthenticatedSeller, newSeller);
 
 module.exports = router;

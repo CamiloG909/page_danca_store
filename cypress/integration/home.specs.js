@@ -63,3 +63,22 @@ describe('redirection links', () => {
 		cy.url().should('include', '/signup');
 	});
 });
+
+describe('logout', () => {
+	beforeEach(() => {
+		cy.visit('/');
+	});
+
+	it('login with normal user', () => {
+		const email = 'client@email.com';
+		const password = '123456';
+
+		cy.get('#email-index').type(email);
+		cy.get('#password-index').type(password);
+		cy.get('.signin-form__btn').click();
+		cy.url().should('include', '/home');
+		cy.get('.bi-list').click();
+		cy.get('.bi-door-open').click();
+		cy.url().should('include', '/');
+	});
+});

@@ -1,0 +1,23 @@
+{{>menu}}
+
+{{#if category}}
+<section class="title-page">
+	<p>{{category}}</p>
+</section>
+{{/if}}
+
+<section class="section-new-seller">
+	<article class="new-seller-form">
+		<form action="/seller/newseller" method="POST">
+			<select class="new-seller-form__select" name="user" required>
+				<option value="">Número de identificación</option>
+				{{#each response}}
+				<option value="{{id_user}}">{{document_number}}</option>
+				{{/each}}
+			</select>
+			<button class="new-seller-form__btn">
+				Actualizar
+			</button>
+		</form>
+	</article>
+</section>

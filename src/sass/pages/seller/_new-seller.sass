@@ -1,0 +1,27 @@
+.section-new-seller
+	margin: 90px 0
+
+.new-seller-form
+	margin: 0 auto
+	padding: 20px
+	inline-size: 95%
+	max-inline-size: 300px
+	text-align: center
+	border: 1px solid $dark-gray
+	background-color: $gray
+	&__select
+		margin-block-end: 15px
+		inline-size: 100%
+		block-size: 35px
+		font-size: 1.8rem
+		text-align: center
+		border-radius: 15px
+		border: 1px solid $dark-gray
+		outline: none
+		cursor: pointer
+		transition: all .3s ease
+		&:hover
+			border-color: #acacac
+	&__btn
+		@include btn-input
+		block-size: 35px

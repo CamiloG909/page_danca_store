@@ -756,4 +756,34 @@ sellerController.updateOrder = async (req, res) => {
 	}
 };
 
+sellerController.renderNewSeller = async (req, res) => {
+	try {
+		let response = await db.query(sellerQuerys.renderNewSeller);
+		response = response.rows;
+
+		res.render('seller/new-seller', {
+			headerSeller: true,
+			title: 'Agregar vendedor | Danca Store',
+			category: 'Nuevo vendedor',
+			menuSeller: true,
+			response,
+			footerSeller: true,
+		});
+	} catch {
+		res.redirect('/error');
+	}
+};
+
+sellerController.newSeller = async (req, res) => {
+	try {
+		const { user } = req.body;
+
+		await db.query(sellerQuerys.newSeller, [user]);
+
+		res.redirect('/seller/newseller');
+	} catch {
+		res.redirect('/error');
+	}
+};
+
 module.exports = sellerController;
